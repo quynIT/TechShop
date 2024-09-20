@@ -17,6 +17,9 @@ function App() {
         >
           Learn React
         </a>
+        <button className='bg-blue-500 p-4 '>
+          Submit
+        </button>
       </header>
     </div>
   );

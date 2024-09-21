@@ -25,7 +25,7 @@ function App() {
     //     </button>
     //   </header>
     // </div>
-    <SignIn/>
+    <SignUp/>
   );
 }
 

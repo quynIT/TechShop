@@ -2,8 +2,7 @@ import './App.css';
 import {BrowserRouter,Router, Route, Routes } from 'react-router-dom';
 import { routes } from './routes';
 import Admin from './Layout/Admin.jsx';
-
-
+import "./assets/style/tailwind.css"
 function App() {
   return (
     <BrowserRouter>

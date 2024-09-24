@@ -4,7 +4,6 @@ import { routes } from './routes';
 import Admin from './Layout/Admin.jsx';
 import "./assets/style/tailwind.css"
 import Layout from './Layout/Layout.jsx';
-
 function App() {
   return (
     <BrowserRouter>

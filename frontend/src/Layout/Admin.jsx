@@ -10,12 +10,15 @@ import AdminFooter from "../components/NavBar/AdminFooter";
 const Admin = () =>{
     return(
         <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
+       
+          <Sidebar />
+        
+          
+      <div className="relative md:w-10/12 float-right bg-blueGray-100">
         <AdminNavbar />
         {/* Header */}
         <AdminHeader />
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
+        <div className="px-4 md:px-10 mx-auto -m-24">
           <Routes>
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/settings" element={<Settings />} />
@@ -25,6 +28,8 @@ const Admin = () =>{
           <AdminFooter />
         </div>
       </div>
+        
+      
     </>
     );
 }

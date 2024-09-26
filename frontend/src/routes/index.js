@@ -10,6 +10,7 @@ import Settings from "../pages/admin/Setting";
 import SignIn from '../pages/auth/Sign_in';
 import SignUp from '../pages/auth/Sign_up';
 import Tables from "../pages/admin/Table";
+
 export const routes = [
     {
         path: '/',
@@ -23,6 +24,21 @@ export const routes = [
         path: '/sign-up',
         page: SignUp
     },
+]
+
+export const adminRoutes = [
+    // {
+    //     path: '/',
+    //     page: Homepage
+    // },
+    // {
+    //     path: '/sign-in',
+    //     page: SignIn
+    // },
+    // {
+    //     path: '/sign-up',
+    //     page: SignUp
+    // },
     {
         path: '/admin',
         page: Admin
@@ -39,5 +55,4 @@ export const routes = [
         path:"/admin/tables",
         page: Tables
     }
-
 ]

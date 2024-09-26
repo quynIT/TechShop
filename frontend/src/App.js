@@ -3,6 +3,7 @@ import {BrowserRouter,Router, Route, Routes } from 'react-router-dom';
 import { routes } from './routes';
 import Admin from './Layout/Admin.jsx';
 import "./assets/style/tailwind.css"
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import Layout from './Layout/Layout.jsx';
 function App() {
   return (

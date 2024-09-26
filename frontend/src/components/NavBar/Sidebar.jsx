@@ -4,7 +4,7 @@ const Sidebar = () => {
     const [collapseShow, setCollapseShow] = useState("hidden");
   
     return (
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-[#060D10] flex flex-wrap items-start justify-between relative md:w-2/12 z-10 py-4 px-10">
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg- flexwhite  flex-wrap items-start justify-between relative md:w-2/12 z-10 py-4 pl-10">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <button
@@ -64,7 +64,7 @@ const Sidebar = () => {
               ))}
             </ul>
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
+            <hr className="my-4 mr-10 " />
             {/* Auth Layout Pages */}
             <h6 className="md:min-w-full text-blueGray-500 text-xl uppercase font-bold block pt-1 pb-4 no-underline">Auth Layout Pages</h6>
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">

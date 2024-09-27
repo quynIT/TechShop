@@ -54,6 +54,10 @@ export const routes = [
     {
         path:"/history",
         page: PurchaseHistory
+    },
+    {
+        path:"/historye",
+        page: PurchaseHistory
     }
 
 ]

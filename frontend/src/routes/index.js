@@ -53,5 +53,21 @@ export const adminRoutes = [
     {
         path:"/admin/tables",
         page: Tables
+    },
+    {
+        path:"/detail",
+        page: ProductDetail
+    },
+    {
+        path:"/cart",
+        page: ShoppingCart
+    },
+    {
+        path:"/history",
+        page: PurchaseHistory
+    },
+    {
+        path:"/historye",
+        page: PurchaseHistory
     }
 ]

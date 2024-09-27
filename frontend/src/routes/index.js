@@ -69,5 +69,13 @@ export const adminRoutes = [
     {
         path:"/historye",
         page: PurchaseHistory
+    },
+    {
+        path:"/history",
+        page: PurchaseHistory
+    },
+    {
+        path:"/historye",
+        page: PurchaseHistory
     }
 ]

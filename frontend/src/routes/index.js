@@ -10,6 +10,9 @@ import Settings from "../pages/admin/Setting";
 import SignIn from '../pages/auth/Sign_in';
 import SignUp from '../pages/auth/Sign_up';
 import Tables from "../pages/admin/Table";
+import ProductDetail from "../pages/user/ProductDetail.jsx";
+import ShoppingCart from "../pages/user/ShoppingCart.jsx";
+import PurchaseHistory from "../pages/user/purchaseHistory.jsx";
 export const routes = [
     {
         path: '/',
@@ -64,18 +67,6 @@ export const adminRoutes = [
     },
     {
         path:"/history",
-        page: PurchaseHistory
-    },
-    {
-        path:"/historye",
-        page: PurchaseHistory
-    },
-    {
-        path:"/history",
-        page: PurchaseHistory
-    },
-    {
-        path:"/historye",
         page: PurchaseHistory
     }
 ]

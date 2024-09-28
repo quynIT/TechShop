@@ -13,6 +13,7 @@ import Tables from "../pages/admin/Table";
 import ProductDetail from "../pages/user/ProductDetail.jsx";
 import ShoppingCart from "../pages/user/ShoppingCart.jsx";
 import PurchaseHistory from "../pages/user/purchaseHistory.jsx";
+import OrderSuccess from "../pages/user/OrderSuccess.jsx";
 export const routes = [
     {
         path: '/',
@@ -26,6 +27,21 @@ export const routes = [
         path: '/sign-up',
         page: SignUp
     },
+    {
+        path:"/detail",
+        page: ProductDetail
+    },
+    {
+        path:"/cart",
+        page: ShoppingCart
+    },
+    {
+        path:"/history",
+        page: PurchaseHistory
+    },{
+        path:"/order-success",
+        page: OrderSuccess
+    }
 ]
 
 export const adminRoutes = [
@@ -56,17 +72,5 @@ export const adminRoutes = [
     {
         path:"/admin/tables",
         page: Tables
-    },
-    {
-        path:"/detail",
-        page: ProductDetail
-    },
-    {
-        path:"/cart",
-        page: ShoppingCart
-    },
-    {
-        path:"/history",
-        page: PurchaseHistory
     }
 ]

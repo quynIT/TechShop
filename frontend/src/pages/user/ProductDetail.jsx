@@ -4,6 +4,7 @@ import iphone1 from '../../assets/image/iphone1.jpg';
 import iphone2 from '../../assets/image/iphone2.jpg';
 import iphone3 from '../../assets/image/iphone3.jpg';
 import iphone15 from '../../assets/image/iphone15.jpg';
+import { Link } from 'react-router-dom';
 
 const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState('Đen');
@@ -99,9 +100,8 @@ const ProductDetail = () => {
           </div>
 
           {/* Nút mua hàng */}
-          <button className="w-full bg-red-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-red-700 transition duration-300 shadow-md">
-            MUA NGAY
-          </button>
+          <button className="w-full bg-red-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-red-700 transition duration-300 shadow-md"><Link to="/cart">
+             MUA NGAY </Link> </button>
 
           {/* Thông tin thêm */}
           <div className="bg-white p-6 rounded-lg shadow-md space-y-4">

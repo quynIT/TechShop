@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Trash2, Plus, Minus, CreditCard, Truck } from 'lucide-react';
 import iphone1 from '../../assets/image/iphone1.jpg';
 import iphone2 from '../../assets/image/iphone2.jpg';
+import { Link } from 'react-router-dom';
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([
     { id: 1, name: 'iPhone 13 Pro Max', price: 28990000, quantity: 1, image: iphone1 },
@@ -74,7 +75,7 @@ const ShoppingCart = () => {
               <span className="text-red-600">{total.toLocaleString()}₫</span>
             </div>
             <button className="w-full bg-red-600 text-white py-5 rounded-xl font-semibold text-2xl mt-8 hover:bg-red-700 transition duration-300">
-              Tiến hành đặt hàng
+            <Link to="/order-success">Tiến hành đặt hàng</Link>
             </button>
             <div className="mt-8 text-lg text-gray-600">
               <div className="flex items-center mb-4">

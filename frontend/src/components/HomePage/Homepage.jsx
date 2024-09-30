@@ -8,6 +8,7 @@ import banner3 from '../../assets/image/Banner3.jpg';
 import CardComponent from '../CardComponent/CardComponent';
 import Header from '../Header/Header';
 import TrendSlide from '../TrendSlide/TrendSlide';
+import { Link } from 'react-router-dom';
 
 const Homepage = () => {
     const arr = ['TV', 'Tu Lanh', 'Lap top','Điện Thoại']
@@ -16,14 +17,14 @@ const Homepage = () => {
         <WrapperTypeProduct>
         {arr.map((item)=>{
             return(
-                <TypeProduct name = {item} key={item}/>
+             <TypeProduct name = {item} key={item}/>
         )
         })}
         <TypeProduct/>
       </WrapperTypeProduct>
       <SlideComponent arrImages= {[banner_1,banner2,banner3]}/>
       <WrapperProducts>
-                <CardComponent/>
+      <Link to= "/detail"><CardComponent/></Link>
                 <CardComponent/>
                 <CardComponent/>
                 <CardComponent/>

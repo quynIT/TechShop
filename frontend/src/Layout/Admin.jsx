@@ -13,20 +13,15 @@ const Admin = () => {
     <>
       <Sidebar />
 
-      <div className="relative md:w-10/12 float-right bg-blueGray-100 sr-only">
-        <AdminNavbar />
+      <div className="relative md:w-10/12 float-right">  
         {/* Header */}
         <AdminHeader />
         <div className="px-4 md:px-10 mx-auto -m-24 dark">
-          {/* <Routes>
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/settings" element={<Settings />} />
-            <Route path="/admin/tables" element={<Tables />} />
-            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
-          </Routes> */}
-          <Outlet />
-          <AdminFooter />
+          
+          {/* <Outlet /> */}
+          
         </div>
+        {/* <AdminFooter /> */}
       </div>
     </>
   );

@@ -57,12 +57,9 @@ export const adminRoutes = [
     //     path: '/sign-up',
     //     page: SignUp
     // },
+    
     {
-        path: '/admin',
-        page: Admin
-    },
-    {
-        path: "/admin/dashboard",
+        path: "/admin",
         page: Dashboard
     },
     {

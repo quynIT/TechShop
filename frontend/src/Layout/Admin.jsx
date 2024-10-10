@@ -11,17 +11,31 @@ import AdminFooter from "../components/NavBar/AdminFooter";
 const Admin = () => {
   return (
     <>
-      <Sidebar />
-
-      <div className="relative md:w-10/12 float-right">  
-        {/* Header */}
-        <AdminHeader />
-        <div className="px-4 md:px-10 mx-auto -m-24 dark">
-          
-          {/* <Outlet /> */}
-          
+      <div className=" flex min-h-screen">
+        {/* Sidebar bên trái, luôn cố định */}
+        <div className=" w-1/6 block bg-gray-900  text-white">
+          <Sidebar />
         </div>
-        {/* <AdminFooter /> */}
+
+        {/* Phần nội dung bên phải */}
+        <div className="block  w-screen float-right">
+          {/* Header cố định */}
+          <div className="w-full">
+            <AdminHeader className="w-full h-16 bg-gray-800 text-white fixed top-0 z-10" />
+          </div>
+
+          {/* Nội dung chính có thể cuộn, với khoảng cách từ header */}
+          <div className="flex-grow pt-20 pb-16 overflow-y-auto">
+            <div className="px-8 md:px-12 lg:px-16 w-full">
+              <Outlet />
+            </div>
+          </div>
+
+          {/* Footer cố định */}
+          <div className="w-full ">
+            <AdminFooter className="w-full h-16 bg-gray-800 text-white bottom-0 z-10" />
+          </div>
+        </div>
       </div>
     </>
   );

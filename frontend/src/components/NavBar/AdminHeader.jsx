@@ -3,7 +3,7 @@ const AdminHeader = ()=> {
     return (
       <>
        
-  <nav class="bg-black border-gray-200 dark:bg-gray-900 ">
+  <nav class="bg-black border-gray-200 dark:bg-gray-900">
     <div class=" flex flex-wrap items-center justify-end mx-auto p-4">
 
     <div class="flex items-end md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">

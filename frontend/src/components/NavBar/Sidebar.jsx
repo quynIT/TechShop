@@ -4,7 +4,7 @@ const Sidebar = () => {
   const [collapseShow, setCollapseShow] = useState("hidden");
 
   return (
-    <nav class="bg-black h-screen fixed top-0 left-0 min-w-[260px] py-6 px-4 font-[sans-serif] flex flex-col overflow-auto">
+   <>
       <div class="flex flex-wrap flex-col justify-center items-center cursor-pointer text-white text-2xl">
         <h1>TECHSHOP</h1>
       </div>
@@ -202,7 +202,7 @@ const Sidebar = () => {
           </a>
         </li>
       </ul>
-    </nav>
+      </>
   );
 };
 

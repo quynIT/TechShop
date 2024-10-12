@@ -15,6 +15,8 @@ import ShoppingCart from "../pages/user/ShoppingCart.jsx";
 import PurchaseHistory from "../pages/user/purchaseHistory.jsx";
 import OrderSuccess from "../pages/user/OrderSuccess.jsx";
 import AccountPage from "../pages/user/AccountPage.jsx";
+import CancelledProductsPage from "../pages/user/CancelledProductsPage.jsx";
+import CancelOrderInterface from "../components/ButtonComponent/CancelOrderInterface.jsx"
 export const routes = [
     {
         path: '/',
@@ -45,6 +47,12 @@ export const routes = [
     },{
         path:"/account-page",
         page: AccountPage
+    },{
+        path:"/cancel-product",
+        page: CancelledProductsPage
+    },{
+        path:"/cancel-order",
+        page: CancelOrderInterface
     }
 ]
 

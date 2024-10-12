@@ -1,6 +1,8 @@
 import React from 'react';
 import { ShoppingBag, Calendar, X } from 'lucide-react';
-
+import iphone1 from '../../assets/image/iphone1.jpg';
+import iphone2 from '../../assets/image/iphone2.jpg';
+import iphone3 from '../../assets/image/iphone3.jpg';
 const CancelledProductsPage = () => {
   // Mảng chứa dữ liệu mẫu về các sản phẩm đã hủy
   const cancelledProducts = [
@@ -8,7 +10,7 @@ const CancelledProductsPage = () => {
       id: 1,
       name: 'iPhone 13 Pro',
       price: '28.990.000đ',
-      image: '/api/placeholder/150/150',
+      image: iphone1,
       cancelDate: '15/10/2023',
       reason: 'Tìm thấy giá rẻ hơn ở nơi khác',
     },
@@ -16,7 +18,7 @@ const CancelledProductsPage = () => {
       id: 2,
       name: 'Samsung Galaxy S21',
       price: '20.990.000đ',
-      image: '/api/placeholder/150/150',
+      image: iphone2,
       cancelDate: '12/10/2023',
       reason: 'Đổi ý, không muốn mua nữa',
     },
@@ -24,10 +26,18 @@ const CancelledProductsPage = () => {
       id: 3,
       name: 'iPad Air 2022',
       price: '15.990.000đ',
-      image: '/api/placeholder/150/150',
+      image: iphone3,
       cancelDate: '10/10/2023',
       reason: 'Thời gian giao hàng quá lâu',
     },
+    {
+      id: 4,
+      name: 'iPad Air 2022',
+      price: '15.990.000đ',
+      image: iphone3,
+      cancelDate: '10/10/2023',
+      reason: 'Thời gian giao hàng quá lâu',
+    }
   ];
 
   return (

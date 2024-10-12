@@ -22,7 +22,7 @@ const Header = () => {
               bordered={false}
               textbutton="Tìm kiếm"
               placeholder="input search text"
-              backgroundColorButton="#5a20c1"
+              backgroundColorButton="rgb(67 135 219)"
             />
             </Col>
           <Col span={6} style={{ display: 'flex', gap: '54px', alignItems: 'center' }}>

@@ -14,6 +14,7 @@ import ProductDetail from "../pages/user/ProductDetail.jsx";
 import ShoppingCart from "../pages/user/ShoppingCart.jsx";
 import PurchaseHistory from "../pages/user/purchaseHistory.jsx";
 import OrderSuccess from "../pages/user/OrderSuccess.jsx";
+import AccountPage from "../pages/user/AccountPage.jsx";
 export const routes = [
     {
         path: '/',
@@ -41,6 +42,9 @@ export const routes = [
     },{
         path:"/order-success",
         page: OrderSuccess
+    },{
+        path:"/account-page",
+        page: AccountPage
     }
 ]
 

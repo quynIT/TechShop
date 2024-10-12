@@ -37,14 +37,12 @@ const AccountPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Xử lý cập nhật thông tin người dùng ở đây
     console.log('User info updated:', user);
     setIsEditing(false);
   };
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    // Xử lý đổi mật khẩu ở đây
     console.log('Password changed:', passwords);
     setIsChangingPassword(false);
     setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
@@ -109,22 +107,21 @@ const AccountPage = () => {
           </div>
         </div>
 
-        {isEditing ? (
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            Lưu thay đổi
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setIsEditing(true)}
-            className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300"
-          >
-            Chỉnh sửa thông tin
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => {
+            if (isEditing) {
+              handleSubmit({ preventDefault: () => {} });
+            } else {
+              setIsEditing(true);
+            }
+          }}
+          className={`${
+            isEditing ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'
+          } px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300`}
+        >
+          {isEditing ? 'Lưu thông tin' : 'Chỉnh sửa thông tin'}
+        </button>
       </form>
 
       <h2 className="text-xl font-bold mb-4">Đổi mật khẩu</h2>
@@ -205,22 +202,21 @@ const AccountPage = () => {
           </div>
         </div>
 
-        {isChangingPassword ? (
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            Đổi mật khẩu
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setIsChangingPassword(true)}
-            className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300"
-          >
-            Thay đổi mật khẩu
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => {
+            if (isChangingPassword) {
+              handlePasswordSubmit({ preventDefault: () => {} });
+            } else {
+              setIsChangingPassword(true);
+            }
+          }}
+          className={`${
+            isChangingPassword ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'
+          } px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300`}
+        >
+          {isChangingPassword ? 'Lưu mật khẩu' : 'Thay đổi mật khẩu'}
+        </button>
       </form>
     </div>
   );

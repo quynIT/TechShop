@@ -1,14 +1,9 @@
 
-import { Table } from "antd";
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
 import Homepage from "../components/HomePage/Homepage";
-import TrendSlide from "../components/TrendSlide/TrendSlide";
-import Admin from "../Layout/Admin";
 import Dashboard from "../pages/admin/Dashboard";
 import Settings from "../pages/admin/Setting";
-import SignIn from '../pages/auth/Sign_in';
-import SignUp from '../pages/auth/Sign_up';
+import SignIn from "../pages/auth/Sign_in";
+import SignUp from "../pages/auth/Sign_up";
 import Tables from "../pages/admin/Table";
 import ProductDetail from "../pages/user/ProductDetail.jsx";
 import ShoppingCart from "../pages/user/ShoppingCart.jsx";
@@ -16,70 +11,81 @@ import PurchaseHistory from "../pages/user/purchaseHistory.jsx";
 import OrderSuccess from "../pages/user/OrderSuccess.jsx";
 import AccountPage from "../pages/user/AccountPage.jsx";
 import CancelledProductsPage from "../pages/user/CancelledProductsPage.jsx";
-import CancelOrderInterface from "../components/ButtonComponent/CancelOrderInterface.jsx"
+import CancelOrderInterface from "../components/ButtonComponent/CancelOrderInterface.jsx";
+import Customers from "../pages/admin/Customer.jsx";
+
+
 export const routes = [
-    {
-        path: '/',
-        page: Homepage
-    },
-    {
-        path: '/sign-in',
-        page: SignIn
-    },
-    {
-        path: '/sign-up',
-        page: SignUp
-    },
-    {
-        path:"/detail",
-        page: ProductDetail
-    },
-    {
-        path:"/cart",
-        page: ShoppingCart
-    },
-    {
-        path:"/history",
-        page: PurchaseHistory
-    },{
-        path:"/order-success",
-        page: OrderSuccess
-    },{
-        path:"/account-page",
-        page: AccountPage
-    },{
-        path:"/cancel-product",
-        page: CancelledProductsPage
-    },{
-        path:"/cancel-order",
-        page: CancelOrderInterface
-    }
-]
+  {
+    path: "/",
+    page: Homepage,
+  },
+  {
+    path: "/sign-in",
+    page: SignIn,
+  },
+  {
+    path: "/sign-up",
+    page: SignUp,
+  },
+  {
+    path: "/detail",
+    page: ProductDetail,
+  },
+  {
+    path: "/cart",
+    page: ShoppingCart,
+  },
+  {
+    path: "/history",
+    page: PurchaseHistory,
+  },
+  {
+    path: "/order-success",
+    page: OrderSuccess,
+  },
+  {
+    path: "/account-page",
+    page: AccountPage,
+  },
+  {
+    path: "/cancel-product",
+    page: CancelledProductsPage,
+  },
+  {
+    path: "/cancel-order",
+    page: CancelOrderInterface,
+  },
+];
 
 export const adminRoutes = [
-    // {
-    //     path: '/',
-    //     page: Homepage
-    // },
-    // {
-    //     path: '/sign-in',
-    //     page: SignIn
-    // },
-    // {
-    //     path: '/sign-up',
-    //     page: SignUp
-    // },
-    
-    {
-        path: "/admin",
-        page: Dashboard
-    },
-    {
-        path: "/admin/settings",
-        page: Settings
-    },
-    {
-        path:"/admin/tables",
-        page: Tables
-    }
-]
+  // {
+  //     path: '/',
+  //     page: Homepage
+  // },
+  // {
+  //     path: '/sign-in',
+  //     page: SignIn
+  // },
+  // {
+  //     path: '/sign-up',
+  //     page: SignUp
+  // },
+
+  {
+    path: "/admin",
+    page: Dashboard,
+  },
+  {
+    path: "/admin/settings",
+    page: Settings,
+  },
+  {
+    path: "/admin/tables",
+    page: Tables,
+  },
+  {
+    path: "/admin/customers",
+    page: Customers
+  }
+];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Sidebar from "../components/NavBar/Sidebar";
 import AdminNavbar from "../components/NavBar/AdminNavbar";
@@ -9,31 +9,34 @@ import Tables from "../pages/admin/Table";
 import AdminFooter from "../components/NavBar/AdminFooter";
 
 const Admin = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
   return (
     <>
-      <div className=" flex min-h-screen">
-        {/* Sidebar bên trái, luôn cố định */}
-        <div className=" w-1/6 block bg-gray-900  text-white">
-          <Sidebar />
+      <div className="grid grid-cols-[auto_1fr]  min-h-screen">
+        <div>
+          <Sidebar isOpen={isSidebarOpen} />
+          <div
+            className={` transition-all duration-300 ${
+              isSidebarOpen ? "block" : "hidden"
+            }`}
+          ></div>
         </div>
 
-        {/* Phần nội dung bên phải */}
-        <div className="block  w-screen float-right">
-          {/* Header cố định */}
-          <div className="w-full">
-            <AdminHeader className="w-full h-16 bg-gray-800 text-white fixed top-0 z-10" />
+        <div className="grid grid-row-[auto_1fr_auto] min-h-screen">
+          <div>
+            <AdminHeader />
           </div>
 
-          {/* Nội dung chính có thể cuộn, với khoảng cách từ header */}
-          <div className="flex-grow pt-20 pb-16 overflow-y-auto">
-            <div className="px-8 md:px-12 lg:px-16 w-full">
-              <Outlet />
-            </div>
+          <div>
+            <Outlet />
           </div>
 
-          {/* Footer cố định */}
-          <div className="w-full ">
-            <AdminFooter className="w-full h-16 bg-gray-800 text-white bottom-0 z-10" />
+          <div className="mt-auto">
+            <AdminFooter />
           </div>
         </div>
       </div>

@@ -31,8 +31,9 @@ const Admin = () => {
             <AdminHeader />
           </div>
 
-          <div>
+          <div className="p-10 ">
             <Outlet />
+            
           </div>
 
           <div className="mt-auto">

@@ -12,7 +12,9 @@ import OrderSuccess from "../pages/user/OrderSuccess.jsx";
 import AccountPage from "../pages/user/AccountPage.jsx";
 import CancelledProductsPage from "../pages/user/CancelledProductsPage.jsx";
 import CancelOrderInterface from "../components/ButtonComponent/CancelOrderInterface.jsx";
-import Customers from "../pages/admin/Customer.jsx";
+import CustomerUpdate from "../pages/admin/Customers/CustomerUpdate.jsx";
+import CustomerList from "../pages/admin/Customers/CustomerList.jsx";
+import ProductList from "../pages/admin/Products/ProductList.jsx";
 
 
 export const routes = [
@@ -85,7 +87,15 @@ export const adminRoutes = [
     page: Tables,
   },
   {
-    path: "/admin/customers",
-    page: Customers
+    path: "/admin/CustomerUpdate",
+    page: CustomerUpdate
+  },
+  {
+    path: "/admin/CustomerList",
+    page: CustomerList
+  },
+  {
+    path: "/admin/ProductList",
+    page: ProductList
   }
 ];

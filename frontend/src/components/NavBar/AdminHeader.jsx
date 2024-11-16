@@ -45,14 +45,15 @@ const AdminHeader = () => {
                       />
                     </svg>
                     <input
+                    id="search_content"
                       type="text"
                       className="w-full pl-16 pr-3 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                       placeholder="Type here..."
                     />
                   </div>
                 </div>
-                <button
-                  className="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                <button id="search_button"
+                  className="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   type="button"
                 >
                   Search

@@ -1,129 +1,130 @@
 import React from "react";
 
-const SignUp = ()=>{
-    return(
-        <>
-      <div className="container mx-auto px-4 h-full">
-        <div className="flex content-center items-center justify-center h-screen">
-          <div className="w-full lg:w-5/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 border-2 border-gray-100 shadow-lg rounded-lg bg-blueGray-200 border-0">
-              <div className="rounded-t mb-0 px-6 py-6">
-                <div className="text-center mb-3">
-                  <h6 className=" text-2xl font-bold">
-                    Sign up with
-                  </h6>
-                </div>
-                <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img alt="..." className="w-5 mr-1" src="/img/github.svg" />
-                    Github
-                  </button>
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
-                    Google
-                  </button>
-                </div>
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
+const SignUp = () => {
+  return (
+    <>
+      <div className="h-screen flex justify-center items-center">
+        <div class="w-fit h-fit shadow-all rounded-sm border-5 border-gray-700">
+          <div>
+            <h6 className="text-center text-5xl font-bold py-4">Sign up</h6>
+            <div className="btn-wrapper text-center px-6">
+              <button
+                className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-2xl ease-linear transition-all duration-150"
+                type="button"
+              >
+                <img alt="..." className="w-5 mr-1" src="/img/github.svg" />
+                Github
+              </button>
+              <button
+                className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-2xl ease-linear transition-all duration-150"
+                type="button"
+              >
+                <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
+                Google
+              </button>
+            </div>
+            <hr className="mt-6 border-b-1 mx-6 border-blueGray-300" />
+          </div>
+
+          <div className="px-6 py-10">
+            <div className="flex gap-4 ">
+              <div class="w-full max-w-sm min-w-[200px]">
+                <label class="block mb-2 text-3xl font-semibold text-slate-600">
+                  Firstname
+                </label>
+                <input
+                  id="firstname"
+                  class=" w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+                  placeholder="Type here..."
+                />
               </div>
-              <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <div className="text-2xl text-center mb-3 font-bold">
-                  <small>Or sign up with credentials</small>
-                </div>
-                <form>
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-sm font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Name
-                    </label>
-                    <input
-                      type="email"
-                      className="px-3 py-3 placeholder-blueGray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring-2 focus:ring-[#27403E]/70 w-full ease-linear transition-all duration-150"
-                      placeholder="Name"
-                    />
-                  </div>
-
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-sm font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="px-3 py-3 placeholder-blueGray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring-2 focus:ring-[#27403E]/70 w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
-                    />
-                  </div>
-
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-sm font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      className="px-3 py-3 placeholder-blueGray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring-2 focus:ring-[#27403E]/70 w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
-                    />
-                  </div>
-
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-sm font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      RePassword
-                    </label>
-                    <input
-                      type="password"
-                      className="px-3 py-3 placeholder-blueGray-300 bg-white rounded text-sm shadow focus:outline-none focus:ring-2 focus:ring-[#27403E]/70 w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox accent-[#27403E] rounded ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                      />
-                      <span className="ml-2 text-sm font-semibold">
-                        I agree with the{" "}
-                        <a
-                          href="#pablo">
-                          Privacy Policy
-                        </a>
-                      </span>
-                    </label>
-                  </div>
-
-                  <div className="text-center mt-6">
-                    <button
-                      className="bg-[#27403E] active:bg-teal-700 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
-                    >
-                      Create Account
-                    </button>
-                  </div>
-                </form>
+              <div class="w-full max-w-sm min-w-[200px]">
+                <label class="block mb-2 text-3xl font-semibold text-slate-600">
+                  Lastname
+                </label>
+                <input
+                  id="lastname"
+                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+                  placeholder="Type here..."
+                />
               </div>
             </div>
+
+            <div class="w-full w-full min-w-[200px] py-6">
+              <label class="block mb-2 text-3xl font-semibold text-slate-600">
+                Email
+              </label>
+              <input
+                id="email"
+                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+                placeholder="Type here..."
+              />
+            </div>
+
+            <div class="w-full w-full min-w-[200px] py-6">
+              <label class="block mb-2 text-3xl font-semibold text-slate-600">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                class="w-full px-4 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+                placeholder="Type here..."
+              />
+              <p class="flex items-start mt-2 text-xl text-slate-400">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5 mr-1.5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Use at least 8 characters, one uppercase, one lowercase and one
+                number.
+              </p>
+            </div>
+
+            <div class="w-full w-full min-w-[200px] py-6">
+              <label class="block mb-2 text-3xl font-semibold text-slate-600">
+                Confirm Password
+              </label>
+              <input
+                id="confirm_password"
+                type="password"
+                class="w-full px-4 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+                placeholder="Confirm password"
+              />
+            </div>
           </div>
+
+          <div className="flex justify-center items-center px-6">
+            <button
+              id="sign_up"
+              data-ripple-light="true"
+              class="rounded-md w-full font-bold bg-teal-900 py-5 px-6 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button"
+            >
+              Sign up
+            </button>
+          </div>
+
+          <p class="flex justify-center my-10 mx-6 text-3xl text-slate-600">
+            You have an account?
+            <a
+              href="#signup"
+              class="ml-1 text-3xl font-semibold text-slate-700 underline"
+            >
+              Sign in
+            </a>
+          </p>
         </div>
       </div>
     </>
-    )
-}
+  );
+};
 export default SignUp;

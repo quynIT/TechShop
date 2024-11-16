@@ -1,4 +1,3 @@
-
 import Homepage from "../components/HomePage/Homepage";
 import Dashboard from "../pages/admin/Dashboard";
 import Settings from "../pages/admin/Setting";
@@ -15,7 +14,8 @@ import CancelOrderInterface from "../components/ButtonComponent/CancelOrderInter
 import CustomerUpdate from "../pages/admin/Customers/CustomerUpdate.jsx";
 import CustomerList from "../pages/admin/Customers/CustomerList.jsx";
 import ProductList from "../pages/admin/Products/ProductList.jsx";
-
+import ProductCreate from "../pages/admin/Products/ProductCreate.jsx";
+import ProductUpdate from "../pages/admin/Products/ProdctUpdate.jsx";
 
 export const routes = [
   {
@@ -88,14 +88,22 @@ export const adminRoutes = [
   },
   {
     path: "/admin/CustomerUpdate",
-    page: CustomerUpdate
+    page: CustomerUpdate,
   },
   {
     path: "/admin/CustomerList",
-    page: CustomerList
+    page: CustomerList,
   },
   {
     path: "/admin/ProductList",
-    page: ProductList
-  }
+    page: ProductList,
+  },
+  {
+    path: "/admin/ProductCreate",
+    page: ProductCreate,
+  },
+  {
+    path: "/admin/ProductUpdate",
+    page: ProductUpdate,
+  },
 ];

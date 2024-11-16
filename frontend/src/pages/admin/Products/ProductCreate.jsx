@@ -1,9 +1,9 @@
 import React from "react";
-const ProductSetting = () =>{
+const ProductCreate = () =>{
     return(
         <div>
             
         </div>
     )
 }
-export default ProductSetting;
+export default ProductCreate;

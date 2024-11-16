@@ -13,16 +13,18 @@ const Sidebar = () => {
           isOpen ? "block" : "hidden"
         }`}
       >
-        <div className="flex justify-between p-4 mb-2 ">
-          <h5 className="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-            Sidebar
-          </h5>
+        <div className="flex bg-yellow-200 justify-between ">
+          
+            <h5 className="block font-sans text-5xl antialiased font-semibold tracking-normal text-blue-gray-900">
+              Sidebar
+            </h5>
+          
+
           {/* <button className="text-2xl font-bold"
             onClick={toggle}
           >Nhan</button> */}
         </div>
-        <nav className="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
-         
+        <nav className="flex min-w-[240px] flex-col gap-1 p-6 font-sans text-base font-normal text-blue-gray-700">
           <div
             role="button"
             className="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"

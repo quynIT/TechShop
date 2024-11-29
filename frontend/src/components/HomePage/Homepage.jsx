@@ -11,7 +11,7 @@ import TrendSlide from '../TrendSlide/TrendSlide';
 import { Link } from 'react-router-dom';
 
 const Homepage = () => {
-    const arr = ['TV', 'Tu Lanh', 'Lap top','Điện Thoại']
+    const arr = ['TV', 'Tủ Lạnh', 'Laptop','Điện Thoại']
     return (
         <div style={{ width: '1270px', margin: '0 auto' }}>
         <WrapperTypeProduct>

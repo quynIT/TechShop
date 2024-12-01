@@ -33,7 +33,6 @@ const Admin = () => {
 
           <div className="p-10 ">
             <Outlet />
-            
           </div>
 
           <div className="mt-auto">

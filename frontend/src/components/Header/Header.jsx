@@ -21,7 +21,7 @@ const Header = () => {
               size="large"
               bordered={false}
               textbutton="Tìm kiếm"
-              placeholder="input search text"
+              placeholder="Tìm kiếm sản phẩm..."
               backgroundColorButton="rgb(67 135 219)"
             />
             </Col>

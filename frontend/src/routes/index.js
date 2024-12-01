@@ -1,4 +1,4 @@
-import Homepage from "../components/HomePage/Homepage";
+import Homepage from "../pages/user/Homepage.jsx";
 import Dashboard from "../pages/admin/Dashboard";
 import Settings from "../pages/admin/Setting";
 import SignIn from "../pages/auth/Sign_in";

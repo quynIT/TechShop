@@ -1,16 +1,18 @@
 const express = require("express");
 const dotenv = require('dotenv');
 const { default: mongoose } = require("mongoose");
+const routes = require('./routes');
+const bodyParser = require('body-parser');
 dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3001
 
-app.get('/', (req, res) => {
-    res.send('Hello world 2')
-})
+app.use(bodyParser.json())
 
-mongoose.connect(`mongodb+srv://datg:${process.env.MONGO_DB}@project1.sh0u5.mongodb.net/?retryWrites=true&w=majority&appName=Project1`)
+routes(app);
+
+mongoose.connect(`${process.env.MONGO_DB}`)
 .then(() => {
     console.log('Connect DB success!')
 })
@@ -19,5 +21,5 @@ mongoose.connect(`mongodb+srv://datg:${process.env.MONGO_DB}@project1.sh0u5.mong
 })
 
 app.listen(port, () => {
-    console.log('Server is running in port: ' + port)
+    console.log('Server is running in port: ', + port)
 })

@@ -6,7 +6,7 @@ const genneralAccessToken = async (payload) => {
     const access_token = jwt.sign({
         payload
         //access_token là key bí mật, expiresIn là thời gian hết hạn
-    }, process.env.ACCESS_TOKEN, { expiresIn: '30s' })
+    }, process.env.ACCESS_TOKEN, { expiresIn: '5s' })
 
     return access_token
 }

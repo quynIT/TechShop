@@ -7,8 +7,13 @@ import {
 import { Col, Popover } from 'antd';
 import {WrapperTextHeaderSmall , WrapperHeader, WrapperHeaderAccout, WrapperTextHeader } from './style';
 import ButtonInputSearch from '../ButtonInputSearch/ButtonInputSearch';
+import { useNavigate } from 'react-router-dom';
   
 const Header = () => {
+    const navigate = useNavigate()
+    const handleNavigateLogin = () => {
+      navigate('/sign-in')
+    }
     return (
         <div style={{  height: '100%', width: '100%', display: 'flex',background: 'rgb(51 51 51)', justifyContent: 'center' }}>
         <WrapperHeader >
@@ -34,7 +39,7 @@ const Header = () => {
                     </Popover>
                   </>
                
-                  <div style={{ cursor: 'pointer' }}>
+                  <div onClick={handleNavigateLogin} style={{ cursor: 'pointer' }}>
                     <WrapperTextHeaderSmall>Đăng nhập/Đăng ký</WrapperTextHeaderSmall>
                     <div>
                       <WrapperTextHeaderSmall>Tài khoản</WrapperTextHeaderSmall>

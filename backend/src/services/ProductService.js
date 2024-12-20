@@ -115,14 +115,20 @@ const getDetailsProduct = (id) => {
     })
 }
 
-const getAllProduct = () => {
+const getAllProduct = (limit = 8, page = 0) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const allProduct = await Product.find()
+            const totalProduct = await Product.countDocuments()
+            /*limit để giới hạn số sản phẩm trả về, skip là để dùng bỏ bao nhiêu product để lấy 
+            những product tiếp theo*/
+            const allProduct = await Product.find().limit(limit).skip(page * limit)
             resolve({
                 status: 'OK',
                 message: 'Success',
-                data: allProduct
+                data: allProduct,
+                total: totalProduct,
+                pageCurrent: Number(page + 1),
+                totalPage: Math.ceil(totalProduct / limit)
             })
         }catch(e) {
             reject(e)

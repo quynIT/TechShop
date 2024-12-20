@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import * as UserService from '../../services/UserService'
+import { useMutationHooks } from "../../hooks/useMutationHook";
+import Loading from "../../components/Loading/Loading";
 
 const SignUp = () => {
   const navigate = useNavigate()
+
+  const mutation = useMutationHooks(
+    data => UserService.signupUser(data)
+  )
+
+  const { data, isPending } = mutation
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,7 +34,7 @@ const SignUp = () => {
   }
 
   const handleSignUp = () => {
-    console.log('sign-up', email, password, confirmPassword)
+    mutation.mutate({ email, password, confirmPassword })
   }
 
   return (
@@ -132,19 +141,23 @@ const SignUp = () => {
               />
             </div>
           </div>
-
-          <div className="flex justify-center items-center px-6">
-            <button
-              id="sign_up"
-              data-ripple-light="true"
-              class="rounded-md w-full font-bold bg-teal-900 py-5 px-6 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="button"
-              disabled={!email.length || !password.length || !confirmPassword.length}
-              onClick={handleSignUp}
-            >
-              Sign up
-            </button>
-          </div>
+          
+          {/* Thông báo lỗi */}
+          {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+          <Loading isPending={isPending}>
+            <div className="flex justify-center items-center px-6">
+              <button
+                id="sign_up"
+                data-ripple-light="true"
+                class="rounded-md w-full font-bold bg-teal-900 py-5 px-6 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button"
+                disabled={!email.length || !password.length || !confirmPassword.length}
+                onClick={handleSignUp}
+              >
+                Sign up
+              </button>
+            </div>
+          </Loading>
 
           <p class="flex justify-center my-10 mx-6 text-3xl text-slate-600">
             You have an account?

@@ -4,8 +4,21 @@ import { routes, adminRoutes } from "./routes";
 import Admin from "./Layout/Admin.jsx";
 import Layout from "./Layout/Layout.jsx";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useEffect } from "react";
+import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
 
 function App() {
+  // useEffect(() => {
+  //   fetchApi()
+  // }, [])
+  const fetchApi = async () => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/get-all`)
+    return res.data
+  }
+
+  const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi })
+  console.log('query', query)
   return (
     <BrowserRouter>
       <Routes>

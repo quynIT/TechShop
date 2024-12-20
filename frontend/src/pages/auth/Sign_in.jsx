@@ -1,6 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const navigate = useNavigate()
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleOnchangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const handleOnchangePassword = (e) => {
+    setPassword(e.target.value)
+  }
+
+  const handleNavigateSignUp = () => {
+    navigate('/sign-up')
+  }
+
+  const handleSignIn = () => {
+    console.log('sign-in', email, password)
+  }
   return (
     <div className="h-screen  flex justify-center items-center">
       <div class="w-fit h-fit shadow-all rounded-sm border-5 border-gray-700">
@@ -34,6 +55,7 @@ const SignIn = () => {
               id="signin_email"
               class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
               placeholder="Type here..."
+              value={email} onChange={handleOnchangeEmail}
             />
           </div>
 
@@ -46,6 +68,7 @@ const SignIn = () => {
               type="password"
               class="w-full px-4 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
               placeholder="Type here..."
+              value={password} onChange={handleOnchangePassword}
             />
           </div>
 
@@ -90,16 +113,19 @@ const SignIn = () => {
               data-ripple-light="true"
               class="rounded-md w-full font-bold bg-teal-900 py-5 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button"
+              disabled={!email.length || !password.length}
+              onClick={handleSignIn}
             >
               Sign in
             </button>
           </div>
 
           <p class="flex justify-center my-10 mx-6 text-3xl text-slate-600">
-            Don&apos;t have an account?
+            Don't have an account?
             <a
-              href="#signup"
+              href=""
               class="ml-1 text-3xl font-semibold text-slate-700 underline"
+              onClick={handleNavigateSignUp}
             >
               Sign up
             </a>

@@ -4,7 +4,7 @@ dotenv.config()
 
 const genneralAccessToken = async (payload) => {
     const access_token = jwt.sign({
-        payload
+        ...payload
         //access_token là key bí mật, expiresIn là thời gian hết hạn
     }, process.env.ACCESS_TOKEN, { expiresIn: '5s' })
 
@@ -13,7 +13,7 @@ const genneralAccessToken = async (payload) => {
 
 const genneralRefreshToken = async (payload) => {
     const refresh_token = jwt.sign({
-        payload
+        ...payload
         //access_token là key bí mật, expiresIn là thời gian hết hạn
     }, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
 
@@ -27,7 +27,7 @@ const refreshTokenJwtService = (token) => {
                 if(err){
                     console.log('err', err)
                     resolve({
-                        status: 'ERROR',
+                        status: 'ERR',
                         message: 'The authentication'
                     })
                 }

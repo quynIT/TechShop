@@ -41,3 +41,11 @@ export const WrapperContentPopup = styled.p`
         color: rgb(26, 148, 255);
     }
 `
+
+// export const WrapperContentPopup1 = styled.p`
+//     cursor: pointer;
+//     &:hover{
+//         background: red;
+//         color: #fff;
+//     }
+// `

@@ -1,34 +1,25 @@
 import { Sidebar } from "lucide-react";
+import { Link } from "react-router-dom";
 import React from "react";
 import MenuItem from "../CardComponent/MenuItem";
 const AdminHeader = () => {
   return (
     <>
-      <nav className="block w-full bg-white shadow-md rounded-md ">
-        <div className="container p-4 mx-auto text-slate-800">
+      <nav className=" w-full bg-white shadow-md rounded-md ">
+        <div className=" p-5 mx-auto text-slate-800">
           <div className="grid grid-cols-2 gap-2">
             <div className="p-2">
-              <div className="">
-
-                <button
-                  href="#"
-                  className="sm:hidden r-4 block cursor-pointer py-1.5 text-3xl text-slate-800 font-semibold"
-                >
-                  Nhận
-                </button>
-
-                <a
-                  href="#"
-                  className="hidden r-4 sm:block cursor-pointer py-1.5 text-3xl text-slate-800 font-semibold"
-                >
-                  Dashboard
-                </a>
-              </div>
+              <Link
+                to="/sign-in"
+                className="hidden md:block cursor-pointer py-3 text-4xl text-slate-800 active:text-cyan font-semibold"
+              >
+                Dashboard
+              </Link>
             </div>
 
             <div className="p-2 flex justify-end gap-10">
-              <div className="flex gap-2 ">
-                <div className="w-full max-w-md min-w-[200px]">
+              <div className="flex gap-4 ">
+                <div className="w-full max-w-md sm:w-[200px] lg:min-w-[350px]">
                   <div className="relative">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +27,7 @@ const AdminHeader = () => {
                       viewBox="0 0 25 25"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      className="absolute w-10 h-10 top-2.5 left-2.5 text-slate-600"
+                      className="absolute w-10 h-10 top-5 left-5 text-slate-600"
                     >
                       <path
                         stroke-linecap="round"
@@ -45,26 +36,24 @@ const AdminHeader = () => {
                       />
                     </svg>
                     <input
-                    id="search_content"
+                      id="search_content"
                       type="text"
-                      className="w-full pl-16 pr-3 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-sm border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                      className="w-full pl-16 px-3 py-5 bg-transparent placeholder:text-slate-800 text-slate-600 md:text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-cyan hover:border-slate-300 shadow-sm focus:shadow"
                       placeholder="Type here..."
                     />
                   </div>
                 </div>
-                <button id="search_button"
-                  className="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                <button
+                  id="search_button"
+                  className="rounded-md bg-green py-2 px-4 border border-transparent text-center md:text-3xl text-white transition-all shadow-md hover:shadow-lg focus:bg-green focus:shadow-none active:bg-leave hover:bg-green-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   type="button"
                 >
                   Search
                 </button>
               </div>
-              <MenuItem/>
+              <MenuItem />
             </div>
-            
           </div>
-
-          
 
           {/* <button
             class="relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-xs font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"

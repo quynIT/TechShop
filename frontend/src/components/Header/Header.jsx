@@ -4,7 +4,7 @@ import {
   CaretDownOutlined,
   ShoppingCartOutlined
 } from '@ant-design/icons';
-import { Button, Col, Popover } from 'antd';
+import { Col, Popover } from 'antd';
 import { WrapperTextHeaderSmall, WrapperHeader, WrapperHeaderAccout, WrapperTextHeader, WrapperContentPopup } from './style';
 import ButtonInputSearch from '../ButtonInputSearch/ButtonInputSearch';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ const Header = () => {
     setLoading(true)
     await UserService.logoutUser()
     dispatch(resetUser())
+    localStorage.removeItem('access_token')
     setLoading(false)
   }
 

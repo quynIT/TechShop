@@ -5,8 +5,6 @@ import Admin from "./Layout/Admin.jsx";
 import Layout from "./Layout/Layout.jsx";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useEffect } from "react";
-// import axios from 'axios'
-import { useQuery } from '@tanstack/react-query'
 import { isJsonString } from "./utils.js";
 import { jwtDecode } from "jwt-decode";
 import * as UserService from './services/UserService.js'

@@ -1,21 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as UserService from '../../services/UserService'
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import Loading from "../../components/Loading/Loading";
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux'
+import { updateUser } from "../../redux/slides/userSlide";
 
 const SignIn = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch();
+
   const navigate = useNavigate()
 
   const mutation = useMutationHooks(
     data => UserService.loginUser(data)
   )
 
-  const { data, isPending } = mutation
-  console.log('mutation', mutation)
+  const { data, isPending, isSuccess } = mutation
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  useEffect(() => {
+    if(isSuccess){
+      navigate('/')
+      //Lưu access token vào storage
+      localStorage.setItem('access_token', data?.access_token)
+      if(data?.access_token){
+        const decoded = jwtDecode(data?.access_token)
+        console.log('decode', decoded)
+        if(decoded?.id){
+          handleGetDetailsUser(decoded?.id, data?.access_token)
+        }
+      }
+    }
+  }, [isSuccess])
+
+  const handleGetDetailsUser = async (id, token) => {
+    const res = await UserService.getDetailsUser(id, token)
+    dispatch(updateUser({ ...res?.data, access_token: token }))
+  } 
+  console.log('mutation', mutation)
 
   const handleOnchangeEmail = (e) => {
     setEmail(e.target.value)

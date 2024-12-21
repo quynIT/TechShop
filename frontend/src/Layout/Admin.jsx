@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Sidebar from "../components/NavBar/Sidebar";
-import AdminNavbar from "../components/NavBar/AdminNavbar";
 import AdminHeader from "../components/NavBar/AdminHeader";
-import Dashboard from "../pages/admin/Dashboard";
-import Settings from "../pages/admin/Setting";
-import Tables from "../pages/admin/Table";
 import AdminFooter from "../components/NavBar/AdminFooter";
 
 const Admin = () => {
@@ -16,18 +12,18 @@ const Admin = () => {
   };
   return (
     <>
-      <div className="grid grid-cols-[auto_1fr]  min-h-screen">
-        <div>
+      {/* <div className="grid grid-cols-[auto_1fr]  min-h-screen">
+        <div className="">
           <Sidebar isOpen={isSidebarOpen} />
           <div
             className={` transition-all duration-300 ${
-              isSidebarOpen ? "block" : "hidden"
+              isSidebarOpen ? "block " : "hidden"
             }`}
           ></div>
         </div>
 
         <div className="grid grid-row-[auto_1fr_auto] min-h-screen">
-          <div>
+          <div className="">
             <AdminHeader />
           </div>
 
@@ -35,7 +31,31 @@ const Admin = () => {
             <Outlet />
           </div>
 
-          <div className="mt-auto">
+          <div className="mt-auto ">
+            <AdminFooter />
+          </div>
+        </div>
+      </div> */}
+      <div className="grid grid-cols-[auto_1fr]  min-h-screen">
+        <div className="sticky top-0 h-screen ">
+          <Sidebar isOpen={isSidebarOpen} />
+          <div
+            className={` transition-all  duration-300 ${
+              isSidebarOpen ? " block " : "hidden"
+            }`}
+          ></div>
+        </div>
+
+        <div className="grid grid-row-[auto_1fr_auto] min-h-screen">
+          <div className="sticky top-0 z-10">
+            <AdminHeader />
+          </div>
+
+          <div className="p-10 ">
+            <Outlet />
+          </div>
+
+          <div className="mt-auto ">
             <AdminFooter />
           </div>
         </div>

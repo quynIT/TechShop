@@ -24,10 +24,9 @@ const SignIn = () => {
     if(isSuccess){
       navigate('/')
       //Lưu access token vào storage
-      localStorage.setItem('access_token', data?.access_token)
+      localStorage.setItem('access_token', JSON.stringify(data?.access_token))
       if(data?.access_token){
         const decoded = jwtDecode(data?.access_token)
-        console.log('decode', decoded)
         if(decoded?.id){
           handleGetDetailsUser(decoded?.id, data?.access_token)
         }
@@ -38,7 +37,8 @@ const SignIn = () => {
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token)
     dispatch(updateUser({ ...res?.data, access_token: token }))
-  } 
+  }
+  
   console.log('mutation', mutation)
 
   const handleOnchangeEmail = (e) => {

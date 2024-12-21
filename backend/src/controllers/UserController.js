@@ -52,9 +52,10 @@ const loginUser = async (req, res) => {
         // console.log('response', response)
         res.cookie('refresh_token', refresh_token, {
             //Cho phép chỉ lấy cookie thông qua http, không lấy đc bằng js
-            HttpOnly: true,
+            httpOnly: true,
             //Thêm bảo mật cho phía client
-            Secure: true,
+            secure: false,
+            samesite: 'strict'
         })
         return res.status(200).json(newResponse)
     }catch(e) {
@@ -131,6 +132,7 @@ const getDetailsUser = async (req, res) => {
 }
 
 const refreshToken = async (req, res) => {
+    console.log('req.cookies.refresh_token', req.cookies.refresh_token)
     try {
         const token = req.cookies.refresh_token
         if(!token){

@@ -52,5 +52,6 @@
   "devDependencies": {
     "tailwindcss": "^3.4.12",
     "webpack": "^5.94.0"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

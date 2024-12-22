@@ -18,6 +18,7 @@ const Header = () => {
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const [userName, setUserName] = useState('')
+  const [userAvatar, setUserAvatar] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleNavigateLogin = () => {
@@ -35,8 +36,9 @@ const Header = () => {
   useEffect(() => {
     setLoading(true)
     setUserName(user?.name)
+    setUserAvatar(user?.avatar)
     setLoading(false)
-  }, [user?.name])
+  }, [user?.name, user?.avatar])
 
   const content = (
     <div>
@@ -64,7 +66,18 @@ const Header = () => {
         <Col span={6} style={{ display: 'flex', gap: '54px', alignItems: 'center' }}>
           <Loading isPending={loading}>
             <WrapperHeaderAccout>
-              <UserOutlined />
+              {userAvatar ? (
+                <img src={userAvatar} alt="avatar" style={{
+                  height: '40px',
+                  width: '40px',
+                  borderRadius: '50%',
+                  objectFit: 'cover'
+                }} />
+
+              ) : (
+                <UserOutlined style={{ fontSide: '30px' }} />
+              )}
+
               <>
                 <Popover >
                   <div style={{ cursor: 'pointer', maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }} ></div>
@@ -74,7 +87,7 @@ const Header = () => {
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                    <div style={{ cursor: 'pointer' }}>{userName?.length ? userName : user?.email }</div>
+                    <div style={{ cursor: 'pointer' }}>{userName?.length ? userName : user?.email}</div>
                   </Popover>
                 </>
               ) : (

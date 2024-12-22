@@ -16,6 +16,7 @@ import CustomerList from "../pages/admin/Customers/CustomerList.jsx";
 import ProductList from "../pages/admin/Products/ProductList.jsx";
 import ProductCreate from "../pages/admin/Products/ProductCreate.jsx";
 import ProductUpdate from "../pages/admin/Products/ProdctUpdate.jsx";
+import ProfilePage from "../components/Profile/ProfilePage.jsx";
 
 export const routes = [
   {
@@ -58,6 +59,10 @@ export const routes = [
     path: "/cancel-order",
     page: CancelOrderInterface,
   },
+  {
+    path: "/profile-user",
+    page: ProfilePage,
+  }
 ];
 
 export const adminRoutes = [

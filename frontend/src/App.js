@@ -4,17 +4,21 @@ import { routes, adminRoutes } from "./routes";
 import Admin from "./Layout/Admin.jsx";
 import Layout from "./Layout/Layout.jsx";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { isJsonString } from "./utils.js";
 import { jwtDecode } from "jwt-decode";
 import * as UserService from './services/UserService.js'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "./redux/slides/userSlide.js";
+import Loading from "./components/Loading/Loading.jsx";
 
 function App() {
   const dispatch = useDispatch();
+  const { isPending, setIsLoading } = useState(false)
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
+    setIsLoading(true)
     const { storageData, decoded } = handleDecoded()
     if (decoded?.id) {
       handleGetDetailsUser(decoded?.id, storageData)
@@ -37,7 +41,7 @@ function App() {
     const { decoded } = handleDecoded()
     //Kiểm tra thời gian token hết hạn < thời gian của mình
     // /1000 để chuyển thành đơn vị ms
-    if(decoded?.exp < currentTime.getTime() / 1000){
+    if (decoded?.exp < currentTime.getTime() / 1000) {
       const data = await UserService.refreshToken()
       config.headers['token'] = `Bearer ${data?.access_token}`
     }
@@ -49,32 +53,36 @@ function App() {
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token)
     dispatch(updateUser({ ...res?.data, access_token: token }))
+    setIsLoading(false)
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Route dành cho admin */}
-        <Route path="/admin" element={<Admin />}>
+    <Loading isPending={isPending}>
+      <BrowserRouter>
+        <Routes>
+          {/* Route dành cho admin */}
+          {/* <Route path="/admin" element={<Admin />}>
           {adminRoutes.map((route) => {
             const Page = route.page;
             return (
               <Route key={route.path} path={route.path} element={<Page />} />
             );
           })}
-        </Route>
+        </Route> */}
 
-        {/* Route dành cho client */}
-        <Route path="/" element={<Layout />}>
-          {routes.map((route) => {
-            const Page = route.page;
-            return (
-              <Route key={route.path} path={route.path} element={<Page />} />
-            );
-          })}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* Route dành cho client */}
+          <Route path="/" element={<Layout />}>
+            {routes.map((route) => {
+              const Page = route.page;
+              const ischeckAuth = !route.isPrivate || user.isAdmin
+              return (
+                <Route key={route.path} path={ischeckAuth && route.path} element={<Page />} />
+              );
+            })}
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Loading>
   );
 }
 

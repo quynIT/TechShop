@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   UserOutlined,
   CaretDownOutlined,
@@ -17,6 +17,7 @@ const Header = () => {
   const navigate = useNavigate()
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const [userName, setUserName] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleNavigateLogin = () => {
@@ -30,6 +31,12 @@ const Header = () => {
     localStorage.removeItem('access_token')
     setLoading(false)
   }
+
+  useEffect(() => {
+    setLoading(true)
+    setUserName(user?.name)
+    setLoading(false)
+  }, [user?.name])
 
   const content = (
     <div>
@@ -67,7 +74,7 @@ const Header = () => {
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                    <div style={{ cursor: 'pointer' }}>{user?.name?.length ? user?.name : user?.email }</div>
+                    <div style={{ cursor: 'pointer' }}>{userName?.length ? userName : user?.email }</div>
                   </Popover>
                 </>
               ) : (

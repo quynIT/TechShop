@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { WrapperContentProfile, WrapperHeader, WrapperInput, WrapperLabel } from "./style";
+import { WrapperContentProfile, WrapperHeader, WrapperInput, WrapperLabel, WrapperUploadFile } from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import * as UserService from '../../services/UserService'
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import Loading from "../Loading/Loading";
 import * as message from '../../components/Message/Message'
 import { updateUser } from "../../redux/slides/userSlide";
+import { Button, Upload } from "antd";
+import { UploadOutlined } from '@ant-design/icons'
+import { getBase64 } from "../../utils";
 
 const ProfilePage = () => {
     const user = useSelector((state) => state.user)
@@ -24,7 +27,6 @@ const ProfilePage = () => {
 
     const dispatch = useDispatch()
     const { data, isPending, isSuccess, isError } = mutation
-    console.log('data', data)
 
     useEffect(() => {
         setName(user?.name)
@@ -64,8 +66,12 @@ const ProfilePage = () => {
         setAddress(e.target.value)
     }
 
-    const handleOnchangeAvatar = (e) => {
-        setAvatar(e.target.value)
+    const handleOnchangeAvatar = async ({fileList}) => {
+        const file = fileList[0]
+        if(!file.url && !file.preview){
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setAvatar(file.preview)
     }
 
     const handleUpdate = () => {
@@ -175,12 +181,23 @@ const ProfilePage = () => {
 
                     <WrapperInput>
                         <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
-                        <input
+                        <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+                            <Button icon={<UploadOutlined />}>Select file</Button>
+                        </WrapperUploadFile>
+                        {avatar && (
+                            <img src={avatar} style={{
+                                height: '60px',
+                                width: '60px',
+                                borderRadius: '50%',
+                                objectFit: 'cover'
+                            }} alt="avatar"/>
+                        )}
+                        {/* <input
                             style={{ width: '300px' }}
                             id="avatar"
                             class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
                             value={avatar} onChange={handleOnchangeAvatar}
-                        />
+                        /> */}
                         <button
                             style={{
                                 width: 'fit-content',

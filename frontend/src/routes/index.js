@@ -70,59 +70,54 @@ export const routes = [
     isPrivate: true
   },
   {
-    path: "/admin",
-    page: Dashboard,
-  },
-  {
     path: "/admin/tables",
     page: Tables,
   },
 ];
 
-// export const adminRoutes = [
-//   // {
-//   //     path: '/',
-//   //     page: Homepage
-//   // },
-//   // {
-//   //     path: '/sign-in',
-//   //     page: SignIn
-//   // },
-//   // {
-//   //     path: '/sign-up',
-//   //     page: SignUp
-//   // },
-
-//   // {
-//   //   path: "/admin",
-//   //   page: Dashboard,
-//   // },
-//   // {
-//   //   path: "/admin/settings",
-//   //   page: Settings,
-//   // },
-//   // {
-//   //   path: "/admin/tables",
-//   //   page: Tables,
-//   // },
-//   // {
-//   //   path: "/admin/CustomerUpdate",
-//   //   page: CustomerUpdate,
-//   // },
-//   // {
-//   //   path: "/admin/CustomerList",
-//   //   page: CustomerList,
-//   // },
-//   // {
-//   //   path: "/admin/ProductList",
-//   //   page: ProductList,
-//   // },
-//   // {
-//   //   path: "/admin/ProductCreate",
-//   //   page: ProductCreate,
-//   // },
-//   // {
-//   //   path: "/admin/ProductUpdate",
-//   //   page: ProductUpdate,
-//   // },
-// ];
+export const adminRoutes = [
+  // {
+  //     path: '/',
+  //     page: Homepage
+  // },
+  // {
+  //     path: '/sign-in',
+  //     page: SignIn
+  // },
+  // {
+  //     path: '/sign-up',
+  //     page: SignUp
+  // },
+  {
+    path: "admin",
+    page: Dashboard,
+  },
+  {
+    path: "settings",
+    page: Settings,
+  },
+  {
+    path: "tables",
+    page: Tables,
+  },
+  {
+    path: "CustomerUpdate",
+    page: CustomerUpdate,
+  },
+  {
+    path: "CustomerList",
+    page: CustomerList,
+  },
+  {
+    path: "ProductList",
+    page: ProductList,
+  },
+  {
+    path: "ProductCreate",
+    page: ProductCreate,
+  },
+  {
+    path: "ProductUpdate",
+    page: ProductUpdate,
+  },
+];

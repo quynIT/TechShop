@@ -21,6 +21,10 @@ import AdminPage from "../pages/admin/AdminPage.jsx";
 import Staffpage from "../pages/staff/Staffpage.jsx";
 import DetailOrder from "../pages/staff/DetailOrder.jsx";
 import CustomerCreate from "../pages/admin/Customers/CustomerCreate.jsx";
+import OrderList from "../pages/admin/Orders/OrderList.jsx";
+import CreateOrder from "../pages/admin/Orders/CreateOrder.jsx";
+import OrderUpdate from "../pages/admin/Orders/OrderUpdate.jsx";
+import OrderHistory from "../pages/admin/Orders/OrderHistory.jsx";
 
 export const routes = [
   {
@@ -127,6 +131,22 @@ export const adminRoutes = [
   {
     path: "ProductUpdate",
     page: ProductUpdate,
+  },
+  {
+    path: "OrderList",
+    page: OrderList,
+  },
+  {
+    path: "CreateOrder",
+    page: CreateOrder,
+  },
+  {
+    path: "OrderUpdate",
+    page: OrderUpdate,
+  },
+  {
+    path: "OrderHistory",
+    page: OrderHistory,
   },
 ];
 export const staffRoutes = [

@@ -80,7 +80,7 @@ function App() {
             })}
           </Route>
           {/* Route dành cho staff */}
-          <Route path="/staff" element={<Staff />}>
+          <Route path="/staff" element={<Layout />}>
             {staffRoutes.map((route) => {
               const Page = route.page;
               const ischeckAuth = !route.isPrivate || user.role === "staff";

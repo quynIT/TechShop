@@ -13,8 +13,8 @@ const Sidebar = () => {
           isOpen ? "block" : "hidden"
         }`}
       >
-        <div className="flex justify-center p-11">
-          <button className="text-5xl text-white font-semibold">
+        <div className="flex justify-center p-11 border-b-2 border-leave">
+          <button className="text-5xl text-white font-semibold ">
             {" "}
             TechShop
           </button>
@@ -23,7 +23,7 @@ const Sidebar = () => {
             onClick={toggle}
           >Nhan</button> */}
         </div>
-        <nav className="flex  min-w-[300px] flex-col gap-1  font-sans text-base font-normal text-blue-gray-600">
+        <nav className="flex p-6 min-w-[300px] flex-col gap-1 font-sans text-base font-normal text-blue-gray-600">
           <Link to="/admin">
             <button
               role="button"

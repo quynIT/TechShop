@@ -226,7 +226,7 @@ const ProductCreate = () => {
             </button>
             <button
               type="button"
-              className="text-slate-800 focus:text-white focus:bg-yellow-500 focus:border-none border border-cyan focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
+              className="text-slate-800 focus:text-white bg-yellow-500 active:bg-yellow-300 focus:border-none focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
             >
               Discard
             </button>

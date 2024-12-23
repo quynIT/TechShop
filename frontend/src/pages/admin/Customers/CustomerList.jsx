@@ -125,7 +125,7 @@ const CustomerList = () => {
           </div>
         </div>
         {/* Table */}
-        <div class=" px-0 ">
+        <div class="mt-6 px-0 ">
           <table class="w-full text-left border-2 shadow-md table-auto min-w-max">
             <thead className="bg-gray-100">
               <tr className="">

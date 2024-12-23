@@ -12,7 +12,7 @@ const Sidebar = () => {
         className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${isOpen ? "block" : "hidden"
           }`}
       >
-        <div className="flex justify-center p-11">
+        <div className="flex justify-center p-11 border-b-4 border-leave">
           <Link to="/">
             <button className="text-5xl text-white font-semibold">
               {" "}
@@ -114,7 +114,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Profile
+              Customers
             </div>
           </Link>
           <Link to="/admin/settings">

@@ -7,54 +7,57 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useEffect, useState } from "react";
 import { isJsonString } from "./utils.js";
 import { jwtDecode } from "jwt-decode";
-import * as UserService from './services/UserService.js'
+import * as UserService from "./services/UserService.js";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "./redux/slides/userSlide.js";
 import Loading from "./components/Loading/Loading.jsx";
 
 function App() {
   const dispatch = useDispatch();
-  const [isPending, setIsLoading] = useState(false)
-  const user = useSelector((state) => state.user)
+  const [isPending, setIsLoading] = useState(false);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    setIsLoading(true)
-    const { storageData, decoded } = handleDecoded()
+    setIsLoading(true);
+    const { storageData, decoded } = handleDecoded();
     if (decoded?.id) {
-      handleGetDetailsUser(decoded?.id, storageData)
+      handleGetDetailsUser(decoded?.id, storageData);
     }
-    setIsLoading(false)
-  }, [])
+    setIsLoading(false);
+  }, []);
 
   const handleDecoded = () => {
-    let storageData = localStorage.getItem('access_token')
-    let decoded = {}
+    let storageData = localStorage.getItem("access_token");
+    let decoded = {};
 
     if (storageData && isJsonString(storageData)) {
-      storageData = JSON.parse(storageData)
-      decoded = jwtDecode(storageData)
+      storageData = JSON.parse(storageData);
+      decoded = jwtDecode(storageData);
     }
-    return { decoded, storageData }
-  }
+    return { decoded, storageData };
+  };
 
-  UserService.axiosJWT.interceptors.request.use(async (config) => {
-    const currentTime = new Date()
-    const { decoded } = handleDecoded()
-    //Kiểm tra thời gian token hết hạn < thời gian của mình
-    // /1000 để chuyển thành đơn vị ms
-    if (decoded?.exp < currentTime.getTime() / 1000) {
-      const data = await UserService.refreshToken()
-      config.headers['token'] = `Bearer ${data?.access_token}`
+  UserService.axiosJWT.interceptors.request.use(
+    async (config) => {
+      const currentTime = new Date();
+      const { decoded } = handleDecoded();
+      //Kiểm tra thời gian token hết hạn < thời gian của mình
+      // /1000 để chuyển thành đơn vị ms
+      if (decoded?.exp < currentTime.getTime() / 1000) {
+        const data = await UserService.refreshToken();
+        config.headers["token"] = `Bearer ${data?.access_token}`;
+      }
+      return config;
+    },
+    (err) => {
+      return Promise.reject(err);
     }
-    return config;
-  }, (err) => {
-    return Promise.reject(err)
-  })
+  );
 
   const handleGetDetailsUser = async (id, token) => {
-    const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser({ ...res?.data, access_token: token }))
-  }
+    const res = await UserService.getDetailsUser(id, token);
+    dispatch(updateUser({ ...res?.data, access_token: token }));
+  };
 
   return (
     <Loading isPending={isPending}>
@@ -64,13 +67,14 @@ function App() {
           <Route path="/admin" element={<Admin />}>
             {adminRoutes.map((route) => {
               const Page = route.page;
-              const ischeckAuth = !route.isPrivate || user.isAdmin
+              const ischeckAuth = !route.isPrivate || user.role === "admin";
               if (!ischeckAuth) return null; // Bỏ qua routes không hợp
               return (
-                <Route 
-                key={route.path} 
-                path={ischeckAuth && route.path}  // Loại bỏ tiền tố /admin
-                element={<Page />} />
+                <Route
+                  key={route.path}
+                  path={ischeckAuth && route.path} // Loại bỏ tiền tố /admin
+                  element={<Page />}
+                />
               );
             })}
           </Route>
@@ -80,10 +84,7 @@ function App() {
             {routes.map((route) => {
               const Page = route.page;
               return (
-                <Route 
-                key={route.path} 
-                path={route.path} 
-                element={<Page />} />
+                <Route key={route.path} path={route.path} element={<Page />} />
               );
             })}
           </Route>

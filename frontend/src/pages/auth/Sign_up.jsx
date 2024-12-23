@@ -15,13 +15,17 @@ const SignUp = () => {
   const { data, isPending, isSuccess, isError } = mutation
 
   useEffect(() => {
-    if(isSuccess){
+    console.log('isSuccess:', isSuccess); 
+    console.log('isError:', isError); 
+    console.log('data:', data);
+
+    if(isSuccess && data?.status !== 'ERR'){
       message.success()
       handleNavigateSignIn()
-    }else if(isError){
-      message.error()
+    }else if(isError || data?.status === 'ERR'){
+      message.error(data?.message || 'Error occurred')
     }
-  }, [isSuccess, isError])
+  }, [isSuccess, isError, data])
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

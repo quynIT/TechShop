@@ -71,7 +71,7 @@ const Sidebar = () => {
               E-Commerce
             </button>
           </Link>
-          <Link to="/sign-in">
+          <Link to="/admin/OrderList">
             <div
               role="button"
               className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
@@ -91,7 +91,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Inbox
+              Orders
             </div>
           </Link>
           <Link to="/admin/CustomerList">

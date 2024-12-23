@@ -89,22 +89,9 @@ const ProfilePage = () => {
                             style={{ width: '300px' }}
                             id="name"
                             class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
-                            value={name} onChange={handleOnchangeName}
+                            onChange={handleOnchangeName}
+                            placeholder={name}
                         />
-                        <button
-                            style={{
-                                width: 'fit-content',
-                                height: '30px',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            class="rounded-md w-full font-bold bg-teal-900 py-5 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            id="signin_button"
-                            type="button"
-                            onClick={handleUpdate}
-                        >
-                            Cập nhật
-                        </button>
                     </WrapperInput>
 
                     <WrapperInput>
@@ -113,22 +100,9 @@ const ProfilePage = () => {
                             style={{ width: '300px' }}
                             id="email"
                             class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
-                            value={email} onChange={handleOnchangeEmail}
+                            onChange={handleOnchangeEmail}
+                            placeholder={email}
                         />
-                        <button
-                            style={{
-                                width: 'fit-content',
-                                height: '30px',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            class="rounded-md w-full font-bold bg-teal-900 py-5 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            id="signin_button"
-                            type="button"
-                            onClick={handleUpdate}
-                        >
-                            Cập nhật
-                        </button>
                     </WrapperInput>
 
                     <WrapperInput>
@@ -137,22 +111,9 @@ const ProfilePage = () => {
                             style={{ width: '300px' }}
                             id="phone"
                             class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
-                            value={phone} onChange={handleOnchangePhone}
+                            onChange={handleOnchangePhone}
+                            placeholder={phone}
                         />
-                        <button
-                            style={{
-                                width: 'fit-content',
-                                height: '30px',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            class="rounded-md w-full font-bold bg-teal-900 py-5 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            id="signin_button"
-                            type="button"
-                            onClick={handleUpdate}
-                        >
-                            Cập nhật
-                        </button>
                     </WrapperInput>
 
                     <WrapperInput>
@@ -161,22 +122,9 @@ const ProfilePage = () => {
                             style={{ width: '300px' }}
                             id="address"
                             class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
-                            value={address} onChange={handleOnchangeAddress}
+                            onChange={handleOnchangeAddress}
+                            placeholder={address}
                         />
-                        <button
-                            style={{
-                                width: 'fit-content',
-                                height: '30px',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            class="rounded-md w-full font-bold bg-teal-900 py-5 border border-transparent text-center text-3xl text-white transition-all shadow-md hover:shadow-lg focus:shadow-none active:bg-teal-500 hover:bg-teal-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            id="signin_button"
-                            type="button"
-                            onClick={handleUpdate}
-                        >
-                            Cập nhật
-                        </button>
                     </WrapperInput>
 
                     <WrapperInput>

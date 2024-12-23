@@ -91,6 +91,7 @@ export const adminRoutes = [
   {
     path: "admin",
     page: Dashboard,
+    isPrivate: true
   },
   {
     path: "settings",

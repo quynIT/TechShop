@@ -1,4 +1,5 @@
 import React from "react";
+
 const ProductCreate = () => {
   return (
     <div className="absolute top-0 w-full h-full left-0 p-10  grid grid-cols-2 gap-10">
@@ -182,4 +183,5 @@ const ProductCreate = () => {
     </div>
   );
 };
+
 export default ProductCreate;

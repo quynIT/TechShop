@@ -64,27 +64,27 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Route dành cho admin */}
-          {/* <Route path="/" element={<Admin />}>
-          {adminRoutes.map((route) => {
-            const Page = route.page;
-            return (
-              <Route key={route.path} path={route.path} element={<Page />} />
-            );
-          })}
-        </Route> */}
-
-          {/* Route dành cho client */}
-          <Route path="/" element={<Admin />}>
-            {routes.map((route) => {
+          <Route path="/admin" element={<Admin />}>
+            {adminRoutes.map((route) => {
               const Page = route.page;
-              const ischeckAuth = !route.isPrivate || user.isAdmin;
+              const ischeckAuth = !route.isPrivate || user.role === "admin";
               if (!ischeckAuth) return null; // Bỏ qua routes không hợp
               return (
                 <Route
                   key={route.path}
-                  path={ischeckAuth && route.path}
+                  path={ischeckAuth && route.path} // Loại bỏ tiền tố /admin
                   element={<Page />}
                 />
+              );
+            })}
+          </Route>
+
+          {/* Route dành cho client */}
+          <Route path="/" element={<Layout />}>
+            {routes.map((route) => {
+              const Page = route.page;
+              return (
+                <Route key={route.path} path={route.path} element={<Page />} />
               );
             })}
           </Route>

@@ -9,15 +9,24 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${
-          isOpen ? "block" : "hidden"
-        }`}
+        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${isOpen ? "block" : "hidden"
+          }`}
       >
+
         <div className="flex justify-center p-11 border-b-2 border-leave">
           <button className="text-5xl text-white font-semibold ">
             {" "}
             TechShop
           </button>
+
+
+        <div className="flex justify-center p-11">
+          <Link to="/">
+            <button className="text-5xl text-white font-semibold">
+              {" "}
+              TechShop
+            </button>
+          </Link>
 
           {/* <button className="text-2xl font-bold"
             onClick={toggle}
@@ -117,7 +126,7 @@ const Sidebar = () => {
               Profile
             </div>
           </Link>
-          <Link to="/sign-in">
+          <Link to="/admin/settings">
             <div
               role="button"
               className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
@@ -165,7 +174,7 @@ const Sidebar = () => {
           </Link>
         </nav>
       </div>
-   
+
     </>
   );
 };

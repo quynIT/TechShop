@@ -19,6 +19,7 @@ import ProductUpdate from "../pages/admin/Products/ProdctUpdate.jsx";
 import ProfilePage from "../components/Profile/ProfilePage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import Staffpage from "../pages/staff/Staffpage.jsx";
+import DetailOrder from "../pages/staff/DetailOrder.jsx";
 
 export const routes = [
   {
@@ -125,7 +126,11 @@ export const adminRoutes = [
 ];
 export const staffRoutes = [
   {
-    path: "staff",
+    path: "list",
     page: Staffpage,
+  },
+  {
+    path: "view",
+    page: DetailOrder,
   },
 ];

@@ -77,7 +77,7 @@ const Header = () => {
     >
       <WrapperHeader>
         <Col span={5}>
-          <WrapperTextHeader to="/">FPT SHOP</WrapperTextHeader>
+          <WrapperTextHeader to="/">TECH SHOP</WrapperTextHeader>
         </Col>
 
         <Col span={13}>

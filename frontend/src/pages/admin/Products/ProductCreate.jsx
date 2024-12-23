@@ -1,72 +1,72 @@
 import React, { useEffect, useState } from "react";
 import { getBase64 } from "../../../utils";
 import Loading from "../../../components/Loading/Loading";
-import * as ProductService from '../../../services/ProductService'
+import * as ProductService from "../../../services/ProductService";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
-import * as message from '../../../components/Message/Message'
+import * as message from "../../../components/Message/Message";
 
 const ProductCreate = () => {
   const [stateProduct, setStateProduct] = useState({
-    name: '',
-    price: '',
-    description: '',
-    rating: '',
-    image: '',
-    type: '',
-    countInStock: ''
-  })
+    name: "",
+    price: "",
+    description: "",
+    rating: "",
+    image: "",
+    type: "",
+    countInStock: "",
+  });
 
-  const mutation = useMutationHooks(
-    (data) => {
-      const { name,
-        price,
-        description,
-        rating,
-        image,
-        type,
-        countInStock: countInStock } = data
-      const res = ProductService.createProduct({
-        name,
-        price,
-        description,
-        rating,
-        image,
-        type,
-        countInStock
-      })
-      return res
-    }
-  )
+  const mutation = useMutationHooks((data) => {
+    const {
+      name,
+      price,
+      description,
+      rating,
+      image,
+      type,
+      countInStock: countInStock,
+    } = data;
+    const res = ProductService.createProduct({
+      name,
+      price,
+      description,
+      rating,
+      image,
+      type,
+      countInStock,
+    });
+    return res;
+  });
 
-  const { data, isPending, isSuccess, isError } = mutation
+  const { data, isPending, isSuccess, isError } = mutation;
 
   useEffect(() => {
-    if (isSuccess && data?.status === 'OK') {
-      message.success()
+    if (isSuccess && data?.status === "OK") {
+      message.success();
       setStateProduct({
-        name: '',
-        price: '',
-        description: '',
-        rating: '',
-        image: '',
-        type: '',
-        countInStock: ''
-      })
+        name: "",
+        price: "",
+        description: "",
+        rating: "",
+        image: "",
+        type: "",
+        countInStock: "",
+      });
     } else if (isError) {
-      message.error()
+      message.error();
     }
-  }, [isSuccess])
+  }, [isSuccess]);
 
   const handleOnChange = (e) => {
     setStateProduct({
       ...stateProduct,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const onFinish = () => {
-    mutation.mutate(stateProduct)
-  }
+    mutation.mutate(stateProduct);
+  };
 
   const handleOnchangeAvatar = async (event) => {
     const files = event.target.files; // Lấy danh sách file từ input
@@ -87,8 +87,8 @@ const ProductCreate = () => {
 
   return (
     <Loading isPending={isPending}>
-      <div className="absolute top-0 w-full h-full left-0 p-10  grid grid-cols-2 gap-10">
-        <div className=" ">
+      <div className="absolute top-0 w-full h-full left-0 p-10  grid grid-cols-3 gap-10">
+        <div className=" col-span-2">
           <div className="bg-white p-10">
             <h4 class="block text-4xl font-medium mb-5 text-slate-800">
               Product Information
@@ -96,16 +96,32 @@ const ProductCreate = () => {
             <p class="text-slate-800 text-3xl mb-5 font-light">
               Nice to meet you! Enter your details product information.
             </p>
+            <div className="flex gap-10">
+              <div class="w-full">
+                <label class="block mb-5 font-semibold text-3xl text-slate-600">
+                  Product Name
+                </label>
+                <input
+                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                  placeholder="Type here..."
+                  value={stateProduct.name}
+                  onChange={handleOnChange}
+                  name="name"
+                />
+              </div>
 
-            <div class="w-full">
-              <label class="block mb-5 font-semibold text-3xl text-slate-600">
-                Product Name
-              </label>
-              <input
-                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                placeholder="Type here..."
-                value={stateProduct.name} onChange={handleOnChange} name="name"
-              />
+              <div class="w-full">
+                <label class="block mb-5 font-semibold text-3xl text-slate-600">
+                  Product Brand
+                </label>
+                <input
+                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                  placeholder="Type here..."
+                  value={stateProduct.name}
+                  onChange={handleOnChange}
+                  name="name"
+                />
+              </div>
             </div>
 
             <div className="my-10">
@@ -116,14 +132,19 @@ const ProductCreate = () => {
                 Product Description
               </label>
               <textarea
-                class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-red-500 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-3xl font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-cyan placeholder-shown:border-t-leave focus:border-2 focus:border-cyan focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-slate-300  bg-transparent px-4 py-5 font-sans text-3xl font-normal text-blue-gray-700 outline outline-0 transition-all focus:placeholder-shown:border focus:placeholder-shown:border-cyan focus:placeholder-shown:border-t-leave focus:border-2 focus:border-cyan focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
                 placeholder=" Write description............ "
-                value={stateProduct.description} onChange={handleOnChange} name="description"
+                value={stateProduct.description}
+                onChange={handleOnChange}
+                name="description"
               ></textarea>
             </div>
           </div>
-
+          {/* Pricing and stock */}
           <div className="my-10 bg-white p-10">
+            <h4 class="block text-4xl font-medium mb-10 text-slate-800">
+              Pricing and Stock
+            </h4>
             <div className="grid grid-cols-2 gap-10">
               <div>
                 <div class="w-full">
@@ -133,7 +154,9 @@ const ProductCreate = () => {
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     placeholder="Type here..."
-                    value={stateProduct.price} onChange={handleOnChange} name="price"
+                    value={stateProduct.price}
+                    onChange={handleOnChange}
+                    name="price"
                   />
                 </div>
                 <div class="w-full">
@@ -143,7 +166,9 @@ const ProductCreate = () => {
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     placeholder="Type here..."
-                    value={stateProduct.countInStock} onChange={handleOnChange} name="countInStock"
+                    value={stateProduct.countInStock}
+                    onChange={handleOnChange}
+                    name="countInStock"
                   />
                 </div>
               </div>
@@ -155,7 +180,9 @@ const ProductCreate = () => {
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     placeholder="Type here..."
-                    value={stateProduct.rating} onChange={handleOnChange} name="rating"
+                    value={stateProduct.rating}
+                    onChange={handleOnChange}
+                    name="rating"
                   />
                 </div>
                 {/* <div class="w-full">
@@ -188,13 +215,32 @@ const ProductCreate = () => {
               </div>
             </div>
           </div>
+          {/* button */}
+          <div className="flex justify-between items-center mt-10 bg-white p-10">
+            <button
+              type="button"
+              className="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white shadow-lg shadow-green-500/50 font-medium rounded-lg text-3xl px-5 py-5"
+              onClick={onFinish}
+            >
+              Save Product
+            </button>
+            <button
+              type="button"
+              className="text-slate-800 focus:text-white focus:bg-yellow-500 focus:border-none border border-cyan focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
+            >
+              Discard
+            </button>
+          </div>
         </div>
         {/* Split */}
         <div className="">
           <div className="bg-white p-10">
             <img
               className="h-96 bg-white w-full object-cover object-center"
-              src={stateProduct?.image || "https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"}
+              src={
+                stateProduct?.image ||
+                "https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
+              }
               alt="Product"
             />
 
@@ -220,14 +266,20 @@ const ProductCreate = () => {
                     />
                   </svg>
                   <p class="mb-2 text-2xl text-gray-500 dark:text-gray-400">
-                    <span class="font-semibold">Click to upload</span> or drag and
-                    drop
+                    <span class="font-semibold">Click to upload</span> or drag
+                    and drop
                   </p>
                   <p class="text-2xl text-gray-500 dark:text-gray-400">
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" onChange={handleOnchangeAvatar} name="image" />
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  class="hidden"
+                  onChange={handleOnchangeAvatar}
+                  name="image"
+                />
               </label>
             </div>
           </div>
@@ -269,22 +321,30 @@ const ProductCreate = () => {
               <input
                 class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                 placeholder="Type here..."
-                value={stateProduct.type} onChange={handleOnChange} name="type"
+                value={stateProduct.type}
+                onChange={handleOnChange}
+                name="type"
               />
             </div>
 
+            <button
+              type="button"
+              class="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white  shadow-lg shadow-green-500/50  font-medium rounded-lg text-3xl px-5 py-5 text-center mt-10 ml-[310px]"
+            >
+              Add Category
+            </button>
+            {/* 
             <button
               type="button"
               class="text-white bg-gradient-to-br from-cyan to-leave hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-lime-400 dark:focus:ring-green-800 font-medium rounded-lg text-3xl px-5 py-4 text-center me-2 my-10 "
               onClick={onFinish}
             >
               Add Product
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
     </Loading>
   );
 };
-
 export default ProductCreate;

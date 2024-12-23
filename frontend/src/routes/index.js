@@ -69,52 +69,60 @@ export const routes = [
     page: AdminPage,
     isPrivate: true
   },
+  {
+    path: "/admin",
+    page: Dashboard,
+  },
+  {
+    path: "/admin/tables",
+    page: Tables,
+  },
 ];
 
-export const adminRoutes = [
-  // {
-  //     path: '/',
-  //     page: Homepage
-  // },
-  // {
-  //     path: '/sign-in',
-  //     page: SignIn
-  // },
-  // {
-  //     path: '/sign-up',
-  //     page: SignUp
-  // },
+// export const adminRoutes = [
+//   // {
+//   //     path: '/',
+//   //     page: Homepage
+//   // },
+//   // {
+//   //     path: '/sign-in',
+//   //     page: SignIn
+//   // },
+//   // {
+//   //     path: '/sign-up',
+//   //     page: SignUp
+//   // },
 
-  // {
-  //   path: "/admin",
-  //   page: Dashboard,
-  // },
-  // {
-  //   path: "/admin/settings",
-  //   page: Settings,
-  // },
-  // {
-  //   path: "/admin/tables",
-  //   page: Tables,
-  // },
-  // {
-  //   path: "/admin/CustomerUpdate",
-  //   page: CustomerUpdate,
-  // },
-  // {
-  //   path: "/admin/CustomerList",
-  //   page: CustomerList,
-  // },
-  // {
-  //   path: "/admin/ProductList",
-  //   page: ProductList,
-  // },
-  // {
-  //   path: "/admin/ProductCreate",
-  //   page: ProductCreate,
-  // },
-  // {
-  //   path: "/admin/ProductUpdate",
-  //   page: ProductUpdate,
-  // },
-];
+//   // {
+//   //   path: "/admin",
+//   //   page: Dashboard,
+//   // },
+//   // {
+//   //   path: "/admin/settings",
+//   //   page: Settings,
+//   // },
+//   // {
+//   //   path: "/admin/tables",
+//   //   page: Tables,
+//   // },
+//   // {
+//   //   path: "/admin/CustomerUpdate",
+//   //   page: CustomerUpdate,
+//   // },
+//   // {
+//   //   path: "/admin/CustomerList",
+//   //   page: CustomerList,
+//   // },
+//   // {
+//   //   path: "/admin/ProductList",
+//   //   page: ProductList,
+//   // },
+//   // {
+//   //   path: "/admin/ProductCreate",
+//   //   page: ProductCreate,
+//   // },
+//   // {
+//   //   path: "/admin/ProductUpdate",
+//   //   page: ProductUpdate,
+//   // },
+// ];

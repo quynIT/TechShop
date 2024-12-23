@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { routes, adminRoutes } from "./routes";
+import { routes, adminRoutes, staffRoutes } from "./routes";
 import Admin from "./Layout/Admin.jsx";
 import Layout from "./Layout/Layout.jsx";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -11,6 +11,7 @@ import * as UserService from "./services/UserService.js";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "./redux/slides/userSlide.js";
 import Loading from "./components/Loading/Loading.jsx";
+import Staff from "./Layout/Staff.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -78,7 +79,21 @@ function App() {
               );
             })}
           </Route>
-
+          {/* Route dành cho staff */}
+          <Route path="/staff" element={<Staff />}>
+            {staffRoutes.map((route) => {
+              const Page = route.page;
+              const ischeckAuth = !route.isPrivate || user.role === "staff";
+              if (!ischeckAuth) return null; // Bỏ qua routes không hợp
+              return (
+                <Route
+                  key={route.path}
+                  path={ischeckAuth && route.path} // Loại bỏ tiền tố /staff
+                  element={<Page />}
+                />
+              );
+            })}
+          </Route>
           {/* Route dành cho client */}
           <Route path="/" element={<Layout />}>
             {routes.map((route) => {

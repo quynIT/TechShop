@@ -48,14 +48,17 @@ const Header = () => {
 
   const content = (
     <div>
-      <WrapperContentPopup onClick={handleLogout}>
-        Log out
-      </WrapperContentPopup>
+      <WrapperContentPopup onClick={handleLogout}>Log out</WrapperContentPopup>
       <WrapperContentPopup onClick={() => navigate("/profile-user")}>
         Profile
       </WrapperContentPopup>
       {user.role === "admin" && (
         <WrapperContentPopup onClick={() => navigate("/admin")}>
+          System management
+        </WrapperContentPopup>
+      )}
+      {user.role === "staff" && (
+        <WrapperContentPopup onClick={() => navigate("/staff")}>
           System management
         </WrapperContentPopup>
       )}

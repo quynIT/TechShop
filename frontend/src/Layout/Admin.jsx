@@ -36,7 +36,7 @@ const Admin = () => {
           </div>
         </div>
       </div> */}
-      <div className="grid grid-cols-[auto_1fr]  min-h-screen">
+      <div className=" grid grid-cols-[auto_1fr]  min-h-screen">
         <div className="sticky top-0 h-screen ">
           <Sidebar isOpen={isSidebarOpen} />
           <div
@@ -46,12 +46,12 @@ const Admin = () => {
           ></div>
         </div>
 
-        <div className="grid grid-row-[auto_1fr_auto] min-h-screen">
-          <div className="sticky top-0 z-10">
+        <div className=" grid grid-row-[auto_1fr_auto] min-h-screen">
+          <div className="sticky  top-0 z-10">
             <AdminHeader />
           </div>
 
-          <div className="p-10 ">
+          <div className="p-10 relative w-full h-screen bg-gray-100 block">
             <Outlet />
           </div>
 

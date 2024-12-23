@@ -12,6 +12,14 @@ const Sidebar = () => {
         className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${isOpen ? "block" : "hidden"
           }`}
       >
+
+        <div className="flex justify-center p-11 border-b-2 border-leave">
+          <button className="text-5xl text-white font-semibold ">
+            {" "}
+            TechShop
+          </button>
+
+
         <div className="flex justify-center p-11">
           <Link to="/">
             <button className="text-5xl text-white font-semibold">
@@ -19,11 +27,12 @@ const Sidebar = () => {
               TechShop
             </button>
           </Link>
+
           {/* <button className="text-2xl font-bold"
             onClick={toggle}
           >Nhan</button> */}
         </div>
-        <nav className="flex  min-w-[300px] flex-col gap-1  font-sans text-base font-normal text-blue-gray-600">
+        <nav className="flex p-6 min-w-[300px] flex-col gap-1 font-sans text-base font-normal text-blue-gray-600">
           <Link to="/admin">
             <button
               role="button"

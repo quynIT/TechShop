@@ -76,6 +76,54 @@ export const routes = [
 ];
 
 export const adminRoutes = [
+
+  {
+      path: '/',
+      page: Homepage
+  },
+  {
+      path: '/sign-in',
+      page: SignIn
+  },
+  {
+      path: '/sign-up',
+      page: SignUp
+  },
+
+  {
+    path: "/admin",
+    page: Dashboard,
+  },
+  {
+    path: "/admin/settings",
+    page: Settings,
+  },
+  {
+    path: "/admin/tables",
+    page: Tables,
+  },
+  {
+    path: "/admin/CustomerUpdate",
+    page: CustomerUpdate,
+  },
+  {
+    path: "/admin/CustomerList",
+    page: CustomerList,
+  },
+  {
+    path: "/admin/ProductList",
+    page: ProductList,
+  },
+  {
+    path: "/admin/ProductCreate",
+    page: ProductCreate,
+  },
+  {
+    path: "/admin/ProductUpdate",
+    page: ProductUpdate,
+  },
+];
+=======
   // {
   //     path: '/',
   //     page: Homepage
@@ -121,3 +169,4 @@ export const adminRoutes = [
     page: ProductUpdate,
   },
 ];
+

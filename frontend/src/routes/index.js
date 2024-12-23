@@ -20,6 +20,7 @@ import ProfilePage from "../components/Profile/ProfilePage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import Staffpage from "../pages/staff/Staffpage.jsx";
 import DetailOrder from "../pages/staff/DetailOrder.jsx";
+import CustomerCreate from "../pages/admin/Customers/CustomerCreate.jsx";
 
 export const routes = [
   {
@@ -106,6 +107,10 @@ export const adminRoutes = [
   {
     path: "CustomerUpdate",
     page: CustomerUpdate,
+  },
+  {
+    path: "CustomerCreate",
+    page: CustomerCreate,
   },
   {
     path: "CustomerList",

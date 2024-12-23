@@ -49,14 +49,14 @@ const Header = () => {
   const content = (
     <div>
       <WrapperContentPopup onClick={handleLogout}>
-        Đăng xuất
+        Log out
       </WrapperContentPopup>
       <WrapperContentPopup onClick={() => navigate("/profile-user")}>
-        Thông tin người dùng
+        Profile
       </WrapperContentPopup>
       {user.role === "admin" && (
         <WrapperContentPopup onClick={() => navigate("/admin")}>
-          Quản lý hệ thống
+          System management
         </WrapperContentPopup>
       )}
     </div>
@@ -81,8 +81,8 @@ const Header = () => {
           <ButtonInputSearch
             size="large"
             bordered={false}
-            textbutton="Tìm kiếm"
-            placeholder="Tìm kiếm sản phẩm..."
+            textbutton="Search"
+            placeholder="Search for products..."
             backgroundColorButton="rgb(67 135 219)"
           />
         </Col>
@@ -134,10 +134,10 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                 >
                   <WrapperTextHeaderSmall>
-                    Đăng nhập/Đăng ký
+                    Sign in/ Sign out
                   </WrapperTextHeaderSmall>
                   <div>
-                    <WrapperTextHeaderSmall>Tài khoản</WrapperTextHeaderSmall>
+                    <WrapperTextHeaderSmall>Account</WrapperTextHeaderSmall>
                     <CaretDownOutlined />
                   </div>
                 </div>
@@ -147,7 +147,7 @@ const Header = () => {
           <div>
             <ShoppingCartOutlined style={{ fontSize: "30px", color: "#fff" }} />
 
-            <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>
+            <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
           </div>
         </Col>
       </WrapperHeader>

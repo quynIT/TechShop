@@ -80,7 +80,7 @@ const ProfilePage = () => {
 
     return (
         <div style={{ width: '1270px', margin: '0 auto', height: '500px' }}>
-            <WrapperHeader>Thông tin người dùng</WrapperHeader>
+            <WrapperHeader>User information</WrapperHeader>
             <Loading isPending={isPending}>
                 <WrapperContentProfile>
                     <WrapperInput>
@@ -158,7 +158,7 @@ const ProfilePage = () => {
                             type="button"
                             onClick={handleUpdate}
                         >
-                            Cập nhật
+                            Update
                         </button>
                     </WrapperInput>
                 </WrapperContentProfile>

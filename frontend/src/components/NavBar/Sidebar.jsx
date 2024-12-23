@@ -9,16 +9,16 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${
-          isOpen ? "block" : "hidden"
-        }`}
+        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${isOpen ? "block" : "hidden"
+          }`}
       >
         <div className="flex justify-center p-11">
-          <button className="text-5xl text-white font-semibold">
-            {" "}
-            TechShop
-          </button>
-
+          <Link to="/">
+            <button className="text-5xl text-white font-semibold">
+              {" "}
+              TechShop
+            </button>
+          </Link>
           {/* <button className="text-2xl font-bold"
             onClick={toggle}
           >Nhan</button> */}
@@ -165,7 +165,7 @@ const Sidebar = () => {
           </Link>
         </nav>
       </div>
-   
+
     </>
   );
 };

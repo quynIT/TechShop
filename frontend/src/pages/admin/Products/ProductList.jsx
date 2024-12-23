@@ -77,7 +77,7 @@ const ProductList = () => {
               </button>
             </div>
           </div>
-{/* Add product */}
+          {/* Add product */}
           <Link to="/admin/ProductCreate">
             <button
               class="flex mx-10 select-none items-center justify-end gap-3 rounded-lg bg-yellow-500 py-2 px-4 text-center  font-sans text-xl font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"

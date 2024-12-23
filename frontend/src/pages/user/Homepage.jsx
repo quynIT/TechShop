@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import * as ProductService from '../../services/ProductService'
 
 const Homepage = () => {
-  const arr = ["TV", "Tủ Lạnh", "Laptop", "Điện Thoại"];
+  const arr = ["TV", "Fridge", "Laptop", "Phone"];
   const fetchProductAll = async () => {
     const res = await ProductService.getAllProduct()
     console.log('res', res)

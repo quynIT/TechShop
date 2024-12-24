@@ -11,7 +11,6 @@ import * as UserService from "./services/UserService.js";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "./redux/slides/userSlide.js";
 import Loading from "./components/Loading/Loading.jsx";
-import Staff from "./Layout/Staff.jsx";
 
 function App() {
   const dispatch = useDispatch();

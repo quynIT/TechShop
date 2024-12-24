@@ -1,61 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEye, FaEdit, FaTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Staffpage() {
-  // State to control modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [invoiceData, setInvoiceData] = useState({
-    orderItems: [
-      {
-        name: "Mouse",
-        amount: 3,
-        image: "",
-        price: 50,
-        discount: 0,
-        product: "6764f285f4df6249df7a47b0",
-      },
-    ],
-    shippingAddress: {
-      fullName: "John Doe",
-      address: "123 Main St",
-      city: "New York",
-      state: "NY",
-      postalCode: "10001",
-      country: "USA",
-      phone: 1234567890,
-    },
-    paymentMethod: "Credit Card",
-    city: "helooooo",
-    itemsPrice: 1700,
-    shippingPrice: 50,
-    taxPrice: 150,
-    totalPrice: 190000000000000,
-    user: "67679bcef2dbc4b312a7b21b",
-    isPaid: "pending",
-    paidAt: "",
-    isDelivered: false,
-    fullName: "John Doe",
-    address: "123 Main St",
-    deliveredAt: null,
-    phone: 1234567890,
-    email: "trungquyen29022003@gmail.com",
-  });
+  const [invoices, setInvoices] = useState([]);
+  const navigate = useNavigate(); // Hook để điều hướng
 
-  // Handle modal open/close
-  const handleEditClick = () => {
-    setIsModalOpen(true);
-  };
+  // Fetch orders from API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/order/get-all-order"
+        );
+        const result = await response.json();
+        if (result.status === "OK") {
+          setInvoices(result.data); // Cập nhật trạng thái với `data`
+        } else {
+          console.error("API error:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+    fetchOrders();
+  }, []);
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setInvoiceData({
-      ...invoiceData,
-      [name]: value,
-    });
+  // Handle delete order
+  const handleDelete = async (orderId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/order/cancel-order/${orderId}`,
+        {
+          method: "DELETE", // Assuming DELETE method for canceling order
+        }
+      );
+      const result = await response.json();
+      if (result.status === "OK") {
+        // If delete was successful, remove order from state
+        setInvoices((prevInvoices) =>
+          prevInvoices.filter((invoice) => invoice._id !== orderId)
+        );
+        alert("Order canceled successfully!");
+      } else {
+        console.error("Failed to delete order:", result.message);
+      }
+    } catch (error) {
+      console.error("Error deleting order:", error);
+    }
   };
 
   return (
@@ -99,108 +91,58 @@ export default function Staffpage() {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td className="p-4 border-b border-slate-200 py-5">
-                  <img
-                    src="https://demos.creative-tim.com/corporate-ui-dashboard-pro/assets/img/michael-oxendine-GHCVUtBECuY-unsplash.jpg"
-                    alt="Product 3"
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                </td>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              {invoices.map((invoice) => (
+                <tr
+                  key={invoice._id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  John Doe
-                </th>
-                <td className="px-6 py-4">123-456-7890</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">
-                  <span className="px-4 py-2 text-white bg-green-500 rounded-full">
-                    Processing
-                  </span>
-                </td>
-                <td className="px-6 py-4 flex space-x-3">
-                  <button className="text-blue-500 hover:text-blue-700">
-                    <FaEye className="w-6 h-6" />
-                  </button>
-                  <button
-                    onClick={handleEditClick}
-                    className="text-yellow-500 hover:text-yellow-700"
-                  >
-                    <FaEdit className="w-6 h-6" />
-                  </button>
-                  <button className="text-red-500 hover:text-red-700">
-                    <FaTrashAlt className="w-6 h-6" />
-                  </button>
-                </td>
-              </tr>
+                  <td className="px-6 py-4 text-2xl font-bold">
+                    {invoice.shippingAddress.fullName}
+                  </td>
+                  <td className="px-6 py-4 text-2xl font-bold">
+                    {invoice.shippingAddress.phone}
+                  </td>
+                  <td className="px-6 py-4 text-2xl font-bold">
+                    {new Date(invoice.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 text-2xl font-bold">
+                    ${invoice.totalPrice}
+                  </td>
+                  <td className="px-6 py-4 text-2xl font-bold">
+                    <span
+                      className={`px-4 py-2 text-2xl font-bold text-white rounded-full ${
+                        invoice.isDelivered ? "bg-green-500" : "bg-yellow-500"
+                      }`}
+                    >
+                      {invoice.isDelivered ? "Delivered" : "Pending"}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 flex space-x-3">
+                    <button
+                      onClick={() => navigate(`/staff/view/${invoice._id}`)}
+                      className="text-blue-500 hover:text-blue-700"
+                    >
+                      <FaEye className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => navigate(`/staff/edit/${invoice._id}`)}
+                      className="text-yellow-500 hover:text-yellow-700"
+                    >
+                      <FaEdit className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(invoice._id)} // Gọi hàm handleDelete khi nhấn thùng rác
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <FaTrashAlt className="w-6 h-6" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-
-      {/* Modal for editing invoice */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-1/2">
-            <h2 className="text-2xl font-bold mb-4">Edit Invoice</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Customer Name
-                </label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={invoiceData.fullName}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Address
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  value={invoiceData.address}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Phone
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={invoiceData.phone}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="flex justify-end gap-4">
-                <button
-                  type="button"
-                  onClick={handleModalClose}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-md"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -25,6 +25,7 @@ import OrderList from "../pages/admin/Orders/OrderList.jsx";
 import CreateOrder from "../pages/admin/Orders/CreateOrder.jsx";
 import OrderUpdate from "../pages/admin/Orders/OrderUpdate.jsx";
 import OrderHistory from "../pages/admin/Orders/OrderHistory.jsx";
+import UpdateOrder from "../pages/staff/UpdateOrder.jsx";
 
 export const routes = [
   {
@@ -157,5 +158,9 @@ export const staffRoutes = [
   {
     path: "view/:id",
     page: DetailOrder,
+  },
+  {
+    path: "edit/:id",
+    page: UpdateOrder,
   },
 ];

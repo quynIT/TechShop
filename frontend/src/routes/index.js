@@ -15,7 +15,7 @@ import CustomerUpdate from "../pages/admin/Customers/CustomerUpdate.jsx";
 import CustomerList from "../pages/admin/Customers/CustomerList.jsx";
 import ProductList from "../pages/admin/Products/ProductList.jsx";
 import ProductCreate from "../pages/admin/Products/ProductCreate.jsx";
-import ProductUpdate from "../pages/admin/Products/ProdctUpdate.jsx";
+import ProductUpdate from "../pages/admin/Products/ProductUpdate.jsx";
 import ProfilePage from "../components/Profile/ProfilePage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 
@@ -118,7 +118,7 @@ export const adminRoutes = [
     page: ProductCreate,
   },
   {
-    path: "ProductUpdate",
+    path: "ProductUpdate/:id",
     page: ProductUpdate,
   },
 ];

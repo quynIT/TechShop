@@ -33,8 +33,6 @@ const orderSchema = new mongoose.Schema(
       default: "pending",
     },
     paidAt: { type: Date },
-    isDelivered: { type: Boolean, default: false },
-    deliveredAt: { type: Date },
   },
   {
     timestamps: true,

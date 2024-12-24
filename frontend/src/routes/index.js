@@ -155,7 +155,7 @@ export const staffRoutes = [
     page: Staffpage,
   },
   {
-    path: "view",
+    path: "view/:id",
     page: DetailOrder,
   },
 ];

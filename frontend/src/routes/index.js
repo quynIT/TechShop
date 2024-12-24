@@ -20,7 +20,6 @@ import ProfilePage from "../components/Profile/ProfilePage.jsx";
 import AdminPage from "../pages/admin/AdminPage.jsx";
 import Staffpage from "../pages/staff/Staffpage.jsx";
 import DetailOrder from "../pages/staff/DetailOrder.jsx";
-import UpdateOrder from "../pages/staff/UpdateOrder.jsx";
 
 export const routes = [
   {
@@ -133,9 +132,5 @@ export const staffRoutes = [
   {
     path: "view/:id",
     page: DetailOrder,
-  },
-  {
-    path: "edit/:id",
-    page: UpdateOrder,
   },
 ];

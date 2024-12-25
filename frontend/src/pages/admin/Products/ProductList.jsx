@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 const ProductList = () => {
   return (
-    <div className="p-10 absolute top-0 left-0 w-full ">
-      <div className="p-10 bg-white">
+    <div className="p-10 absolute top-0 left-0 w-full">
+      <div className="p-10 bg-white shadow-md">
         <div class=" relative overflow-hidden text-gray-700 pb-6 bg-clip-border">
           <div class="flex items-center justify-between gap-8 mb-8">
             <div>

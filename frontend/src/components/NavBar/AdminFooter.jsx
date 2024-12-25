@@ -3,7 +3,7 @@ import React from "react";
 const AdminFooter = () => {
   return (
     <>
-      <footer class="bg-white shadow w-full dark:bg-gray-800">
+      <footer class=" shadow w-full dark:bg-gray-800">
         <hr></hr>
         <div class="w-full mx-auto max-w-screen-xl p-6 md:flex md:items-center md:justify-between">
           <span class="text-2xl text-gray-700 text-start dark:text-gray-400">

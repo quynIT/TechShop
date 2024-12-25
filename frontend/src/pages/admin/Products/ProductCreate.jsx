@@ -87,7 +87,7 @@ const ProductCreate = () => {
 
   return (
     <Loading isPending={isPending}>
-      <div className="absolute top-0 w-full h-full left-0 p-10  grid grid-cols-3 gap-10">
+      <div className="absolute top-0 w-full h-full left-0 grid grid-cols-3 gap-10">
         <div className=" col-span-2">
           <div className="bg-white p-10">
             <h4 class="block text-4xl font-medium mb-5 text-slate-800">
@@ -216,7 +216,7 @@ const ProductCreate = () => {
             </div>
           </div>
           {/* button */}
-          <div className="flex justify-between items-center mt-10 bg-white p-10">
+          <div className="flex justify-between items-cente bg-white p-10">
             <button
               type="button"
               className="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white shadow-lg shadow-green-500/50 font-medium rounded-lg text-3xl px-5 py-5"
@@ -326,13 +326,15 @@ const ProductCreate = () => {
                 name="type"
               />
             </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                class="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white  shadow-lg shadow-green-500/50  font-medium rounded-lg text-3xl px-5 py-5 text-center mt-10 ml-[310px]"
+              >
+                Add Category
+              </button>
+            </div>
 
-            <button
-              type="button"
-              class="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white  shadow-lg shadow-green-500/50  font-medium rounded-lg text-3xl px-5 py-5 text-center mt-10 ml-[310px]"
-            >
-              Add Category
-            </button>
             {/* 
             <button
               type="button"

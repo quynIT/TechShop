@@ -134,7 +134,7 @@ const OrderList = () => {
                     OrderID
                   </p>
                 </th>
-                <th class="w-2/12 px-2 py-3 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                <th class="w-1/10 px-2 py-3 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                   <p class="flex items-center justify-between gap-2 font-sans text-3xl antialiased font-bold leading-none text-blue-gray-900 opacity-70">
                     Customer
                   </p>
@@ -144,7 +144,7 @@ const OrderList = () => {
                     Address
                   </p>
                 </th>
-                <th class="w-1/10 px-6 py-3 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                <th class="w-2/12 px-6 py-3 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                   <p class="flex items-center justify-between gap-2 font-sans text-3xl antialiased font-bold leading-none text-blue-gray-900 opacity-70">
                     Item
                   </p>
@@ -182,7 +182,7 @@ const OrderList = () => {
             {/* table body */}
             <tbody>
               <tr className="hover:bg-gray-50 ">
-                <td class="p-4 py-7border-b border-blue-gray-50 whitespace-nowrap text-ellipsis overflow-hidden">
+                <td class="p-4 py-7 border-b border-blue-gray-50 whitespace-nowrap text-ellipsis overflow-hidden">
                   <div class="flex items-center gap-10">
                     <div class="flex flex-col">
                       <p class="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">

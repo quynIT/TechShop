@@ -87,7 +87,7 @@ const ProductCreate = () => {
 
   return (
     <Loading isPending={isPending}>
-      <div className="absolute top-0 w-full h-full left-0 grid grid-cols-3 gap-10">
+      <div className="w-full h-full left-0 grid grid-cols-3 gap-10">
         <div className=" col-span-2">
           <div className="bg-white p-10">
             <h4 class="block text-4xl font-medium mb-5 text-slate-800">

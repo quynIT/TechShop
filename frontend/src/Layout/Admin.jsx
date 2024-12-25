@@ -50,11 +50,11 @@ const Admin = () => {
           </div>
 
           {/* Main Content */}
-          <div className="relative w-full p-10 bg-gray-100 overflow-auto">
-            <div className=" min-h-[calc(100vh-6rem)]">
+          <div className="relative w-full p-10 bg-gray-100 overflow-auto  min-h-[calc(100vh-6rem)]">
+           
               {/* Nội dung chính */}
               <Outlet />
-            </div>
+           
           </div>
 
           {/* Footer */}

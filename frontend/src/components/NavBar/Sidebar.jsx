@@ -91,7 +91,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Orders
+              Invoices
             </div>
           </Link>
           <Link to="/admin/CustomerList">

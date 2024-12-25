@@ -9,7 +9,7 @@ const genneralAccessToken = async (payload) => {
       //access_token là key bí mật, expiresIn là thời gian hết hạn
     },
     process.env.ACCESS_TOKEN,
-    { expiresIn: "5s" }
+    { expiresIn: "1800s" }
   );
 
   return access_token;

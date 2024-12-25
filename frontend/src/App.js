@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { routes, adminRoutes, staffRoutes } from "./routes";
 import Admin from "./Layout/Admin.jsx";
 import Layout from "./Layout/Layout.jsx";
@@ -11,6 +11,8 @@ import * as UserService from "./services/UserService.js";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "./redux/slides/userSlide.js";
 import Loading from "./components/Loading/Loading.jsx";
+import SignIn from "./pages/auth/Sign_in.jsx";
+import SignUp from "./pages/auth/Sign_up.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,39 +60,50 @@ function App() {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
-
+  const isAuthenticated = localStorage.getItem("access_token");
   return (
     <Loading isPending={isPending}>
       <BrowserRouter>
         <Routes>
+          {/* Login */}
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
           {/* Route dành cho admin */}
-          <Route path="/admin" element={<Admin />}>
+          <Route
+            path="/admin"
+            element={
+              user.role === "admin" ? (
+                <Admin />
+              ) : (
+                <Navigate to="/unauthorized" />
+              )
+            } // Chặn user không phải admin
+          >
             {adminRoutes.map((route) => {
               const Page = route.page;
-              const ischeckAuth = !route.isPrivate || user.role === "admin";
-              if (!ischeckAuth) return null; // Bỏ qua routes không hợp
-              return (
-                <Route
-                  key={route.path}
-                  path={ischeckAuth && route.path} // Loại bỏ tiền tố /admin
-                  element={<Page />}
-                />
-              );
+              const ischeckAuth = !route.isPrivate && user.role === "admin";
+              return ischeckAuth ? (
+                <Route key={route.path} path={route.path} element={<Page />} />
+              ) : null;
             })}
           </Route>
           {/* Route dành cho staff */}
-          <Route path="/staff" element={<Layout />}>
+          <Route
+            path="/staff"
+            element={
+              user.role === "staff" ? (
+                <Layout />
+              ) : (
+                <Navigate to="/unauthorized" />
+              )
+            } // Chặn user không phải staff
+          >
             {staffRoutes.map((route) => {
               const Page = route.page;
-              const ischeckAuth = !route.isPrivate || user.role === "staff";
-              if (!ischeckAuth) return null; // Bỏ qua routes không hợp
-              return (
-                <Route
-                  key={route.path}
-                  path={ischeckAuth && route.path} // Loại bỏ tiền tố /staff
-                  element={<Page />}
-                />
-              );
+              const ischeckAuth = !route.isPrivate && user.role === "staff"; // Điều kiện chỉ cho phép staff truy cập
+              return ischeckAuth ? (
+                <Route key={route.path} path={route.path} element={<Page />} />
+              ) : null;
             })}
           </Route>
           {/* Route dành cho client */}

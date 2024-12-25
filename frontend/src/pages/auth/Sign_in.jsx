@@ -1,66 +1,64 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as UserService from '../../services/UserService'
+import * as UserService from "../../services/UserService";
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import Loading from "../../components/Loading/Loading";
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slides/userSlide";
 
 const SignIn = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const mutation = useMutationHooks(
-    data => UserService.loginUser(data)
-  )
+  const mutation = useMutationHooks((data) => UserService.loginUser(data));
 
-  const { data, isPending, isSuccess } = mutation
+  const { data, isPending, isSuccess } = mutation;
 
   useEffect(() => {
-    if(isSuccess){
-      navigate('/')
+    if (isSuccess) {
+      navigate("/");
       //Lưu access token vào storage
-      localStorage.setItem('access_token', JSON.stringify(data?.access_token))
-      if(data?.access_token){
-        const decoded = jwtDecode(data?.access_token)
-        if(decoded?.id){
-          handleGetDetailsUser(decoded?.id, data?.access_token)
+      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
+      if (data?.access_token) {
+        const decoded = jwtDecode(data?.access_token);
+        if (decoded?.id) {
+          handleGetDetailsUser(decoded?.id, data?.access_token);
         }
       }
     }
-  }, [isSuccess])
+  }, [isSuccess]);
 
   const handleGetDetailsUser = async (id, token) => {
-    const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser({ ...res?.data, access_token: token }))
-  }
-  
-  console.log('mutation', mutation)
+    const res = await UserService.getDetailsUser(id, token);
+    dispatch(updateUser({ ...res?.data, access_token: token }));
+  };
+
+  console.log("mutation", mutation);
 
   const handleOnchangeEmail = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   const handleOnchangePassword = (e) => {
-    setPassword(e.target.value)
-  }
+    setPassword(e.target.value);
+  };
 
   const handleNavigateSignUp = () => {
-    navigate('/sign-up')
-  }
+    navigate("/sign-up");
+  };
 
   const handleSignIn = () => {
     mutation.mutate({
       email,
-      password
-    })
+      password,
+    });
 
-    console.log('sign-in', email, password)
-  }
+    console.log("sign-in", email, password);
+  };
   return (
     <div className="h-screen  flex justify-center items-center">
       <div class="w-fit h-fit shadow-all rounded-sm border-5 border-gray-700">
@@ -94,7 +92,8 @@ const SignIn = () => {
               id="signin_email"
               class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
               placeholder="Type here..."
-              value={email} onChange={handleOnchangeEmail}
+              value={email}
+              onChange={handleOnchangeEmail}
             />
           </div>
 
@@ -107,7 +106,8 @@ const SignIn = () => {
               type="password"
               class="w-full px-4 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
               placeholder="Type here..."
-              value={password} onChange={handleOnchangePassword}
+              value={password}
+              onChange={handleOnchangePassword}
             />
           </div>
 
@@ -146,7 +146,9 @@ const SignIn = () => {
             </label>
           </div>
           {/* Thông báo lỗi */}
-          {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+          {data?.status === "ERR" && (
+            <span style={{ color: "red" }}>{data?.message}</span>
+          )}
           <Loading isPending={isPending}>
             <div className="flex justify-center items-center py-4">
               <button

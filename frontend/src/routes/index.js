@@ -26,19 +26,12 @@ import CreateOrder from "../pages/admin/Orders/CreateOrder.jsx";
 import OrderUpdate from "../pages/admin/Orders/OrderUpdate.jsx";
 import OrderHistory from "../pages/admin/Orders/OrderHistory.jsx";
 import UpdateOrder from "../pages/staff/UpdateOrder.jsx";
+import NoPage from "../pages/NoPage.jsx";
 
 export const routes = [
   {
     path: "/",
     page: Homepage,
-  },
-  {
-    path: "/sign-in",
-    page: SignIn,
-  },
-  {
-    path: "/sign-up",
-    page: SignUp,
   },
   {
     path: "/detail",
@@ -80,6 +73,10 @@ export const routes = [
   {
     path: "/admin/tables",
     page: Tables,
+  },
+  {
+    path: "*",
+    page: NoPage,
   },
 ];
 

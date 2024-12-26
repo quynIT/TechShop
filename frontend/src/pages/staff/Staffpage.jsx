@@ -111,10 +111,18 @@ export default function Staffpage() {
                   <td className="px-6 py-4 text-2xl font-bold">
                     <span
                       className={`px-4 py-2 text-2xl font-bold text-white rounded-full ${
-                        invoice.isDelivered ? "bg-green-500" : "bg-yellow-500"
+                        invoice.isPaid === "paid"
+                          ? "bg-emerald-500"
+                          : invoice.isPaid === "pending"
+                          ? "bg-yellow-500"
+                          : "bg-red-500"
                       }`}
                     >
-                      {invoice.isDelivered ? "Delivered" : "Pending"}
+                      {invoice.isPaid === "paid"
+                        ? "Paid"
+                        : invoice.isPaid === "pending"
+                        ? "Pending"
+                        : "Cancel"}
                     </span>
                   </td>
                   <td className="px-6 py-4 flex space-x-3">

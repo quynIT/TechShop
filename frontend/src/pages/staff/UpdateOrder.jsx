@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -65,12 +66,15 @@ export default function UpdateOrder() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex flex-wrap mt-6">
+    <div className="ml-5 flex flex-wrap mt-6">
       <div className="w-full lg:w-8/12 px-4">
         <div className="h-full w-full shadow-lg rounded-lg bg-blueGray-100">
           <div className="rounded-t bg-white px-6 py-6">
-            <div className="text-center flex justify-between">
-              <h6 className="text-blueGray-700 text-3xl font-bold">
+            <div className="text-center flex">
+              <Button className="bg-emerald-500" href="/staff/list">
+                Back
+              </Button>
+              <h6 className="text-blueGray-700 text-5xl font-bold ml-[36%]">
                 Update Order
               </h6>
             </div>
@@ -163,6 +167,27 @@ export default function UpdateOrder() {
                       value={new Date(order.createdAt).toLocaleDateString()}
                       className="border-0 px-5 py-5 bg-white text-black text-xl rounded shadow focus:outline-none w-full"
                     />
+                  </div>
+                </div>
+                <div className="w-full lg:w-6/12 px-4">
+                  <div className="relative w-full mb-3">
+                    <label className="block uppercase text-black text-xl font-semibold mb-2">
+                      Payment Status
+                    </label>
+                    <select
+                      value={order.isPaid}
+                      onChange={(e) =>
+                        setOrder({
+                          ...order,
+                          isPaid: e.target.value,
+                        })
+                      }
+                      className="border-0 px-5 py-5 bg-white text-black text-xl rounded shadow focus:outline-none w-full"
+                    >
+                      <option value="pending">pending</option>
+                      <option value="paid">paid</option>
+                      <option value="cancel">cancel</option>
+                    </select>
                   </div>
                 </div>
               </div>

@@ -24,7 +24,7 @@ const Sidebar = () => {
           >Nhan</button> */}
         </div>
         <nav className="flex  min-w-[300px] flex-col gap-1  font-sans text-base font-normal text-blue-gray-600">
-          <Link to="/admin">
+          <Link to="/admin/Dashboard">
             <button
               role="button"
               className="flex items-center text-3xl w-full px-20 py-8 leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"

@@ -100,7 +100,7 @@ export const adminRoutes = [
   // },
 
   {
-    path: "admin",
+    path: "dashboard",
     page: Dashboard,
   },
   {

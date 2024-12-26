@@ -27,6 +27,7 @@ import OrderUpdate from "../pages/admin/Orders/OrderUpdate.jsx";
 import OrderHistory from "../pages/admin/Orders/OrderHistory.jsx";
 import UpdateOrder from "../pages/staff/UpdateOrder.jsx";
 import NoPage from "../pages/NoPage.jsx";
+import InvoiceList from "../pages/user/InvoiceList .jsx";
 
 export const routes = [
   {
@@ -73,6 +74,10 @@ export const routes = [
   {
     path: "/admin/tables",
     page: Tables,
+  },
+  {
+    path: "/order-history",
+    page: InvoiceList,
   },
   {
     path: "*",

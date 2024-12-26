@@ -132,7 +132,7 @@ export const adminRoutes = [
     page: ProductCreate,
   },
   {
-    path: "ProductUpdate",
+    path: "ProductUpdate/:id",
     page: ProductUpdate,
   },
   {

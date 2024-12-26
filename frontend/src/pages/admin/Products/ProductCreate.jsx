@@ -110,7 +110,7 @@ const ProductCreate = () => {
                 />
               </div>
 
-              <div class="w-full">
+              {/* <div class="w-full">
                 <label class="block mb-5 font-semibold text-3xl text-slate-600">
                   Product Brand
                 </label>
@@ -121,7 +121,7 @@ const ProductCreate = () => {
                   onChange={handleOnChange}
                   name="name"
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="my-10">

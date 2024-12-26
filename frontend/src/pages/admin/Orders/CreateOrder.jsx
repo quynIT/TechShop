@@ -1,7 +1,11 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const CreateOrder = () => {
+  const [SelectedDate, setSelectedDate] = useState(null); // Lưu giá trị ngày được chọn
+  const [isDatepickerOpen, setDatepickerOpen] = useState(false); //toggle mở đóng lịch
+
   return (
     <div className="relative top-0 w-full h-full left-0  shadow-sm  grid grid-cols-2 gap-10">
       <div className="shadow-xl">
@@ -71,13 +75,19 @@ const CreateOrder = () => {
                 </label>
                 <div className="relative">
                   <input
-                    datepicker
                     id="default-datepicker"
                     type="text"
+                    value={
+                      SelectedDate ? SelectedDate.toLocaleDateString() : ""
+                    }
                     class="border border-slate-300 text-slate-600  text-3xl rounded-lg  focus:border-cyan focus:outline-none block w-full pe-16 p-5 "
                     placeholder="Select date"
+                    onClick={() => setDatepickerOpen(true)}
                   />
-                  <div class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none">
+                  <div
+                    class="absolute inset-y-0 end-0 flex items-center pe-3.5 pointer-events-none"
+                    onClick={() => setDatepickerOpen(true)}
+                  >
                     <svg
                       class="w-10 h-10 text-green "
                       aria-hidden="true"
@@ -97,7 +107,6 @@ const CreateOrder = () => {
                 </label>
                 <div className="relative">
                   <input
-                    datepicker
                     id="default-datepicker"
                     type="text"
                     class="border border-slate-300 text-slate-600  text-3xl rounded-lg  focus:border-cyan focus:outline-none block w-full pe-16 p-5 "
@@ -117,6 +126,23 @@ const CreateOrder = () => {
                 </div>
               </div>
             </div>
+
+            {isDatepickerOpen == true && (
+              <DatePicker
+                selected={SelectedDate}
+                onChange={(date) => {
+                  setSelectedDate(date);
+                  setDatepickerOpen(false);
+                }}
+                onClickOutSide={() => setDatepickerOpen(false)}
+                inline
+                calendarClassName="bg-white border border-gray-300 rounded-lg shadow-lg p-4 text-gray-700"
+                dayClassName={(date) =>
+                  "p-2 rounded-full text-xl hover:bg-cyan-100 hover:text-cyan-600"
+                }
+                monthClassName="text-xl font-semibold text-cyan-600"
+              />
+            )}
 
             {/* <div className="my-10">
               <label

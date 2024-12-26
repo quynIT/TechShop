@@ -36,6 +36,7 @@ const Header = () => {
     await UserService.logoutUser();
     dispatch(resetUser());
     localStorage.removeItem("access_token");
+    localStorage.removeItem("user_id");
     setLoading(false);
   };
 

@@ -26,6 +26,7 @@ const SignIn = () => {
       if (data?.access_token) {
         const decoded = jwtDecode(data?.access_token);
         if (decoded?.id) {
+          localStorage.setItem("user_id", decoded.id);
           handleGetDetailsUser(decoded?.id, data?.access_token);
         }
       }

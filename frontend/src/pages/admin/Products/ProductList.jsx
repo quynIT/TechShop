@@ -6,14 +6,20 @@ import { useParams } from "react-router-dom";
 import { message } from "antd";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
 import { useSelector } from "react-redux";
-import Modal from '../../../components/ModalComponent/ModalComponent'; // Import the Modal component
+import Modal from '../../../components/ModalComponent/ModalComponent'; //Modal xóa sản phẩm
 
 const ProductList = () => {
-  // Get the product ID from the URL
+  //Lấy id sản phẩm từ đường dẫn
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const user = useSelector((state) => state?.user);
+  //Dùng cho việc sắp xếp tên sản phẩm
+  const [sortOrder, setSortOrder] = useState("asc");
+  //State cho từ khóa tìm kiếm
+  const [searchTerm, setSearchTerm] = useState("");
+  //State tạm thời cho từ khóa tìm kiếm
+  const [tempSearchTerm, setTempSearchTerm] = useState("");
 
   const mutationDelete = useMutationHooks(
     (data) => {
@@ -44,22 +50,46 @@ const ProductList = () => {
   useEffect(() => {
     if (isSuccessDeleted && dataDeleted?.status === 'OK') {
       message.success("Xóa sản phẩm thành công!");
-      refetch(); // Reload the product list after deletion
+      refetch(); //Refresh sản phẩm sau khi xóa
     } else if (isErrorDeleted) {
       message.error("Có lỗi xảy ra khi xóa sản phẩm!");
     }
-  }, [isSuccessDeleted, refetch]); // Ensure refetch is in dependencies
+  }, [isSuccessDeleted, refetch]);
 
-  // Function to handle delete confirmation
+  //Hàm xử lý xác nhận xóa
   const handleDeleteConfirm = async () => {
     mutationDelete.mutate({ id: productToDelete._id, token: user?.access_token });
-    setIsModalOpen(false); // Close the modal after confirming deletion
+    setIsModalOpen(false); //Đóng modal sau khi xác nhận xóa
   };
 
-  // Function to handle opening the modal with the product to delete
+  //Hàm xử lý việc mở modal với sản phẩm cần xóa
   const handleDeleteClick = (product) => {
     setProductToDelete(product);
     setIsModalOpen(true);
+  };
+
+  //Hàm sắp xếp tên sản phẩm
+  const sortedProducts = [...(products || [])].sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.name.localeCompare(b.name); // Sắp xếp tăng dần
+    } else {
+      return b.name.localeCompare(a.name); // Sắp xếp giảm dần
+    }
+  });
+
+  //Lọc sản phẩm theo tên dựa trên từ khóa tìm kiếm
+  const filteredProducts = sortedProducts.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) //Tìm kiếm không phân biệt hoa thường
+  );
+
+  // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
+  const handleSearchInputChange = (e) => {
+    setTempSearchTerm(e.target.value);
+  };
+
+  // Cập nhật searchTerm khi nhấn nút tìm kiếm
+  const handleSearchClick = () => {
+    setSearchTerm(tempSearchTerm); // Chỉ cập nhật searchTerm khi nhấn nút Search
   };
 
   return (
@@ -72,7 +102,7 @@ const ProductList = () => {
                 Product list
               </h5>
               <p class="block mt-1 font-sans antialiased font-normal leading-relaxed text-3xl text-gray-700">
-                See information about all members
+                See information about all products
               </p>
             </div>
           </div>
@@ -124,7 +154,9 @@ const ProductList = () => {
                       id="search_content"
                       type="text"
                       className="w-full pl-16 px-3 py-4 bg-transparent shadow-md shadow-green/30 placeholder:text-slate-700 text-slate-600 md:text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green focus:shadow"
-                      placeholder="Type here..."
+                      placeholder="Search for products..."
+                      value={tempSearchTerm} // Gắn giá trị từ tempSearchTerm
+                      onChange={handleSearchInputChange} // Cập nhật giá trị tạm thời khi người dùng nhập liệu
                     />
                   </div>
                 </div>
@@ -134,6 +166,7 @@ const ProductList = () => {
                 hover:border-green active:border-leave focus:border-cyan focus:text-white 
                 transition-all hober:border-green hover:shadow-lg hover:shadow-gray-900/20 focus:bg-green focus:shadow-leave active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   type="button"
+                  onClick={handleSearchClick} // Cập nhật searchTerm khi nhấn nút
                 >
                   Search
                 </button>
@@ -211,8 +244,16 @@ const ProductList = () => {
                   <th scope="col" class="px-6 py-3">
                     Product Image
                   </th>
-                  <th scope="col" class="px-6 py-3">
-                    Product Name
+                  <th scope="col" class="px-6 py-3 text-left">
+                    <div class="flex items-center space-x-2">
+                      <span class="font-semibold">Product Name</span>
+                      <button
+                        onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+                        className="text-sm text-blue-500 hover:underline px-2 py-1 border border-blue-500 rounded-md transition-colors hover:bg-blue-500 hover:text-white"
+                      >
+                        ({sortOrder === "asc" ? "Ascending" : "Descending"})
+                      </button>
+                    </div>
                   </th>
                   <th scope="col" class="px-6 py-3">
                     Description
@@ -229,7 +270,7 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <tr
                     key={product.id}
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">

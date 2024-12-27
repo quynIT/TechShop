@@ -112,7 +112,7 @@ export const adminRoutes = [
     page: Tables,
   },
   {
-    path: "CustomerUpdate",
+    path: "CustomerUpdate/:id",
     page: CustomerUpdate,
   },
   {

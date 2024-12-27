@@ -1,13 +1,13 @@
 import React from "react";
 
-const ModalComponent = ({ isOpen, onClose, onConfirm, productName }) => {
+const CustomerModalComponent = ({ isOpen, onClose, onConfirm, customerName }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 className="text-xl font-semibold mb-4">Are you sure?</h2>
-        <p>Do you want to delete the product <strong>{productName}</strong>?</p>
+        <p>Do you want to delete the customer <strong>{customerName}</strong>?</p>
         <div className="flex justify-between mt-4">
           <button
             onClick={onClose}
@@ -27,4 +27,4 @@ const ModalComponent = ({ isOpen, onClose, onConfirm, productName }) => {
   );
 };
 
-export default ModalComponent;
+export default CustomerModalComponent;

@@ -7,7 +7,7 @@ const createProduct = (newProduct) => {
             const checkProduct = await Product.findOne({
                 name: name
             })
-            //Kiểm tra tên sản phẩm đã tồn tại rồi
+            // Kiểm tra tên sản phẩm đã tồn tại rồi
             if(checkProduct !== null){
                 resolve({
                     status: 'OK',
@@ -43,7 +43,7 @@ const updateProduct = (id, data) => {
                 _id: id
             })
 
-            //Kiểm tra id sản phẩm không tồn tại
+            // Kiểm tra id sản phẩm không tồn tại
             if(checkProduct === null){
                 resolve({
                     status: 'OK',
@@ -70,7 +70,7 @@ const deleteProduct = (id) => {
                 _id: id
             })
 
-            //Kiểm tra sản phẩm không tồn tại
+            // Kiểm tra sản phẩm không tồn tại
             if(checkProduct === null){
                 resolve({
                     status: 'OK',
@@ -96,7 +96,7 @@ const getDetailsProduct = (id) => {
                 _id: id
             })
 
-            //Kiểm tra sản phẩm không tồn tại
+            // Kiểm tra sản phẩm không tồn tại
             if(product === null){
                 resolve({
                     status: 'OK',

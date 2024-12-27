@@ -2,23 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as ProductService from '../../../services/ProductService'
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import { message } from "antd";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
 import { useSelector } from "react-redux";
-import Modal from '../../../components/ModalComponent/ModalComponent'; //Modal xóa sản phẩm
+import Loading from "../../../components/Loading/Loading";
+import ProductModalComponent from "../../../components/ModalComponent/ProductModalComponent";
 
 const ProductList = () => {
-  //Lấy id sản phẩm từ đường dẫn
-  const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const user = useSelector((state) => state?.user);
-  //Dùng cho việc sắp xếp tên sản phẩm
+  // Dùng cho việc sắp xếp tên sản phẩm
   const [sortOrder, setSortOrder] = useState("asc");
-  //State cho từ khóa tìm kiếm
+  // State cho từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState("");
-  //State tạm thời cho từ khóa tìm kiếm
+  // State tạm thời cho từ khóa tìm kiếm
   const [tempSearchTerm, setTempSearchTerm] = useState("");
 
   const mutationDelete = useMutationHooks(
@@ -31,18 +29,12 @@ const ProductList = () => {
 
   const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
 
-  const { isLoading, data: products, error, refetch } = useQuery({
+  const { isPending: isPending, data: products, error, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      try {
-        const res = await ProductService.getAllProduct();
-        if (res?.data) {
-          return res.data;
-        }
-        throw new Error("No data received from server");
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        throw err;
+      const res = await ProductService.getAllProduct();
+      if (res?.data) {
+        return res.data;
       }
     },
   });
@@ -50,19 +42,19 @@ const ProductList = () => {
   useEffect(() => {
     if (isSuccessDeleted && dataDeleted?.status === 'OK') {
       message.success("Xóa sản phẩm thành công!");
-      refetch(); //Refresh sản phẩm sau khi xóa
+      refetch(); // Refresh sản phẩm sau khi xóa
     } else if (isErrorDeleted) {
       message.error("Có lỗi xảy ra khi xóa sản phẩm!");
     }
   }, [isSuccessDeleted, refetch]);
 
-  //Hàm xử lý xác nhận xóa
+  // Hàm xử lý xác nhận xóa
   const handleDeleteConfirm = async () => {
     mutationDelete.mutate({ id: productToDelete._id, token: user?.access_token });
-    setIsModalOpen(false); //Đóng modal sau khi xác nhận xóa
+    setIsModalOpen(false); // Đóng modal sau khi xác nhận xóa
   };
 
-  //Hàm xử lý việc mở modal với sản phẩm cần xóa
+  // Hàm xử lý việc mở modal với sản phẩm cần xóa
   const handleDeleteClick = (product) => {
     setProductToDelete(product);
     setIsModalOpen(true);
@@ -77,9 +69,9 @@ const ProductList = () => {
     }
   });
 
-  //Lọc sản phẩm theo tên dựa trên từ khóa tìm kiếm
+  // Lọc sản phẩm theo tên dựa trên từ khóa tìm kiếm
   const filteredProducts = sortedProducts.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) //Tìm kiếm không phân biệt hoa thường
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) // Tìm kiếm không phân biệt hoa thường
   );
 
   // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
@@ -218,14 +210,8 @@ const ProductList = () => {
             </Link>
           </div>
         </div>
-        <div class="relative overflow-x-auto shadow-md mt-10 border border-gray-200 sm:rounded-lg">
-          {isLoading ? (
-            <p className="text-center text-2xl">Loading...</p>
-          ) : error ? (
-            <p className="text-center text-2xl text-red-500">
-              Error loading products: {error.message}
-            </p>
-          ) : products?.length > 0 ? (
+        <Loading isPending={isPending}>
+          <div class="relative overflow-x-auto shadow-md mt-10 border border-gray-200 sm:rounded-lg">
             <table class="w-full text-3xl text-left rtl:text-right text-slate-600 dark:text-gray-400">
               <thead class=" text-slate-600 font-sans bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -323,33 +309,32 @@ const ProductList = () => {
                 ))}
               </tbody>
             </table>
-          ) : (
-            <p className="text-center text-2xl">No products found.</p>
-          )}
-          {/* Page split */}
-          <div class="flex items-center justify-end p-4 border-t border-blue-gray-50">
-            <div class="flex space-x-1">
-              <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                Prev
-              </button>
-              <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-white bg-slate-800 border border-slate-800 rounded hover:bg-slate-600 hover:border-slate-600 transition duration-200 ease">
-                1
-              </button>
-              <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                2
-              </button>
-              <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                3
-              </button>
-              <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                Next
-              </button>
+
+            {/* Page split */}
+            <div class="flex items-center justify-end p-4 border-t border-blue-gray-50">
+              <div class="flex space-x-1">
+                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                  Prev
+                </button>
+                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-white bg-slate-800 border border-slate-800 rounded hover:bg-slate-600 hover:border-slate-600 transition duration-200 ease">
+                  1
+                </button>
+                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                  2
+                </button>
+                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                  3
+                </button>
+                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
+                  Next
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Loading>
       </div>
       {/* Modal for Delete Confirmation */}
-      <Modal
+      <ProductModalComponent
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleDeleteConfirm}
@@ -358,4 +343,5 @@ const ProductList = () => {
     </div>
   );
 };
+
 export default ProductList;

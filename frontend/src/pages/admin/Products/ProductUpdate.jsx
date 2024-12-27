@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as ProductService from '../../../services/ProductService'
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getBase64 } from "../../../utils";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
 import { useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import Loading from "../../../components/Loading/Loading";
 import { message } from "antd";
 
 const ProductUpdate = () => {
-  // Get the product ID from the URL
+  // Lấy id sản phẩm từ đường dẫn
   const { id } = useParams();
   const user = useSelector((state) => state?.user)
 
@@ -40,6 +40,7 @@ const ProductUpdate = () => {
   useEffect(() => {
     if (isSuccessUpdated && dataUpdated?.status === 'OK') {
       message.success("Cập nhật sản phẩm thành công!")
+      fetchGetDetailsProduct(id)
     } else if (isErrorUpdated) {
       message.error()
     }
@@ -69,7 +70,7 @@ const ProductUpdate = () => {
     });
   };
 
-  // Fetch product details using the id
+  // Tìm nạp chi tiết sản phẩm bằng id
   const fetchGetDetailsProduct = async (id) => {
     const res = await ProductService.getDetailsProduct(id)
     if (res?.data) {
@@ -85,15 +86,14 @@ const ProductUpdate = () => {
     }
   };
 
-  // Use useEffect to fetch product details when the component is mounted or when id changes
+  // Sử dụng useEffect để tìm nạp chi tiết sản phẩm khi thành phần được gắn kết hoặc khi id thay đổi
   useEffect(() => {
     if (id) {
-      fetchGetDetailsProduct(id);  // Fetch the product details using the 'id'
+      fetchGetDetailsProduct(id);  // Tìm nạp chi tiết sản phẩm bằng 'id'
     }
-  }, [id]);  // Only re-run this effect if 'id' changes
+  }, [id]);  // Chạy lại khi id thay đổi
 
-  const onUpdateProduct = (event) => {
-    event.preventDefault(); // Ngăn reload trang
+  const onUpdateProduct = () => {
     const { name, price, description, rating, image, type, countInStock } = stateProductDetails;
 
     // Gửi dữ liệu cập nhật
@@ -129,7 +129,7 @@ const ProductUpdate = () => {
                 <input
                   class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                   placeholder={stateProductDetails.name}
-                  onChange={handleOnChangeDetails} 
+                  onChange={handleOnChangeDetails}
                   name="name"
                 />
               </div>
@@ -145,7 +145,7 @@ const ProductUpdate = () => {
               <textarea
                 class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-slate-300  bg-transparent px-4 py-5 font-sans text-3xl font-normal text-blue-gray-700 outline outline-0 transition-all focus:placeholder-shown:border focus:placeholder-shown:border-cyan focus:placeholder-shown:border-t-leave focus:border-2 focus:border-cyan focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
                 placeholder={stateProductDetails.description}
-                onChange={handleOnChangeDetails} 
+                onChange={handleOnChangeDetails}
                 name="description"
               ></textarea>
             </div>
@@ -164,7 +164,7 @@ const ProductUpdate = () => {
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     placeholder={stateProductDetails.price}
-                    onChange={handleOnChangeDetails} 
+                    onChange={handleOnChangeDetails}
                     name="price"
                   />
                 </div>
@@ -175,7 +175,7 @@ const ProductUpdate = () => {
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     placeholder={stateProductDetails.countInStock}
-                    onChange={handleOnChangeDetails} 
+                    onChange={handleOnChangeDetails}
                     name="countInStock"
                   />
                 </div>
@@ -188,37 +188,10 @@ const ProductUpdate = () => {
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     placeholder={stateProductDetails.rating}
-                    onChange={handleOnChangeDetails} 
+                    onChange={handleOnChangeDetails}
                     name="rating"
                   />
                 </div>
-                {/* <div class="w-full">
-                <label class="block my-5 font-semibold text-3xl text-slate-600">
-                  DiscountType
-                </label>
-                <div class="relative">
-                  <select class="w-full bg-transparent placeholder:text-slate-400 s text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-5 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer">
-                    <option value="brazil">Brazil</option>
-                    <option value="bucharest">Bucharest</option>
-                    <option value="london">London</option>
-                    <option value="washington">Washington</option>
-                  </select>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.2"
-                    stroke="currentColor"
-                    class="h-10 w-10 ml-1 absolute top-3.5 right-2.5 text-slate-700"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                    />
-                  </svg>
-                </div>
-              </div> */}
               </div>
             </div>
           </div>
@@ -231,12 +204,14 @@ const ProductUpdate = () => {
             >
               Update
             </button>
-            <button
-              type="button"
-              className="text-slate-800 focus:text-white focus:bg-yellow-500 focus:border-none border border-cyan focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
-            >
-              Discard
-            </button>
+            <Link to="/admin/ProductList">
+              <button
+                type="button"
+                className="text-slate-800 focus:text-white bg-yellow-500 active:bg-yellow-300 focus:border-none focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
+              >
+                Discard
+              </button>
+            </Link>
           </div>
         </div>
         {/* Split */}
@@ -281,7 +256,7 @@ const ProductUpdate = () => {
                   id="dropzone-file"
                   type="file"
                   class="hidden"
-                  onChange={handleOnchangeAvatar} 
+                  onChange={handleOnchangeAvatar}
                   name="image"
                 />
               </label>

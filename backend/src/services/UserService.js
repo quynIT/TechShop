@@ -1,30 +1,32 @@
 const User = require("../models/UserModel");
-//Dùng để mã hóa mật khẩu
+// Dùng để mã hóa mật khẩu
 const bcrypt = require("bcrypt");
 const { genneralAccessToken, genneralRefreshToken } = require("./JwtService");
 
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
-    const { name, email, password, confirmPassword, phone, role } = newUser;
+    const { name, email, password, role, confirmPassword, phone, address, avatar } = newUser;
     try {
       const checkUser = await User.findOne({
         email: email,
       });
-      //Kiểm tra email đã tồn tại rồi
+      // Kiểm tra email đã tồn tại rồi
       if (checkUser !== null) {
         resolve({
           status: "ERR",
           message: "The email is already",
         });
       }
-      //Dùng số 10 kết hợp mật khẩu để mã hóa
+      // Dùng số 10 kết hợp mật khẩu để mã hóa
       const hash = bcrypt.hashSync(password, 10);
       const createdUser = await User.create({
         name,
         email,
         password: hash,
-        phone,
         role,
+        phone,
+        address,
+        avatar
       });
       if (createdUser) {
         resolve({
@@ -46,14 +48,14 @@ const loginUser = (userLogin) => {
       const checkUser = await User.findOne({
         email: email,
       });
-      //Kiểm tra email không tồn tại
+      // Kiểm tra email không tồn tại
       if (checkUser === null) {
         resolve({
           status: "ERR",
           message: "The user is not defined",
         });
       }
-      //So sánh mật khẩu client gửi xuống và mật khẩu trong db
+      // So sánh mật khẩu client gửi xuống và mật khẩu trong db
       const comparePassword = bcrypt.compareSync(password, checkUser.password);
 
       if (!comparePassword) {
@@ -67,7 +69,7 @@ const loginUser = (userLogin) => {
         role: checkUser.role,
       });
 
-      //Trả về token mới khi access_token hết hạn
+      // Trả về token mới khi access_token hết hạn
       const refresh_token = await genneralRefreshToken({
         id: checkUser.id,
         role: checkUser.role,
@@ -91,7 +93,7 @@ const updateUser = (id, data) => {
         _id: id,
       });
 
-      //Kiểm tra email không tồn tại
+      // Kiểm tra email không tồn tại
       if (checkUser === null) {
         resolve({
           status: "OK",
@@ -118,7 +120,7 @@ const deleteUser = (id) => {
         _id: id,
       });
 
-      //Kiểm tra email không tồn tại
+      // Kiểm tra email không tồn tại
       if (checkUser === null) {
         resolve({
           status: "OK",
@@ -159,7 +161,7 @@ const getDetailsUser = (id) => {
         _id: id,
       });
 
-      //Kiểm tra email không tồn tại
+      // Kiểm tra email không tồn tại
       if (user === null) {
         resolve({
           status: "OK",

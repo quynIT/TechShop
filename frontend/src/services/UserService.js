@@ -21,6 +21,25 @@ export const getDetailsUser = async (id, access_token) => {
     return res.data
 }
 
+export const deleteUser = async (id, access_token, data) => {
+    const res = await axiosJWT.delete(`${process.env.REACT_APP_API_URL}/user/delete-user/${id}`, data,{
+        headers: {
+            token: `Bearer ${access_token}`,
+        }
+    })
+    return res.data
+}
+
+export const getAllUser = async (access_token) => {
+    console.log("Access Token: ", access_token); // Check the token value
+    const res = await axiosJWT.get(`${process.env.REACT_APP_API_URL}/user/getAll`, {
+        headers: {
+            token: `Bearer ${access_token}`,
+        }
+    })
+    return res.data
+}
+
 export const refreshToken = async () => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/refresh-token`, {
         //Tự động lấy cookie khi có cookie
@@ -34,7 +53,7 @@ export const logoutUser = async () => {
     return res.data
 }
 
-export const updateUser = async (id, data, access_token) => {
+export const updateUser = async (id, access_token, data) => {
     const res = await axiosJWT.put(`${process.env.REACT_APP_API_URL}/user/update-user/${id}`, data, {
         headers: {
             token: `Bearer ${access_token}`,

@@ -4,6 +4,7 @@ import Loading from "../../../components/Loading/Loading";
 import * as ProductService from "../../../services/ProductService";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
 import * as message from "../../../components/Message/Message";
+import { Link } from "react-router-dom";
 
 const ProductCreate = () => {
   const [stateProduct, setStateProduct] = useState({
@@ -103,7 +104,7 @@ const ProductCreate = () => {
                 </label>
                 <input
                   class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                  placeholder="Type here..."
+                  placeholder="Your product name"
                   value={stateProduct.name}
                   onChange={handleOnChange}
                   name="name"
@@ -133,7 +134,7 @@ const ProductCreate = () => {
               </label>
               <textarea
                 class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-slate-300  bg-transparent px-4 py-5 font-sans text-3xl font-normal text-blue-gray-700 outline outline-0 transition-all focus:placeholder-shown:border focus:placeholder-shown:border-cyan focus:placeholder-shown:border-t-leave focus:border-2 focus:border-cyan focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
-                placeholder=" Write description............ "
+                placeholder="Your product description"
                 value={stateProduct.description}
                 onChange={handleOnChange}
                 name="description"
@@ -153,7 +154,7 @@ const ProductCreate = () => {
                   </label>
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                    placeholder="Type here..."
+                    placeholder="Your product price"
                     value={stateProduct.price}
                     onChange={handleOnChange}
                     name="price"
@@ -165,7 +166,7 @@ const ProductCreate = () => {
                   </label>
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                    placeholder="Type here..."
+                    placeholder="Your product stock"
                     value={stateProduct.countInStock}
                     onChange={handleOnChange}
                     name="countInStock"
@@ -179,7 +180,7 @@ const ProductCreate = () => {
                   </label>
                   <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                    placeholder="Type here..."
+                    placeholder="Your product rating"
                     value={stateProduct.rating}
                     onChange={handleOnChange}
                     name="rating"
@@ -222,14 +223,16 @@ const ProductCreate = () => {
               className="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white shadow-lg shadow-green-500/50 font-medium rounded-lg text-3xl px-5 py-5"
               onClick={onFinish}
             >
-              Save Product
+              Add Product
             </button>
-            <button
-              type="button"
-              className="text-slate-800 focus:text-white bg-yellow-500 active:bg-yellow-300 focus:border-none focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
-            >
-              Discard
-            </button>
+            <Link to="/admin/ProductList">
+              <button
+                type="button"
+                className="text-slate-800 focus:text-white bg-yellow-500 active:bg-yellow-300 focus:border-none focus:shadow-lg font-medium rounded-lg text-3xl px-5 py-5"
+              >
+                Discard
+              </button>
+            </Link>
           </div>
         </div>
         {/* Split */}
@@ -286,41 +289,13 @@ const ProductCreate = () => {
 
           <div className="bg-white p-10 my-10 ">
             <h4 class="text-4xl font-medium mb-10 text-slate-800">Catagory</h4>
-            {/* <div class="w-full ">
-              <label class="block my-5 font-semibold text-3xl text-slate-600">
-                Category Name
-              </label>
-              <div class="relative">
-                <select class="w-full bg-transparent placeholder:text-slate-400 s text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-5 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer">
-                  <option value="brazil">Brazil</option>
-                  <option value="bucharest">Bucharest</option>
-                  <option value="london">London</option>
-                  <option value="washington">Washington</option>
-                </select>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.2"
-                  stroke="currentColor"
-                  class="h-10 w-10 ml-1 absolute top-3.5 right-2.5 text-slate-700"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                  />
-                </svg>
-              </div>
-            </div> */}
-
             <div class="w-full">
               <label class="block mb-5 font-semibold text-3xl text-slate-600">
                 Category
               </label>
               <input
                 class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                placeholder="Type here..."
+                placeholder="Your product category"
                 value={stateProduct.type}
                 onChange={handleOnChange}
                 name="type"
@@ -334,19 +309,11 @@ const ProductCreate = () => {
                 Add Category
               </button>
             </div>
-
-            {/* 
-            <button
-              type="button"
-              class="text-white bg-gradient-to-br from-cyan to-leave hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-lime-400 dark:focus:ring-green-800 font-medium rounded-lg text-3xl px-5 py-4 text-center me-2 my-10 "
-              onClick={onFinish}
-            >
-              Add Product
-            </button> */}
           </div>
         </div>
       </div>
     </Loading>
   );
 };
+
 export default ProductCreate;

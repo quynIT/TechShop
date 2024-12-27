@@ -3,7 +3,7 @@ const JwtService = require('../services/JwtService')
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, phone } = req.body
+        const { name, email, password, confirmPassword, phone, address, avatar } = req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email)
         if(!email || !password || !confirmPassword){
@@ -51,9 +51,9 @@ const loginUser = async (req, res) => {
         const { refresh_token, ...newResponse } = response
         // console.log('response', response)
         res.cookie('refresh_token', refresh_token, {
-            //Cho phép chỉ lấy cookie thông qua http, không lấy đc bằng js
+            // Cho phép chỉ lấy cookie thông qua http, không lấy đc bằng js
             httpOnly: true,
-            //Thêm bảo mật cho phía client
+            // Thêm bảo mật cho phía client
             secure: false,
             samesite: 'strict'
         })

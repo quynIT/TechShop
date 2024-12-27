@@ -16,7 +16,6 @@ const CardProfile = () => {
                 />
               </div>
             </div>
-      
           </div>
           <div className="text-center mt-12 text-3xl">
             <h3 className="text-3xl font-semibold leading-normal  text-blueGray-700 mb-2">

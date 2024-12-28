@@ -11,7 +11,7 @@ const ProductUpdate = () => {
   // Lấy id sản phẩm từ đường dẫn
   const { id } = useParams();
   const user = useSelector((state) => state?.user)
-
+  
   const [stateProductDetails, setStateProductDetails] = useState({
     name: '',
     price: '',
@@ -95,11 +95,11 @@ const ProductUpdate = () => {
 
   const onUpdateProduct = () => {
     const { name, price, description, rating, image, type, countInStock } = stateProductDetails;
-
+    
     // Gửi dữ liệu cập nhật
     mutationUpdate.mutate({
       id: id,
-      token: user.accessToken,
+      token: user.access_token,
       name,
       price,
       description,

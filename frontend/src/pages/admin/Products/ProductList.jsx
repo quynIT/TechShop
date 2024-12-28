@@ -11,13 +11,24 @@ import ProductModalComponent from "../../../components/ModalComponent/ProductMod
 const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
-  const user = useSelector((state) => state?.user);
   // Dùng cho việc sắp xếp tên sản phẩm
   const [sortOrder, setSortOrder] = useState("asc");
   // State cho từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState("");
   // State tạm thời cho từ khóa tìm kiếm
   const [tempSearchTerm, setTempSearchTerm] = useState("");
+  // State để cập nhật các lựa chọn theo ô vuông
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const user = useSelector((state) => state?.user);
+
+  const { isPending, data: products = [], error, refetch } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await ProductService.getAllProduct();
+      return res?.data || []; // Trả về mảng rỗng nếu không có dữ liệu
+    },
+  });
 
   const mutationDelete = useMutationHooks(
     (data) => {
@@ -27,17 +38,16 @@ const ProductList = () => {
     }
   );
 
+  const mutationDeleteMany = useMutationHooks(
+    (data) => {
+      const { token, ...ids } = data;
+      const res = ProductService.deleteManyProduct(ids, token);
+      return res;
+    }
+  );
+  
   const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
-
-  const { isPending: isPending, data: products, error, refetch } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => {
-      const res = await ProductService.getAllProduct();
-      if (res?.data) {
-        return res.data;
-      }
-    },
-  });
+  const { isSuccess: isSuccessDeletedManyProduct, isError: isErrorDeletedManyProduct, data: dataDeletedManyProduct } = mutationDeleteMany;
 
   useEffect(() => {
     if (isSuccessDeleted && dataDeleted?.status === 'OK') {
@@ -47,6 +57,15 @@ const ProductList = () => {
       message.error("Có lỗi xảy ra khi xóa sản phẩm!");
     }
   }, [isSuccessDeleted, refetch]);
+
+  useEffect(() => {
+    if (isSuccessDeletedManyProduct && dataDeletedManyProduct?.status === 'OK') {
+      message.success("Xóa sản phẩm thành công!");
+      refetch(); // Refresh sản phẩm sau khi xóa
+    } else if (isErrorDeletedManyProduct) {
+      message.error("Có lỗi xảy ra khi xóa sản phẩm!");
+    }
+  }, [isSuccessDeletedManyProduct, refetch]);
 
   // Hàm xử lý xác nhận xóa
   const handleDeleteConfirm = async () => {
@@ -58,6 +77,26 @@ const ProductList = () => {
   const handleDeleteClick = (product) => {
     setProductToDelete(product);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteManyProduct = () => {
+    if (selectedProducts.length > 0) {
+      mutationDeleteMany.mutate({ ids: selectedProducts, token: user?.access_token });
+    }
+  };
+
+  const handleSelectProduct = (productId) => {
+    setSelectedProducts((prev) =>
+      prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedProducts.length === products.length) {
+      setSelectedProducts([]);
+    } else {
+      setSelectedProducts(products.map(product => product._id));
+    }
   };
 
   //Hàm sắp xếp tên sản phẩm
@@ -164,35 +203,36 @@ const ProductList = () => {
                 </button>
               </div>
             </div>
-            {/* edit button */}
-            {/* <Link to={`/admin/ProductUpdate/${product._id}`}>
-              <button
-                class="flex select-none items-center justify-end  rounded-lg bg-yellow-500 py-2 px-4 text-center  font-sans text-2xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button"
+            {/* delete many button */}
+            <button
+              class={`flex select-none items-center justify-center rounded-lg bg-red-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
+                ${selectedProducts.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              type="button"
+              onClick={handleDeleteManyProduct}
+              disabled={selectedProducts.length === 0}
+            >
+              <svg
+                class="w-10 h-10 me-2"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
               >
-                <svg
-                  class="w-10 h-10 me-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
-                  />
-                </svg>
-                Edit
-              </button>
-            </Link> */}
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
+                />
+              </svg>
+              Delete
+            </button>
 
             {/* Add product */}
             <Link to="/admin/ProductCreate">
               <button
-                class="flex select-none items-center justify-end gap-3 rounded-lg duration-300 bg-yellow-500 py-2 px-4 text-center  font-sans text-xl font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-yellow-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
               >
                 <svg
@@ -221,6 +261,8 @@ const ProductList = () => {
                         id="checkbox-all-search"
                         type="checkbox"
                         class="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onChange={handleSelectAll}
+                        checked={selectedProducts.length === products.length}
                       />
                       <label for="checkbox-all-search" class="sr-only">
                         checkbox
@@ -263,11 +305,13 @@ const ProductList = () => {
                     <td class="w-10 p-10">
                       <div class="flex items-center">
                         <input
-                          id="checkbox-table-search-1"
+                          id={`checkbox-${product._id}`}
                           type="checkbox"
                           class="w-4  p-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          checked={selectedProducts.includes(product._id)}
+                          onChange={() => handleSelectProduct(product._id)}
                         />
-                        <label for="checkbox-table-search-1" class="sr-only">
+                        <label htmlFor={`checkbox-${product._id}`} className="sr-only">
                           checkbox
                         </label>
                       </div>

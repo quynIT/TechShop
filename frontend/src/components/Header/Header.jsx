@@ -49,10 +49,6 @@ const Header = () => {
 
   const content = (
     <div>
-      <WrapperContentPopup onClick={handleLogout}>Log out</WrapperContentPopup>
-      <WrapperContentPopup onClick={() => navigate("/profile-user")}>
-        Profile
-      </WrapperContentPopup>
       {user.role === "admin" && (
         <WrapperContentPopup onClick={() => navigate("/admin")}>
           System management
@@ -63,6 +59,15 @@ const Header = () => {
           Management Order
         </WrapperContentPopup>
       )}
+      {user.role === "user" && (
+        <WrapperContentPopup onClick={() => navigate("/order-history")}>
+          Order history
+        </WrapperContentPopup>
+      )}
+      <WrapperContentPopup onClick={() => navigate("/profile-user")}>
+        Profile
+      </WrapperContentPopup>
+      <WrapperContentPopup onClick={handleLogout}>Log out</WrapperContentPopup>
     </div>
   );
 

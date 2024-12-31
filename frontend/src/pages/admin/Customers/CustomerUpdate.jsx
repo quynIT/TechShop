@@ -81,7 +81,9 @@ const Settings = () => {
 
   // Tìm nạp chi tiết người dùng bằng id
   const fetchGetDetailsUser = async (id) => {
-    const res = await UserService.getDetailsUser(id);
+    const token = user?.access_token; // Lấy access_token từ state của Redux
+
+    const res = await UserService.getDetailsUser(id, token);
     if (res?.data) {
       const userData = {
         name: res?.data.name,
@@ -111,7 +113,7 @@ const Settings = () => {
     // Gửi dữ liệu cập nhật
     mutationUpdate.mutate({
       id: id,
-      token: user.accessToken,
+      token: user.access_token,
       name,
       email,
       password,

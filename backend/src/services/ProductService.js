@@ -8,29 +8,29 @@ const createProduct = (newProduct) => {
                 name: name
             })
             // Kiểm tra tên sản phẩm đã tồn tại rồi
-            if(checkProduct !== null){
+            if (checkProduct !== null) {
                 resolve({
                     status: 'OK',
                     message: 'The name of product is already'
                 })
             }
             const newProduct = await Product.create({
-                name, 
-                image, 
-                type, 
-                price, 
-                countInStock, 
-                rating, 
+                name,
+                image,
+                type,
+                price,
+                countInStock,
+                rating,
                 description
             })
-            if(newProduct){
+            if (newProduct) {
                 resolve({
                     status: 'OK',
                     message: 'SUCCESS',
                     data: newProduct
                 })
             }
-        }catch(e) {
+        } catch (e) {
             reject(e)
         }
     })
@@ -44,20 +44,20 @@ const updateProduct = (id, data) => {
             })
 
             // Kiểm tra id sản phẩm không tồn tại
-            if(checkProduct === null){
+            if (checkProduct === null) {
                 resolve({
                     status: 'OK',
                     message: 'The product is not defined'
                 })
             }
-            
+
             const updatedProduct = await Product.findByIdAndUpdate(id, data, { new: true })
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
                 data: updatedProduct
             })
-        }catch(e) {
+        } catch (e) {
             reject(e)
         }
     })
@@ -71,19 +71,19 @@ const deleteProduct = (id) => {
             })
 
             // Kiểm tra sản phẩm không tồn tại
-            if(checkProduct === null){
+            if (checkProduct === null) {
                 resolve({
                     status: 'OK',
                     message: 'The product is not defined'
                 })
             }
-            
+
             await Product.findByIdAndDelete(id)
             resolve({
                 status: 'OK',
                 message: 'Delete product success'
             })
-        }catch(e) {
+        } catch (e) {
             reject(e)
         }
     })
@@ -92,12 +92,12 @@ const deleteProduct = (id) => {
 const deleteManyProduct = (ids) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await Product.deleteMany({_id: ids})
+            await Product.deleteMany({ _id: ids })
             resolve({
                 status: 'OK',
                 message: 'Delete product success'
             })
-        }catch(e) {
+        } catch (e) {
             reject(e)
         }
     })
@@ -111,19 +111,19 @@ const getDetailsProduct = (id) => {
             })
 
             // Kiểm tra sản phẩm không tồn tại
-            if(product === null){
+            if (product === null) {
                 resolve({
                     status: 'OK',
                     message: 'The product is not defined'
                 })
             }
-            
+
             resolve({
                 status: 'OK',
                 message: 'Success',
                 data: product
             })
-        }catch(e) {
+        } catch (e) {
             reject(e)
         }
     })
@@ -133,11 +133,11 @@ const getAllProduct = (limit, page, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             const totalProduct = await Product.countDocuments()
-            if(filter){
+            if (filter) {
                 const label = filter[0];
                 /*limit để giới hạn số sản phẩm trả về, skip là để dùng bỏ bao nhiêu product để lấy 
                 những product tiếp theo*/
-                const allObjectFilter = await Product.find({ [label]: { '$regex' : filter[1] } }).limit(limit).skip(page * limit)
+                const allObjectFilter = await Product.find({ [label]: { '$regex': filter[1] } }).limit(limit).skip(page * limit)
                 resolve({
                     status: 'OK',
                     message: 'Success',
@@ -147,7 +147,7 @@ const getAllProduct = (limit, page, sort, filter) => {
                     totalPage: Math.ceil(totalProduct / limit)
                 })
             }
-            if(sort){
+            if (sort) {
                 const objectSort = {}
                 objectSort[sort[1]] = sort[0]
                 /*limit để giới hạn số sản phẩm trả về, skip là để dùng bỏ bao nhiêu product để lấy 
@@ -173,7 +173,7 @@ const getAllProduct = (limit, page, sort, filter) => {
                 pageCurrent: Number(page + 1),
                 totalPage: Math.ceil(totalProduct / limit)
             })
-        }catch(e) {
+        } catch (e) {
             reject(e)
         }
     })

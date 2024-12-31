@@ -11,13 +11,16 @@ import CustomerModalComponent from "../../../components/ModalComponent/CustomerM
 const CustomerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
-  const user = useSelector((state) => state?.user);
   // Dùng cho việc sắp xếp tên sản phẩm
   const [sortOrder, setSortOrder] = useState("asc");
   // State cho từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState("");
   // State tạm thời cho từ khóa tìm kiếm
   const [tempSearchTerm, setTempSearchTerm] = useState("");
+  // State để cập nhật các lựa chọn theo ô vuông
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const user = useSelector((state) => state?.user);
 
   const mutationDelete = useMutationHooks(
     (data) => {
@@ -27,15 +30,24 @@ const CustomerList = () => {
     }
   );
 
+  const mutationDeleteMany = useMutationHooks(
+    (data) => {
+      const { token, ...ids } = data;
+      const res = UserService.deleteManyUser(ids, token);
+      return res;
+    }
+  );
+
   const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
+  const { isSuccess: isSuccessDeletedManyUser, isError: isErrorDeletedManyUser, data: dataDeletedManyUser } = mutationDeleteMany;
 
   const { isPending: isPending, data: users, error, refetch } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await UserService.getAllUser();
+      const res = await UserService.getAllUser(user.access_token);
       if (res?.data) {
         // Lọc chỉ lấy users có role là "user"
-        return res.data.filter(user => user.role === "user");
+        return res.data.filter(user => user.role === "user") || []; // Trả về mảng rỗng nếu không có dữ liệu;
       }
     },
   });
@@ -49,6 +61,15 @@ const CustomerList = () => {
     }
   }, [isSuccessDeleted, refetch]);
 
+  useEffect(() => {
+    if (isSuccessDeletedManyUser && dataDeletedManyUser?.status === 'OK') {
+      message.success("Xóa người dùng thành công!");
+      refetch(); // Refresh người dùng sau khi xóa
+    } else if (isErrorDeletedManyUser) {
+      message.error("Có lỗi xảy ra khi xóa người dùng!");
+    }
+  }, [isSuccessDeletedManyUser, refetch]);
+
   // Hàm xử lý xác nhận xóa
   const handleDeleteConfirm = async () => {
     mutationDelete.mutate({ id: userToDelete._id, token: user?.access_token });
@@ -59,6 +80,26 @@ const CustomerList = () => {
   const handleDeleteClick = (user) => {
     setUserToDelete(user);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteManyUser = () => {
+    if (selectedUsers.length > 0) {
+      mutationDeleteMany.mutate({ ids: selectedUsers, token: user?.access_token });
+    }
+  };
+
+  const handleSelectUser = (userId) => {
+    setSelectedUsers((prev) =>
+      prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedUsers.length === users.length) {
+      setSelectedUsers([]);
+    } else {
+      setSelectedUsers(users.map(user => user._id));
+    }
   };
 
   //Hàm sắp xếp tên người dùng

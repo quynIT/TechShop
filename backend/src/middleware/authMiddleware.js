@@ -34,7 +34,7 @@ const authUserMiddleWare = (req, res, next) => {
       });
     }
 
-    if (user?.role || user?.id === userId) {
+    if (user?.role === 'admin' || user?.id === userId) {
       next();
     } else {
       return res.status(404).json({

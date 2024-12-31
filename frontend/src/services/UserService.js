@@ -31,7 +31,6 @@ export const deleteUser = async (id, access_token, data) => {
 }
 
 export const getAllUser = async (access_token) => {
-    console.log("Access Token: ", access_token); // Check the token value
     const res = await axiosJWT.get(`${process.env.REACT_APP_API_URL}/user/getAll`, {
         headers: {
             token: `Bearer ${access_token}`,

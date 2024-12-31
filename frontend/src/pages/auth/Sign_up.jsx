@@ -15,10 +15,6 @@ const SignUp = () => {
   const { data, isPending, isSuccess, isError } = mutation
 
   useEffect(() => {
-    console.log('isSuccess:', isSuccess); 
-    console.log('isError:', isError); 
-    console.log('data:', data);
-
     if(isSuccess && data?.status !== 'ERR'){
       message.success()
       handleNavigateSignIn()

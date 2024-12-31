@@ -41,14 +41,11 @@ const CustomerList = () => {
   const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
   const { isSuccess: isSuccessDeletedManyUser, isError: isErrorDeletedManyUser, data: dataDeletedManyUser } = mutationDeleteMany;
 
-  const { isPending: isPending, data: users, error, refetch } = useQuery({
+  const { isPending: isPending, data: users = [], error, refetch } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
       const res = await UserService.getAllUser(user.access_token);
-      if (res?.data) {
-        // Lọc chỉ lấy users có role là "user"
-        return res.data.filter(user => user.role === "user") || []; // Trả về mảng rỗng nếu không có dữ liệu;
-      }
+      return res.data.filter(user => user.role === "user") || [];
     },
   });
 
@@ -209,30 +206,32 @@ const CustomerList = () => {
                   </button>
                 </div>
               </div>
-              {/* edit button */}
-              {/* <Link to="/admin/CustomerUpdate">
-                <button
-                  class="flex select-none items-center justify-end  rounded-lg bg-yellow-500 py-2 px-4 text-center  font-sans text-2xl font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  type="button"
+              {/* delete many button */}
+              <button
+                class={`flex select-none items-center justify-center rounded-lg bg-red-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
+                ${selectedUsers.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                type="button"
+                onClick={handleDeleteManyUser}
+                disabled={selectedUsers.length === 0}
+              >
+                <svg
+                  class="w-10 h-10 me-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
                 >
-                  <svg
-                    class="w-10 h-10 me-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
-                    />
-                  </svg>
-                  Edit
-                </button>
-              </Link> */}
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
+                  />
+                </svg>
+                Delete
+              </button>
+
 
               {/* Add member */}
               <Link to="/admin/CustomerCreate">
@@ -262,6 +261,20 @@ const CustomerList = () => {
             <table class="w-full text-left border-2 shadow-md table-auto min-w-max">
               <thead className="bg-gray-100">
                 <tr className="">
+                  <th scope="col" class="p-4">
+                    <div class="flex items-center">
+                      <input
+                        id="checkbox-all-search"
+                        type="checkbox"
+                        class="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onChange={handleSelectAll}
+                        checked={selectedUsers.length === users.length}
+                      />
+                      <label for="checkbox-all-search" class="sr-only">
+                        checkbox
+                      </label>
+                    </div>
+                  </th>
                   <th class="px-6 py-3 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                     <p class="flex items-center justify-between gap-2 font-sans text-3xl antialiased font-bold leading-none text-blue-gray-900 opacity-70">
                       Customer Image
@@ -300,6 +313,21 @@ const CustomerList = () => {
                   <tr
                     key={user.id}
                     className="hover:bg-gray-50">
+                    <td class="w-10 p-10">
+                      <div class="flex items-center">
+                        <input
+                          id={`checkbox-${user._id}`}
+                          type="checkbox"
+                          class="w-4  p-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          checked={selectedUsers.includes(user._id)}
+                          onChange={() => handleSelectUser(user._id)}
+                        />
+                        <label htmlFor={`checkbox-${user._id}`} className="sr-only">
+                          checkbox
+                        </label>
+                      </div>
+                    </td>
+
                     <td class="p-4  border-b border-blue-gray-50 ">
                       <div class="flex items-center gap-10">
                         <img

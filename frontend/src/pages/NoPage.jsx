@@ -16,12 +16,12 @@ export default function NoPage() {
             Homepage
           </a>
           <span className="mx-2">·</span>
-          <a href="/chat-web" className="text-blue-500 hover:underline">
-            Chat
+          <a href="/" className="text-blue-500 hover:underline">
+            Order
           </a>
           <span className="mx-2">·</span>
-          <a href="/roll-call" className="text-blue-500 hover:underline">
-            KanbanBoard
+          <a href="/profile-user" className="text-blue-500 hover:underline">
+            Profile
           </a>
         </div>
       </div>

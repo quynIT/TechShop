@@ -21,7 +21,7 @@ const ProfilePage = () => {
     const mutation = useMutationHooks(
         (data) => {
             const { id, access_token, ...rests} = data
-            UserService.updateUser(id, rests, access_token)
+            return UserService.updateUser(id, access_token, rests)
         }
     )
 
@@ -75,7 +75,7 @@ const ProfilePage = () => {
     }
 
     const handleUpdate = () => {
-        mutation.mutate({ id: user?.id, name, email, phone, address, avatar, access_token: user?.access_token })
+        mutation.mutate({ id: user?.id, access_token: user?.access_token, name, email, phone, address, avatar })
     }
 
     return (

@@ -12,18 +12,23 @@ import CardComponent from "../../components/CardComponent/CardComponent";
 import TrendSlide from "../../components/TrendSlide/TrendSlide";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import * as ProductService from '../../services/ProductService'
+import * as ProductService from "../../services/ProductService";
 
 const Homepage = () => {
   const arr = ["TV", "Fridge", "Laptop", "Phone"];
   const fetchProductAll = async () => {
-    const res = await ProductService.getAllProduct()
-    console.log('res', res)
-    return res
-  }
+    const res = await ProductService.getAllProduct();
+    console.log("res", res);
+    return res;
+  };
 
-  const { isPending, data: products } = useQuery({ queryKey: 'products', queryFn: fetchProductAll, retry: 3, retryDelay: 1000 })
-  console.log('data', products)
+  const { isPending, data: products } = useQuery({
+    queryKey: "products",
+    queryFn: fetchProductAll,
+    retry: 3,
+    retryDelay: 1000,
+  });
+  console.log("data", products);
   return (
     <div style={{ width: "1270px", margin: "0 auto" }}>
       <WrapperTypeProduct>
@@ -37,20 +42,20 @@ const Homepage = () => {
         {products?.data?.map((product) => {
           return (
             <Link to="/detail">
-              <CardComponent 
-              key={product._id} 
-              countInStock={product.countInStock} 
-              description={product.description}
-              image={product.image} 
-              name={product.name}
-              price={product.price}
-              rating={product.rating}
-              type={product.type}
-              selled={product.selled}
-              discount={product.discount}
+              <CardComponent
+                key={product._id}
+                countInStock={product.countInStock}
+                description={product.description}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                rating={product.rating}
+                type={product.type}
+                selled={product.selled}
+                discount={product.discount}
               />
             </Link>
-          )
+          );
         })}
       </WrapperProducts>
       <TrendSlide />

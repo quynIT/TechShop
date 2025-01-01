@@ -92,7 +92,7 @@ const Header = () => {
             bordered={false}
             textbutton="Search"
             placeholder="Search for products..."
-            backgroundColorButton="rgb(67 135 219)"
+            backgroundColorButton="#ff8906"
           />
         </Col>
         <Col
@@ -153,7 +153,7 @@ const Header = () => {
               )}
             </WrapperHeaderAccout>
           </Loading>
-          <div>
+          <div className="ml-5">
             <ShoppingCartOutlined style={{ fontSize: "30px", color: "#fff" }} />
 
             <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>

@@ -8,6 +8,10 @@ import * as message from '../../components/Message/Message'
 const SignUp = () => {
   const navigate = useNavigate()
 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
   const mutation = useMutationHooks(
     data => UserService.signupUser(data)
   )
@@ -22,10 +26,6 @@ const SignUp = () => {
       message.error(data?.message || 'Error occurred')
     }
   }, [isSuccess, isError, data])
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
 
   const handleOnchangeEmail = (e) => {
     setEmail(e.target.value)
@@ -44,7 +44,14 @@ const SignUp = () => {
   }
 
   const handleSignUp = () => {
-    mutation.mutate({ email, password, confirmPassword })
+    mutation.mutate({ name: '',
+      role: 'user',
+      phone: '',
+      address: '',
+      avatar: '', 
+      email, 
+      password, 
+      confirmPassword })
   }
 
   return (

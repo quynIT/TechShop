@@ -22,6 +22,14 @@ const CustomerList = () => {
 
   const user = useSelector((state) => state?.user);
 
+  const { isPending: isPending, data: users = [], error, refetch } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const res = await UserService.getAllUser(user.access_token);
+      return res.data.filter(user => user.role === "user") || [];
+    },
+  });
+  
   const mutationDelete = useMutationHooks(
     (data) => {
       const { id, token } = data;
@@ -40,14 +48,6 @@ const CustomerList = () => {
 
   const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
   const { isSuccess: isSuccessDeletedManyUser, isError: isErrorDeletedManyUser, data: dataDeletedManyUser } = mutationDeleteMany;
-
-  const { isPending: isPending, data: users = [], error, refetch } = useQuery({
-    queryKey: ['users'],
-    queryFn: async () => {
-      const res = await UserService.getAllUser(user.access_token);
-      return res.data.filter(user => user.role === "user") || [];
-    },
-  });
 
   useEffect(() => {
     if (isSuccessDeleted && dataDeleted?.status === 'OK') {

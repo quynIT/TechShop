@@ -71,13 +71,7 @@ function App() {
           {/* Route dành cho admin */}
           <Route
             path="/admin"
-            element={
-              user.role === "admin" ? (
-                <Admin />
-              ) : (
-                <Navigate to="/unauthorized" />
-              )
-            } // Chặn user không phải admin
+            element={user.role === "admin" ? <Admin /> : null} // Chặn user không phải admin
           >
             {adminRoutes.map((route) => {
               const Page = route.page;
@@ -90,13 +84,7 @@ function App() {
           {/* Route dành cho staff */}
           <Route
             path="/staff"
-            element={
-              user.role === "staff" ? (
-                <Layout />
-              ) : (
-                <Navigate to="/unauthorized" />
-              )
-            } // Chặn user không phải staff
+            element={user.role === "staff" ? <Layout /> : null} // Chặn user không phải staff
           >
             {staffRoutes.map((route) => {
               const Page = route.page;

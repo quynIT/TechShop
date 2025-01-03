@@ -9,6 +9,7 @@ const initialState = {
   access_token: "",
   id: "",
   role: "user",
+  createdAt: ""
 };
 
 export const userSlide = createSlice({
@@ -25,6 +26,7 @@ export const userSlide = createSlice({
         avatar = "",
         _id = "",
         role,
+        createdAt = ""
       } = action.payload;
       state.name = name;
       state.email = email;
@@ -34,6 +36,7 @@ export const userSlide = createSlice({
       state.id = _id;
       state.access_token = access_token;
       state.role = role;
+      state.createdAt = createdAt;
     },
     resetUser: (state) => {
       state.name = "";

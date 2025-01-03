@@ -77,10 +77,10 @@ export const routes = [
     path: "/order-history",
     page: InvoiceList,
   },
-  {
-    path: "*",
-    page: NoPage,
-  },
+  // {
+  //   path: "*",
+  //   page: NoPage,
+  // },
 ];
 
 export const adminRoutes = [

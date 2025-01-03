@@ -11,7 +11,7 @@ const SlideComponent = ({ arrImages }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 1200,
   };
   return (
     <WrapperSliderStyle {...settings}>

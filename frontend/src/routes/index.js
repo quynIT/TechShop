@@ -15,7 +15,6 @@ import ProductList from "../pages/admin/Products/ProductList.jsx";
 import ProductCreate from "../pages/admin/Products/ProductCreate.jsx";
 import ProductUpdate from "../pages/admin/Products/ProductUpdate.jsx";
 import ProfilePage from "../components/Profile/ProfilePage.jsx";
-import AdminPage from "../pages/admin/AdminPage.jsx";
 import Staffpage from "../pages/staff/Staffpage.jsx";
 import DetailOrder from "../pages/staff/DetailOrder.jsx";
 import CustomerCreate from "../pages/admin/Customers/CustomerCreate.jsx";
@@ -63,11 +62,6 @@ export const routes = [
   {
     path: "/profile-user",
     page: ProfilePage,
-  },
-  {
-    path: "/system/admin",
-    page: AdminPage,
-    isPrivate: true,
   },
   {
     path: "/admin/tables",

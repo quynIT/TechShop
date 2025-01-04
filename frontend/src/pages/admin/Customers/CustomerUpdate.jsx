@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
-import * as UserService from '../../../services/UserService'
+import * as UserService from "../../../services/UserService";
 import { message } from "antd";
 import { getBase64 } from "../../../utils";
 import Loading from "../../../components/Loading/Loading";
@@ -10,57 +10,55 @@ import Loading from "../../../components/Loading/Loading";
 const Settings = () => {
   // Lấy id người dùng từ đường dẫn
   const { id } = useParams();
-  const user = useSelector((state) => state?.user)
+  const user = useSelector((state) => state?.user);
 
   const [stateUserDetails, setStateUserDetails] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    address: '',
-    avatar: ''
-  })
-  
-  // State này dùng để hiển thị thông tin bên phải
-  const [stateUserDetailsStatic, setStateUserDetailsStatic] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    address: '',
-    avatar: ''
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    address: "",
+    avatar: "",
   });
 
-  const mutationUpdate = useMutationHooks(
-    (data) => {
-      const { id,
-        token,
-        ...rests } = data
-      const res = UserService.updateUser(
-        id,
-        token,
-        rests)
-      return res
-    }
-  )
+  // State này dùng để hiển thị thông tin bên phải
+  const [stateUserDetailsStatic, setStateUserDetailsStatic] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    address: "",
+    avatar: "",
+  });
 
-  const { data: dataUpdated, isPending: isPendingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
+  const mutationUpdate = useMutationHooks((data) => {
+    const { id, token, ...rests } = data;
+    const res = UserService.updateUser(id, token, rests);
+    return res;
+  });
+
+  const {
+    data: dataUpdated,
+    isPending: isPendingUpdated,
+    isSuccess: isSuccessUpdated,
+    isError: isErrorUpdated,
+  } = mutationUpdate;
 
   useEffect(() => {
-    if (isSuccessUpdated && dataUpdated?.status === 'OK') {
-      message.success("Cập nhật người dùng thành công!")
-      fetchGetDetailsUser(id) // Tải lại dữ liệu sau khi cập nhật
+    if (isSuccessUpdated && dataUpdated?.status === "OK") {
+      message.success("Cập nhật người dùng thành công!");
+      fetchGetDetailsUser(id); // Tải lại dữ liệu sau khi cập nhật
     } else if (isErrorUpdated) {
-      message.error()
+      message.error();
     }
-  }, [isSuccessUpdated])
+  }, [isSuccessUpdated]);
 
   const handleOnChangeDetails = (e) => {
     setStateUserDetails({
       ...stateUserDetails,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleOnchangeAvatar = async (event) => {
     const files = event.target.files; // Lấy danh sách file từ input
@@ -93,7 +91,7 @@ const Settings = () => {
         phone: res?.data.phone,
         address: res?.data.address,
         avatar: res?.data.avatar,
-        createdAt: res?.data.createdAt
+        createdAt: res?.data.createdAt,
       };
       setStateUserDetails(userData); // Dùng cho form chỉnh sửa
       setStateUserDetailsStatic(userData); // Dùng cho phần hiển thị bên phải
@@ -103,9 +101,9 @@ const Settings = () => {
   // Sử dụng useEffect để tìm nạp chi tiết người dùng khi thành phần được gắn kết hoặc khi id thay đổi
   useEffect(() => {
     if (id) {
-      fetchGetDetailsUser(id);  // Tìm nạp chi tiết người dùng bằng 'id'
+      fetchGetDetailsUser(id); // Tìm nạp chi tiết người dùng bằng 'id'
     }
-  }, [id]);  // Chạy lại khi id thay đổi
+  }, [id]); // Chạy lại khi id thay đổi
 
   const onUpdateUser = () => {
     const { name, email, password, phone, address, avatar } = stateUserDetails;
@@ -119,7 +117,7 @@ const Settings = () => {
       password,
       phone,
       address,
-      avatar
+      avatar,
     });
   };
 
@@ -130,7 +128,9 @@ const Settings = () => {
           <div className=" h-full w-full shadow-lg rounded-lg-lg bg-white ">
             <div className=" rounded-lg-t bg-white px-6 py-6">
               <div className="text-center flex justify-between">
-                <h4 className="text-blueGray-700 text-5xl font-bold">Customer Account</h4>
+                <h4 className="text-blueGray-700 text-5xl font-bold">
+                  Customer Account
+                </h4>
                 <Link to="/admin/CustomerList">
                   <button
                     className="bg-yellow-500 text-white active:bg-yellow-300 font-semibold text-3xl p-5  rounded-lg-lg shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear   "
@@ -337,7 +337,10 @@ const Settings = () => {
                   <div className="relative">
                     <img
                       alt="Customer"
-                      src={stateUserDetails?.avatar || "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"}
+                      src={
+                        stateUserDetails?.avatar ||
+                        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+                      }
                       class="relative block justify-center h-96 cursor-pointer rounded-full object-cover object-center"
                     />
 
@@ -363,8 +366,8 @@ const Settings = () => {
                             />
                           </svg>
                           <p class="mb-2 text-2xl text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold">Click to upload</span> or drag and
-                            drop
+                            <span class="font-semibold">Click to upload</span>{" "}
+                            or drag and drop
                           </p>
                           <p class="text-2xl text-gray-500 dark:text-gray-400">
                             SVG, PNG, JPG or GIF (MAX. 800x400px)

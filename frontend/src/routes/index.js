@@ -23,8 +23,10 @@ import CreateOrder from "../pages/admin/Orders/CreateOrder.jsx";
 import OrderUpdate from "../pages/admin/Orders/OrderUpdate.jsx";
 import OrderHistory from "../pages/admin/Orders/OrderHistory.jsx";
 import UpdateOrder from "../pages/staff/UpdateOrder.jsx";
-import NoPage from "../pages/NoPage.jsx";
 import InvoiceList from "../pages/user/InvoiceList .jsx";
+import Customer from "../pages/staff/Customer.jsx";
+import { Info } from "lucide-react";
+import InfoCustomer from "../pages/staff/InfoCustomer.jsx";
 
 export const routes = [
   {
@@ -156,5 +158,13 @@ export const staffRoutes = [
   {
     path: "edit/:id",
     page: UpdateOrder,
+  },
+  {
+    path: "customer-list",
+    page: Customer,
+  },
+  {
+    path: "customer-info/:id",
+    page: InfoCustomer,
   },
 ];

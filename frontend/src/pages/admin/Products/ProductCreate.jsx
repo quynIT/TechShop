@@ -8,6 +8,14 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 const ProductCreate = () => {
+  // State để hiển thị các type khi nhấn drop down
+  const [types, setTypes] = useState([]);
+  // State để kiểm soát việc hiển thị input thêm type mới
+  const [showAddTypeInput, setShowAddTypeInput] = useState(false);
+  const [newType, setNewType] = useState('');
+  // State để validate các trường nhập
+  const [errors, setErrors] = useState({});
+
   const [stateProduct, setStateProduct] = useState({
     name: "",
     price: "",
@@ -17,9 +25,6 @@ const ProductCreate = () => {
     type: "",
     countInStock: ""
   });
-
-  // State type
-  const [types, setTypes] = useState([]);
 
   const mutation = useMutationHooks((data) => {
     const {
@@ -56,8 +61,6 @@ const ProductCreate = () => {
   // Cập nhật types khi có dữ liệu từ backend
   useEffect(() => {
     if (typeData) {
-      // Kiểm tra cấu trúc dữ liệu và log để debug
-      console.log("Received type data:", typeData);
       setTypes(typeData);
     }
   }, [typeData]);
@@ -79,17 +82,13 @@ const ProductCreate = () => {
     } else if (isError) {
       message.error();
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError, data]);
 
   const handleOnChange = (e) => {
     setStateProduct({
       ...stateProduct,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const onFinish = () => {
-    mutation.mutate(stateProduct);
   };
 
   const handleOnchangeAvatar = async (event) => {
@@ -109,6 +108,94 @@ const ProductCreate = () => {
     });
   };
 
+  const handleOnChangeSelect = (e) => {
+    const value = e.target.value;
+
+    if (value === 'add_new_type') {
+      setShowAddTypeInput(true);
+      setStateProduct({
+        ...stateProduct,
+        type: ''
+      });
+    } else {
+      setShowAddTypeInput(false);
+      setStateProduct({
+        ...stateProduct,
+        type: value
+      });
+    }
+  }
+
+  // Hàm để hủy thêm type mới
+  const handleCancelAddType = () => {
+    setShowAddTypeInput(false);
+    setNewType('');
+    setStateProduct(prev => ({
+      ...prev,
+      type: '' // Reset type về trạng thái ban đầu
+    }));
+  }
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate name
+    if (!stateProduct.name.trim()) {
+      newErrors.name = "Product name cannot be blank";
+    }
+
+    // Validate price
+    if (!stateProduct.price.trim()) {
+      newErrors.price = "Product price cannot be blank";
+    } else if (isNaN(Number(stateProduct.price)) || Number(stateProduct.price) <= 0) {
+      newErrors.price = "Product price must be positive";
+    }
+
+    // Validate description
+    if (!stateProduct.description.trim()) {
+      newErrors.description = "Product description cannot be blank";
+    }
+
+    // Validate rating
+    if (!stateProduct.rating.trim()) {
+      newErrors.rating = "Product rating cannot be blank";
+    } else if (
+      isNaN(Number(stateProduct.rating)) ||
+      Number(stateProduct.rating) < 0 ||
+      Number(stateProduct.rating) > 5
+    ) {
+      newErrors.rating = "Rating must be a number from 0 to 5";
+    }
+
+    // Validate countInStock
+    if (!stateProduct.countInStock.trim()) {
+      newErrors.countInStock = "Stock quantity cannot be blank";
+    } else if (isNaN(Number(stateProduct.countInStock)) || Number(stateProduct.countInStock) < 0) {
+      newErrors.countInStock = "The quantity in stock must be non-negative";
+    }
+
+    // Validate type
+    if (!stateProduct.type.trim()) {
+      newErrors.type = "Please select product type";
+    }
+
+    // Validate image
+    if (!stateProduct.image) {
+      newErrors.image = "Please select product image";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onFinish = () => {
+    if (validateForm()) {
+      mutation.mutate(stateProduct);
+    } else {
+      message.error("Please fill in the information completely and accurately");
+    }
+  };
+
   return (
     <Loading isPending={isPending}>
       <div className="w-full h-full left-0 grid grid-cols-3 gap-10">
@@ -126,26 +213,17 @@ const ProductCreate = () => {
                   Product Name
                 </label>
                 <input
-                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                  class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.name ? 'border-red-500' : 'border-slate-300'
+                    } rounded-md px-5 py-5`}
                   placeholder="Your product name"
                   value={stateProduct.name}
                   onChange={handleOnChange}
                   name="name"
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-2xl mt-2">{errors.name}</p>
+                )}
               </div>
-
-              {/* <div class="w-full">
-                <label class="block mb-5 font-semibold text-3xl text-slate-600">
-                  Product Brand
-                </label>
-                <input
-                  class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                  placeholder="Type here..."
-                  value={stateProduct.name}
-                  onChange={handleOnChange}
-                  name="name"
-                />
-              </div> */}
             </div>
 
             <div className="my-10">
@@ -156,12 +234,17 @@ const ProductCreate = () => {
                 Product Description
               </label>
               <textarea
-                class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-slate-300  bg-transparent px-4 py-5 font-sans text-3xl font-normal text-blue-gray-700 outline outline-0 transition-all focus:placeholder-shown:border focus:placeholder-shown:border-cyan focus:placeholder-shown:border-t-leave focus:border-2 focus:border-cyan focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.description ? 'border-red-500' : 'border-slate-300'
+                  } rounded-md px-5 py-5`}
                 placeholder="Your product description"
                 value={stateProduct.description}
                 onChange={handleOnChange}
                 name="description"
-              ></textarea>
+              >
+              </textarea>
+              {errors.description && (
+                <p className="text-red-500 text-2xl mt-2">{errors.description}</p>
+              )}
             </div>
           </div>
           {/* Pricing and stock */}
@@ -176,24 +259,32 @@ const ProductCreate = () => {
                     Price
                   </label>
                   <input
-                    class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.price ? 'border-red-500' : 'border-slate-300'
+                      } rounded-md px-5 py-5`}
                     placeholder="Your product price"
                     value={stateProduct.price}
                     onChange={handleOnChange}
                     name="price"
                   />
+                  {errors.price && (
+                    <p className="text-red-500 text-2xl mt-2">{errors.price}</p>
+                  )}
                 </div>
                 <div class="w-full">
                   <label class="block my-5 font-semibold text-3xl text-slate-600">
                     Stock
                   </label>
                   <input
-                    class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.countInStock ? 'border-red-500' : 'border-slate-300'
+                      } rounded-md px-5 py-5`}
                     placeholder="Your product stock"
                     value={stateProduct.countInStock}
                     onChange={handleOnChange}
                     name="countInStock"
                   />
+                  {errors.countInStock && (
+                    <p className="text-red-500 text-2xl mt-2">{errors.countInStock}</p>
+                  )}
                 </div>
               </div>
               <div>
@@ -202,40 +293,17 @@ const ProductCreate = () => {
                     Rating
                   </label>
                   <input
-                    class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.rating ? 'border-red-500' : 'border-slate-300'
+                      } rounded-md px-5 py-5`}
                     placeholder="Your product rating"
                     value={stateProduct.rating}
                     onChange={handleOnChange}
                     name="rating"
                   />
+                  {errors.rating && (
+                    <p className="text-red-500 text-2xl mt-2">{errors.rating}</p>
+                  )}
                 </div>
-                {/* <div class="w-full">
-                <label class="block my-5 font-semibold text-3xl text-slate-600">
-                  DiscountType
-                </label>
-                <div class="relative">
-                  <select class="w-full bg-transparent placeholder:text-slate-400 s text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-5 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer">
-                    <option value="brazil">Brazil</option>
-                    <option value="bucharest">Bucharest</option>
-                    <option value="london">London</option>
-                    <option value="washington">Washington</option>
-                  </select>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.2"
-                    stroke="currentColor"
-                    class="h-10 w-10 ml-1 absolute top-3.5 right-2.5 text-slate-700"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                    />
-                  </svg>
-                </div>
-              </div> */}
               </div>
             </div>
           </div>
@@ -258,7 +326,7 @@ const ProductCreate = () => {
             </Link>
           </div>
         </div>
-        {/* Split */}
+        {/* Image */}
         <div className="">
           <div className="bg-white p-10">
             <img
@@ -273,7 +341,8 @@ const ProductCreate = () => {
             <div class="flex items-center justify-center w-full">
               <label
                 for="dropzone-file"
-                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
+                class={`flex flex-col items-center justify-center w-full h-64 border-2 ${errors.image ? 'border-red-500' : 'border-gray-300'
+                  } border-dashed rounded-lg cursor-pointer bg-gray-50`}
               >
                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
@@ -308,6 +377,9 @@ const ProductCreate = () => {
                 />
               </label>
             </div>
+            {errors.image && (
+              <p className="text-red-500 text-2xl mt-2">{errors.image}</p>
+            )}
           </div>
 
           <div className="bg-white p-10 my-10 ">
@@ -316,22 +388,50 @@ const ProductCreate = () => {
               <label class="block mb-5 font-semibold text-3xl text-slate-600">
                 Category
               </label>
-              <select
-                className="w-full bg-transparent text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-slate-300 shadow-sm"
-                value={stateProduct.type}
-                onChange={handleOnChange}
-                name="type"
-              >
-                <option value="">Select a category</option>
-                {types.map((type, index) => (
-                  <option
-                    key={index}
-                    value={type}
+              {!showAddTypeInput ? (
+                <select
+                  className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
+                    } rounded-md px-5 py-5`}
+                  value={stateProduct.type}
+                  onChange={handleOnChangeSelect}
+                  name="type"
+                >
+                  {errors.type && (
+                    <p className="text-red-500 text-2xl mt-2">{errors.type}</p>
+                  )}
+                  <option value="">Select a category</option>
+                  {types.map((type, index) => (
+                    <option
+                      key={index}
+                      value={type}
+                    >
+                      {type}
+                    </option>
+                  ))}
+                  <option value="add_new_type">+ Add New Type</option>
+                </select>
+              ) : (
+                <div className="mt-5 flex items-center space-x-3">
+                  <input
+                    className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5"
+                    placeholder="Enter new type"
+                    value={newType}
+                    onChange={(e) => {
+                      setNewType(e.target.value);
+                      setStateProduct({
+                        ...stateProduct,
+                        type: e.target.value
+                      });
+                    }}
+                  />
+                  <button
+                    onClick={handleCancelAddType}
+                    className="bg-red-500 text-white px-5 py-5 rounded-md"
                   >
-                    {type}
-                  </option>
-                ))}
-              </select>
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

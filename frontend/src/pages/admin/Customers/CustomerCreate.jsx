@@ -292,7 +292,7 @@ const CustomerCreate = () => {
                     <div className=" flex w-full gap-10 px-4 pb-10">
                       <div className="w-full">
                         <label
-                          className="block mb-5 text-slate-600 text-3xl font-semibold"
+                          className="block mb-5  text-slate-600  text-3xl "
                           htmlFor="grid-password"
                         >
                           Phone Number
@@ -358,30 +358,28 @@ const CustomerCreate = () => {
                     </div> */}
                     </div>
                     <div className="w-full px-4">
-                      <div className="relative w-full mb-3">
-                        <label
-                          className="block mb-5 text-slate-600 text-3xl font-semibold"
+
+                       <label
+                          className="block mb-5  text-slate-600  text-3xl font-semibold"
                           htmlFor="grid-password"
                         >
                           Address
                         </label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
-                          </div>
-                          <input
-                            type="text"
-                            className={`w-full bg-transparent pl-16 placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.address ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
-                              } rounded-md px-5 py-5`}
-                            placeholder="Your user address"
-                            value={stateUser.address}
-                            onChange={handleOnChange}
-                            name="address"
-                          />
+                      <div class="relative">
+                        <div class="absolute inset-y-0 p-4 start-0 top-0 flex items-center pointer-events-none ">
+                          <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
                         </div>
-                        {errors.address && (
-                          <p className="text-red-500 text-2xl mt-2">{errors.address}</p>
-                        )}
+                        <input
+                          type="text"
+                          className="border border-slate-300 px-16 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
+                          placeholder="Your user address"
+                          value={stateUser.address}
+                          onChange={handleOnChange}
+                          name="address"
+                        />
+                      </div>
+                      <div className="relative w-full mb-3">
+                        
                       </div>
                     </div>
                   </div>

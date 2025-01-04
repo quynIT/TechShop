@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => {
@@ -14,7 +14,7 @@ const Sidebar = () => {
           isOpen ? "block" : "hidden"
         }`}
       >
-        <div className="flex justify-center p-11 border-b-4 border-leave">
+        <div className="flex justify-center p-11 mx-8 border-b-4 border-leave">
           <Link to="/">
             <button className="text-5xl text-white font-semibold">
               {" "}
@@ -25,11 +25,11 @@ const Sidebar = () => {
             onClick={toggle}
           >Nhan</button> */}
         </div>
-        <nav className="flex  min-w-[300px] flex-col gap-1  font-sans text-base font-normal text-blue-gray-600">
+        <nav className="flex  min-w-[300px] flex-col px-4 py-4 gap-1 mx-4 font-sans text-base font-normal text-blue-gray-600">
           <Link to="/admin/Dashboard">
             <button
               role="button"
-              className="flex items-center text-3xl w-full px-20 py-8 leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center text-3xl w-full px-6 py-8 leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <svg
@@ -53,7 +53,7 @@ const Sidebar = () => {
           <Link to="/admin/ProductList">
             <button
               role="button"
-              className="flex items-center text-3xl w-full px-20 py-8 leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center text-3xl w-full px-6 py-8 leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <svg
@@ -74,20 +74,20 @@ const Sidebar = () => {
             </button>
           </Link>
           <Link to="/admin/OrderList">
-            <div
+            <button
               role="button"
-              className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center w-full px-6 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave  focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <FaShoppingCart className="w-10 h-10" />
               </div>
               Order Management
-            </div>
+            </button>
           </Link>
           <Link to="/admin/OrderList">
-            <div
+            <button
               role="button"
-              className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center w-full px-6 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <svg
@@ -105,12 +105,12 @@ const Sidebar = () => {
                 </svg>
               </div>
               Chưa có
-            </div>
+            </button>
           </Link>
           <Link to="/admin/CustomerList">
-            <div
+            <button
               role="button"
-              className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center w-full px-6 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <svg
@@ -128,12 +128,12 @@ const Sidebar = () => {
                 </svg>
               </div>
               Customers Management
-            </div>
+            </button>
           </Link>
           <Link to="/admin/settings">
-            <div
+            <button
               role="button"
-              className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center w-full px-6 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <svg
@@ -151,12 +151,12 @@ const Sidebar = () => {
                 </svg>
               </div>
               Settings
-            </div>
+            </button>
           </Link>
           <Link to="/sign-in">
-            <div
+            <button
               role="button"
-              className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+              className="flex items-center w-full px-6 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
             >
               <div className="grid mr-4 place-items-center">
                 <svg
@@ -174,7 +174,7 @@ const Sidebar = () => {
                 </svg>
               </div>
               Log Out
-            </div>
+            </button>
           </Link>
         </nav>
       </div>

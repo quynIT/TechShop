@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import * as ProductService from "../../../services/ProductService";
 import { useQuery } from "@tanstack/react-query";
@@ -287,11 +287,11 @@ const ProductList = () => {
                       <input
                         id="checkbox-all-search"
                         type="checkbox"
-                        class="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        class="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  "
                         onChange={handleSelectAll}
                         checked={selectedProducts.length === products.length}
                       />
-                      <label for="checkbox-all-search" class="sr-only">
+                      <label for="checkbox-all-search" class="sr-only ">
                         checkbox
                       </label>
                     </div>
@@ -337,7 +337,7 @@ const ProductList = () => {
                         <input
                           id={`checkbox-${product._id}`}
                           type="checkbox"
-                          class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
+                          class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded ng-cyan "
                           checked={selectedProducts.includes(product._id)}
                           onChange={() => handleSelectProduct(product._id)}
                         />

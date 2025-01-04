@@ -91,7 +91,10 @@ export const adminRoutes = [
   //     path: 'sign-up',
   //     page: SignUp
   // },
-
+  {
+    path: "",
+    page: Dashboard,
+  },
   {
     path: "dashboard",
     page: Dashboard,

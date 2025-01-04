@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import Loading from "../../../components/Loading/Loading";
 
 const CustomerCreate = () => {
+  // State để validate các trường nhập
+  const [errors, setErrors] = useState({});
   const [stateUser, setStateUser] = useState({
     name: "",
     email: "",
@@ -29,6 +31,7 @@ const CustomerCreate = () => {
       address,
       avatar,
     } = data;
+
     const res = UserService.signupUser({
       name,
       email,
@@ -59,17 +62,13 @@ const CustomerCreate = () => {
     } else if (isError) {
       message.error();
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError, data]);
 
   const handleOnChange = (e) => {
     setStateUser({
       ...stateUser,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const onFinish = () => {
-    mutation.mutate(stateUser);
   };
 
   const handleOnchangeAvatar = async (event) => {
@@ -87,6 +86,76 @@ const CustomerCreate = () => {
       ...stateUser,
       avatar: preview,
     });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate name
+    if (!stateUser.name.trim()) {
+      newErrors.name = "User name cannot be blank";
+    } else if (stateUser.name.length < 2) {
+      newErrors.name = "User name must be at least 2 characters";
+    } else if (stateUser.name.length > 50) {
+      newErrors.name = "User name cannot exceed 50 characters";
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!stateUser.email.trim()) {
+      newErrors.email = "Email cannot be blank";
+    } else if (!emailRegex.test(stateUser.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // Validate password
+    if (!stateUser.password.trim()) {
+      newErrors.password = "Password cannot be blank";
+    } else if (stateUser.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    } else if (stateUser.password.length > 20) {
+      newErrors.password = "Password must not exceed 20 characters";
+    }
+
+    // Validate confirm password
+    if (!stateUser.confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm password";
+    } else if (stateUser.password !== stateUser.confirmPassword) {
+      newErrors.confirmPassword = "Confirmation password does not match";
+    }
+
+    // Validate phone number
+    const phoneRegex = /^(0[1-9][0-9]{8,9})$/;
+    if (!stateUser.phone.trim()) {
+      newErrors.phone = "Phone number cannot be blank";
+    } else if (!phoneRegex.test(stateUser.phone)) {
+      newErrors.phone = "Invalid phone number (must start with 0 and have 9-10 digits)";
+    }
+
+    // Validate address
+    if (!stateUser.address.trim()) {
+      newErrors.address = "Address cannot be blank";
+    } else if (stateUser.address.length < 5) {
+      newErrors.address = "Address must be at least 5 characters";
+    } else if (stateUser.address.length > 200) {
+      newErrors.address = "Address cannot exceed 200 characters";
+    }
+
+    // Validate avatar
+    if (!stateUser.avatar) {
+      newErrors.avatar = "Please select user avatar";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onFinish = () => {
+    if (validateForm()) {
+      mutation.mutate(stateUser);
+    } else {
+      message.error("Please fill in the information completely and accurately");
+    }
   };
 
   return (
@@ -127,31 +196,39 @@ const CustomerCreate = () => {
                           </label>
                           <input
                             type="text"
-                            className="border px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  border-slate-300 text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear"
+                            className={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.name ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
+                              } rounded-md px-5 py-5`}
                             placeholder="Your user name"
                             value={stateUser.name}
                             onChange={handleOnChange}
                             name="name"
                           />
+                          {errors.name && (
+                            <p className="text-red-500 text-2xl mt-2">{errors.name}</p>
+                          )}
                         </div>
                       </div>
 
                       <div className="w-full px-4">
                         <div className="relative w-full ">
                           <label
-                            className="block  font-sans text-slate-600  text-3xl font-semibold mb-5"
+                            className="block font-sans text-slate-600 text-3xl font-semibold mb-5"
                             htmlFor="grid-password"
                           >
                             Password
                           </label>
                           <input
                             type="text"
-                            className="border border-slate-300 px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear"
+                            className={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.password ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
+                              } rounded-md px-5 py-5`}
                             placeholder="Your user password"
                             value={stateUser.password}
                             onChange={handleOnChange}
                             name="password"
                           />
+                          {errors.password && (
+                            <p className="text-red-500 text-2xl mt-2">{errors.password}</p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -168,12 +245,16 @@ const CustomerCreate = () => {
 
                           <input
                             type="email"
-                            className="border border-slate-300 px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white   rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear"
+                            className={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.email ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
+                              } rounded-md px-5 py-5`}
                             placeholder="Your user email address"
                             value={stateUser.email}
                             onChange={handleOnChange}
                             name="email"
                           />
+                          {errors.email && (
+                            <p className="text-red-500 text-2xl mt-2">{errors.email}</p>
+                          )}
                         </div>
                       </div>
 
@@ -187,12 +268,16 @@ const CustomerCreate = () => {
                           </label>
                           <input
                             type="text"
-                            className="border border-slate-300 px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear"
+                            className={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.confirmPassword ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
+                              } rounded-md px-5 py-5`}
                             placeholder="Your user confirm password"
                             value={stateUser.confirmPassword}
                             onChange={handleOnChange}
                             name="confirmPassword"
                           />
+                          {errors.confirmPassword && (
+                            <p className="text-red-500 text-2xl mt-2">{errors.confirmPassword}</p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -212,10 +297,10 @@ const CustomerCreate = () => {
                         >
                           Phone Number
                         </label>
-                        <div class="relative">
-                          <div class="absolute inset-y-0 p-4 start-0 top-0 flex items-center pointer-events-none ">
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg
-                              class="w-10 h-10 text-gray-500 dark:text-gray-400"
+                              className="w-10 h-10 text-gray-500 dark:text-gray-400"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="currentColor"
@@ -228,7 +313,8 @@ const CustomerCreate = () => {
                             type="text"
                             id="phone-input"
                             aria-describedby="helper-text-explanation"
-                            class="bg-white border border-gray-300 text-slate-600 shadow text-3xl rounded-lg focus:border-cyan focus:outline-none block w-full px-16 py-5"
+                            className={`w-full bg-transparent pl-16 placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.phone ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
+                              } rounded-md px-5 py-5`}
                             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                             placeholder="Your user phone number"
                             required
@@ -237,6 +323,9 @@ const CustomerCreate = () => {
                             name="phone"
                           />
                         </div>
+                        {errors.phone && (
+                          <p className="text-red-500 text-2xl mt-2">{errors.phone}</p>
+                        )}
                       </div>
 
                       {/* <div className="w-full">
@@ -269,6 +358,7 @@ const CustomerCreate = () => {
                     </div> */}
                     </div>
                     <div className="w-full px-4">
+
                        <label
                           className="block mb-5  text-slate-600  text-3xl font-semibold"
                           htmlFor="grid-password"
@@ -293,30 +383,7 @@ const CustomerCreate = () => {
                       </div>
                     </div>
                   </div>
-
                   <hr className="mt-6 border-b-1 border-blueGray-300" />
-
-                  {/* <h6 className="text-blueGray-400  text-3xl mt-3 mb-6 font-semibold  ">
-                  About Me
-                </h6>
-                <div className="flex flex-wrap">
-                  <div className="w-full lg:w-12/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block   text-slate-600  text-3xl font-semibold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        About me
-                      </label>
-                      <textarea
-                        type="text"
-                        className="border border-slate-300 px-3 py-3 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
-                        placeholder="A beautiful UI Kit and Admin for React & Tailwind CSS. It is Free and Open Source."
-                        rows="4"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div> */}
                 </form>
                 {/* button */}
                 <div className="flex justify-between items-cente bg-white p-10">
@@ -345,7 +412,8 @@ const CustomerCreate = () => {
           <div class="flex items-center justify-center w-full">
             <label
               for="dropzone-file"
-              class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
+              class={`flex flex-col items-center justify-center w-full h-64 border-2 ${errors.avatar ? 'border-red-500' : 'border-gray-300'
+                } border-dashed rounded-lg cursor-pointer bg-gray-50`}
             >
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
@@ -380,6 +448,9 @@ const CustomerCreate = () => {
               />
             </label>
           </div>
+          {errors.avatar && (
+            <p className="text-red-500 text-2xl mt-2">{errors.avatar}</p>
+          )}
         </div>
       </div>
     </Loading>

@@ -129,7 +129,7 @@ const Settings = () => {
             <div className=" rounded-lg-t bg-white px-6 py-6">
               <div className="text-center flex justify-between">
                 <h4 className="text-blueGray-700 text-5xl font-bold">
-                  Customer Account
+                  Customer Update
                 </h4>
                 <Link to="/admin/CustomerList">
                   <button
@@ -195,6 +195,7 @@ const Settings = () => {
                         >
                           Email Address
                         </label>
+
                         <input
                           type="email"
                           className="border border-slate-300 px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white   rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
@@ -222,36 +223,6 @@ const Settings = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="w-full">
-                    <label
-                      className="block  mb-5 text-slate-600  text-3xl font-semibold"
-                      htmlFor="grid-password"
-                    >
-                      Created Date
-                    </label>
-                    <div class="relative ">
-                      <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                        <svg
-                          class="w-10 h-10 text-slate-600 "
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                        </svg>
-                      </div>
-                      <input
-                        datepicker
-                        id="default-datepicker"
-                        type="text"
-                        class="bg-white border border-gray-300 text-slate-600 text-3xl rounded-lg  focus:border-cyan focus:outline-none block w-full px-16 shadow py-5 "
-                        placeholder={stateUserDetails.createdAt}
-                        readOnly
-                      />
-                    </div>
-                  </div>
                 </div>
 
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
@@ -263,7 +234,7 @@ const Settings = () => {
                   <div className=" flex w-full gap-10 px-4 pb-10">
                     <div className="w-full">
                       <label
-                        className="block mb-5  text-slate-600  text-3xl font-semibold mb-2"
+                        className="block mb-5  text-slate-600  text-3xl font-semibold"
                         htmlFor="grid-password"
                       >
                         Phone Number
@@ -284,12 +255,42 @@ const Settings = () => {
                           type="text"
                           id="phone-input"
                           aria-describedby="helper-text-explanation"
-                          class="bg-white border border-gray-300 text-slate-600 shadow text-3xl rounded-lg focus:border-cyan focus:outline-none block w-full px-16 py-5"
+                          class="bg-white border border-gray-300 text-slate-600 shadow text-3xl rounded-lg focus:border-cyan focus:outline-none block w-full pl-16 py-5"
                           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                           placeholder={stateUserDetails.phone || "N/A"}
                           onChange={handleOnChangeDetails}
                           name="phone"
                           required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w-full">
+                      <label
+                        className="block  mb-5 text-slate-600  text-3xl font-semibold"
+                        htmlFor="grid-password"
+                      >
+                        Created Date
+                      </label>
+                      <div class="relative ">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                          <svg
+                            class="w-10 h-10 text-slate-600 "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                          </svg>
+                        </div>
+                        <input
+                          datepicker
+                          id="default-datepicker"
+                          type="text"
+                          class="bg-white border border-gray-300 text-slate-600 text-3xl rounded-lg  focus:border-cyan focus:outline-none block w-full pl-16 shadow py-5 "
+                          placeholder={stateUserDetails.createdAt}
+                          readOnly
                         />
                       </div>
                     </div>
@@ -302,9 +303,12 @@ const Settings = () => {
                       >
                         Address
                       </label>
+                      <div class="absolute inset-y-0 p-4 start-0 top-14 flex items-center pointer-events-none ">
+                          <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
+                        </div>
                       <input
                         type="text"
-                        className="border border-slate-300 px-3 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
+                        className="border border-slate-300 pl-16 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
                         placeholder={stateUserDetails.address || "N/A"}
                         onChange={handleOnChangeDetails}
                         name="address"
@@ -347,7 +351,7 @@ const Settings = () => {
                     <div class="flex items-center justify-center w-full">
                       <label
                         for="dropzone-file"
-                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
+                        class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
                       >
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                           <svg
@@ -385,20 +389,21 @@ const Settings = () => {
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-12 text-3xl">
+              <hr className="border border-leave mt-10"></hr>
+              <div className="text-center mt-10 text-3xl">
                 <h3 className="text-3xl font-semibold leading-normal  text-blueGray-700 mb-2">
                   {stateUserDetailsStatic.name || "N/A"}
                 </h3>
                 <div className="text-3xl leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                  <i className="fas fa-map-marker-alt mr-2 text-3xl text-blueGray-400"></i>
                   {stateUserDetailsStatic.address || "N/A"}
                 </div>
-                <div className="mb-2 text-blueGray-600 mt-10">
-                  <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
+                <div className=" text-blueGray-600 mt-10">
+                  <i className="fas fa-briefcase mr-2 text-3xl text-blueGray-400"></i>
                   {stateUserDetails.email}
                 </div>
-                <div className="mb-2 text-blueGray-600">
-                  <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                <div className="mb-2 py-5 text-blueGray-600">
+                  <i className="fas fa-university mr-2 text-3xl text-blueGray-400"></i>
                   {stateUserDetailsStatic.phone || "N/A"}
                 </div>
               </div>

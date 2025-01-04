@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
 import * as UserService from "../../../services/UserService";
@@ -223,7 +224,7 @@ const CustomerList = () => {
               </div>
               {/* delete many button */}
               <button
-                class={`flex select-none items-center justify-center rounded-lg bg-red-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
+                class={`flex select-none items-center justify-center rounded-lg bg-red-600 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none
                 ${
                   selectedUsers.length === 0
                     ? "opacity-50 cursor-not-allowed"
@@ -356,7 +357,7 @@ const CustomerList = () => {
                         <img
                           src={user.avatar}
                           alt={user.name || "User"}
-                          class="relative inline-block w-20 !rounded-full object-cover object-center"
+                          class="relative inline-block w-full h-full !rounded-full object-cover object-center"
                         />
                       </div>
                     </td>
@@ -399,15 +400,8 @@ const CustomerList = () => {
                       {/* edit button */}
                       <Link to={`/admin/CustomerUpdate/${user._id}`}>
                         <button type="button">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            aria-hidden="true"
-                            class="inline w-12 h-12 text-leave active:bg-gray-50 hover:bg-white hover:shadow-md rounded-lg"
-                          >
-                            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
-                          </svg>
+                          <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />
+                                                    
                         </button>
                       </Link>
                       <button
@@ -415,7 +409,7 @@ const CustomerList = () => {
                         className="font-medium text-red-600 dark:text-red-500 hover:underline ml-4"
                       >
                         <svg
-                          class="inline w-12 h-12 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-lg "
+                          class="inline w-16 h-16 p-2 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-xl "
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"

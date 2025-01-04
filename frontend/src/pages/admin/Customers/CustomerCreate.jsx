@@ -207,7 +207,7 @@ const CustomerCreate = () => {
                     <div className=" flex w-full gap-10 px-4 pb-10">
                       <div className="w-full">
                         <label
-                          className="block mb-5  text-slate-600  text-3xl font-semibold"
+                          className="block mb-5  text-slate-600  text-3xl "
                           htmlFor="grid-password"
                         >
                           Phone Number
@@ -269,6 +269,12 @@ const CustomerCreate = () => {
                     </div> */}
                     </div>
                     <div className="w-full px-4">
+                       <label
+                          className="block mb-5  text-slate-600  text-3xl font-semibold"
+                          htmlFor="grid-password"
+                        >
+                          Address
+                        </label>
                       <div class="relative">
                         <div class="absolute inset-y-0 p-4 start-0 top-0 flex items-center pointer-events-none ">
                           <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
@@ -283,13 +289,6 @@ const CustomerCreate = () => {
                         />
                       </div>
                       <div className="relative w-full mb-3">
-                        <label
-                          className="block mb-5  text-slate-600  text-3xl font-semibold"
-                          htmlFor="grid-password"
-                        >
-                          Address
-                        </label>
-                        
                         
                       </div>
                     </div>

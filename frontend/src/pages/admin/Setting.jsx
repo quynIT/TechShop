@@ -2,88 +2,86 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useMutationHooks } from "../../hooks/useMutationHook";
-import * as UserService from '../../services/UserService'
+import * as UserService from "../../services/UserService";
 import { message } from "antd";
 import { updateUser } from "../../redux/slides/userSlide";
 import Loading from "../../components/Loading/Loading";
 import { getBase64 } from "../../utils";
 
 const Settings = () => {
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
-  const [avatar, setAvatar] = useState('')
-  const [createdAt, setCreatedAt] = useState('')
-  const [role, setRole] = useState('')
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
+  const [role, setRole] = useState("");
 
   // State để hiển thị bên phải
   const [displayInfo, setDisplayInfo] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: ''
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
   });
 
-  const mutation = useMutationHooks(
-    (data) => {
-      const { id, access_token, ...rests } = data
-      return UserService.updateUser(id, access_token, rests)
-    }
-  )
+  const mutation = useMutationHooks((data) => {
+    const { id, access_token, ...rests } = data;
+    return UserService.updateUser(id, access_token, rests);
+  });
 
-  const dispatch = useDispatch()
-  const { data, isPending, isSuccess, isError } = mutation
+  const dispatch = useDispatch();
+  const { data, isPending, isSuccess, isError } = mutation;
 
   useEffect(() => {
-    setName(user?.name)
-    setEmail(user?.email)
-    setPhone(user?.phone)
-    setAddress(user?.address)
-    setAvatar(user?.avatar)
-    setCreatedAt(user?.createdAt)
-    setRole(user?.role)
-    
+    setName(user?.name);
+    setEmail(user?.email);
+    setPhone(user?.phone);
+    setAddress(user?.address);
+    setAvatar(user?.avatar);
+    setCreatedAt(user?.createdAt);
+    setRole(user?.role);
+
     // Cập nhật display info khi user thay đổi
     setDisplayInfo({
-      name: user?.name || '',
-      email: user?.email || '',
-      phone: user?.phone || '',
-      address: user?.address || ''
+      name: user?.name || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      address: user?.address || "",
     });
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     if (isSuccess) {
-      message.success()
-      handleGetDetailsUser(user?.id, user?.access_token)
+      message.success();
+      handleGetDetailsUser(user?.id, user?.access_token);
     } else if (isError) {
-      message.error()
+      message.error();
     }
-  }, [isSuccess, isError])
+  }, [isSuccess, isError]);
 
   const handleGetDetailsUser = async (id, token) => {
-    const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser({ ...res?.data, access_token: token }))
-  }
+    const res = await UserService.getDetailsUser(id, token);
+    dispatch(updateUser({ ...res?.data, access_token: token }));
+  };
 
   const handleOnchangeName = (e) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
 
   const handleOnchangeEmail = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   const handleOnchangePhone = (e) => {
-    setPhone(e.target.value)
-  }
+    setPhone(e.target.value);
+  };
 
   const handleOnchangeAddress = (e) => {
-    setAddress(e.target.value)
-  }
+    setAddress(e.target.value);
+  };
 
   const handleOnchangeAvatar = async (e) => {
     const file = e.target.files[0];
@@ -95,11 +93,19 @@ const Settings = () => {
         console.error("Error uploading avatar:", error);
       }
     }
-  }
+  };
 
   const handleUpdate = () => {
-    mutation.mutate({ id: user?.id, access_token: user?.access_token, name, email, phone, address, avatar })
-  }
+    mutation.mutate({
+      id: user?.id,
+      access_token: user?.access_token,
+      name,
+      email,
+      phone,
+      address,
+      avatar,
+    });
+  };
 
   return (
     <Loading isPending={isPending}>
@@ -108,7 +114,9 @@ const Settings = () => {
           <div className=" h-full w-full shadow-lg rounded-lg-lg bg-white ">
             <div className=" rounded-lg-t bg-white px-6 py-6">
               <div className="text-center flex justify-between">
-                <h4 className="text-blueGray-700 text-5xl font-bold">My account</h4>
+                <h4 className="text-blueGray-700 text-5xl font-bold">
+                  My account
+                </h4>
               </div>
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -189,36 +197,6 @@ const Settings = () => {
                         />
                       </div>
                     </div>
-
-                    <div className="w-full">
-                      <label
-                        className="block  mb-5 text-slate-600  text-3xl font-semibold"
-                        htmlFor="grid-password"
-                      >
-                        Created Date
-                      </label>
-                      <div class="relative ">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                          <svg
-                            class="w-10 h-10 text-slate-600 "
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                          </svg>
-                        </div>
-                        <input
-                          datepicker
-                          id="default-datepicker"
-                          type="text"
-                          class="bg-white border border-gray-300 text-slate-600 text-3xl rounded-lg  focus:border-cyan focus:outline-none block w-full px-16 shadow py-5 "
-                          placeholder={createdAt}
-                          readOnly
-                        />
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -259,7 +237,38 @@ const Settings = () => {
                         />
                       </div>
                     </div>
+
+                    <div className="w-full">
+                      <label
+                        className="block  mb-5 text-slate-600  text-3xl font-semibold"
+                        htmlFor="grid-password"
+                      >
+                        Created Date
+                      </label>
+                      <div class="relative ">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                          <svg
+                            class="w-10 h-10 text-slate-600 "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                          </svg>
+                        </div>
+                        <input
+                          datepicker
+                          id="default-datepicker"
+                          type="text"
+                          class="bg-white border border-gray-300 text-slate-600 text-3xl rounded-lg  focus:border-cyan focus:outline-none block w-full px-16 shadow py-5 "
+                          placeholder={createdAt}
+                          readOnly
+                        />
+                      </div>
+                    </div>
                   </div>
+
                   <div className="w-full px-4">
                     <div className="relative w-full mb-3">
                       <label
@@ -268,10 +277,13 @@ const Settings = () => {
                       >
                         Address
                       </label>
+                      <div class="absolute inset-y-0 mt-14 p-4 start-0 top-0 flex items-center pointer-events-none ps-3.5">
+                        <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
+                      </div>
                       <input
                         id="address"
                         type="text"
-                        className="border border-slate-300 px-3 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
+                        className="border border-slate-300 px-14 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
                         placeholder={address}
                         onChange={handleOnchangeAddress}
                       />
@@ -303,14 +315,17 @@ const Settings = () => {
                   <div className="relative">
                     <img
                       alt="tania andrew"
-                      src={avatar || "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"}
-                      class="relative block justify-center h-96 cursor-pointer rounded-full object-cover object-center"
+                      src={
+                        avatar ||
+                        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+                      }
+                      class="relative block justify-center h-96 cursor-pointer object-cover object-center"
                     />
 
                     <div class="flex items-center justify-center w-full">
                       <label
                         for="dropzone-file"
-                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
+                        class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
                       >
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                           <svg
@@ -329,8 +344,8 @@ const Settings = () => {
                             />
                           </svg>
                           <p class="mb-2 text-2xl text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold">Click to upload</span> or drag and
-                            drop
+                            <span class="font-semibold">Click to upload</span>{" "}
+                            or drag and drop
                           </p>
                           <p class="text-2xl text-gray-500 dark:text-gray-400">
                             SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -349,6 +364,7 @@ const Settings = () => {
                   </div>
                 </div>
               </div>
+              <hr className="border border-leave mt-10" />
               <div className="text-center mt-12 text-3xl">
                 <h3 className="text-3xl font-semibold leading-normal  text-blueGray-700 mb-2">
                   {displayInfo.name}
@@ -372,6 +388,6 @@ const Settings = () => {
       </div>
     </Loading>
   );
-}
+};
 
 export default Settings;

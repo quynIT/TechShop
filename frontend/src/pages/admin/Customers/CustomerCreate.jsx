@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
-import * as UserService from '../../../services/UserService'
+import * as UserService from "../../../services/UserService";
 import { message } from "antd";
 import { getBase64 } from "../../../utils";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ const CustomerCreate = () => {
     role: "user",
     phone: "",
     address: "",
-    avatar: ""
+    avatar: "",
   });
 
   const mutation = useMutationHooks((data) => {
@@ -27,7 +27,7 @@ const CustomerCreate = () => {
       role,
       phone,
       address,
-      avatar
+      avatar,
     } = data;
     const res = UserService.signupUser({
       name,
@@ -97,7 +97,9 @@ const CustomerCreate = () => {
             <div className=" h-full w-full shadow-lg rounded-lg-lg bg-white ">
               <div className=" rounded-lg-t bg-white px-6 py-6">
                 <div className="text-center flex justify-between">
-                  <h4 className="text-blueGray-700 text-5xl font-bold">Customer Account</h4>
+                  <h4 className="text-blueGray-700 text-5xl font-bold">
+                    Customer Account
+                  </h4>
                   <Link to="/admin/CustomerList">
                     <button
                       className="bg-yellow-500 text-white active:bg-yellow-300 font-semibold text-3xl p-5  rounded-lg-lg shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear   "
@@ -163,6 +165,7 @@ const CustomerCreate = () => {
                           >
                             Email Address
                           </label>
+
                           <input
                             type="email"
                             className="border border-slate-300 px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white   rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear"
@@ -186,7 +189,7 @@ const CustomerCreate = () => {
                             type="text"
                             className="border border-slate-300 px-5 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear"
                             placeholder="Your user confirm password"
-                            value={stateUser.confirmPassword} 
+                            value={stateUser.confirmPassword}
                             onChange={handleOnChange}
                             name="confirmPassword"
                           />
@@ -204,7 +207,7 @@ const CustomerCreate = () => {
                     <div className=" flex w-full gap-10 px-4 pb-10">
                       <div className="w-full">
                         <label
-                          className="block mb-5  text-slate-600  text-3xl font-semibold mb-2"
+                          className="block mb-5  text-slate-600  text-3xl font-semibold"
                           htmlFor="grid-password"
                         >
                           Phone Number
@@ -266,6 +269,19 @@ const CustomerCreate = () => {
                     </div> */}
                     </div>
                     <div className="w-full px-4">
+                      <div class="relative">
+                        <div class="absolute inset-y-0 p-4 start-0 top-0 flex items-center pointer-events-none ">
+                          <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
+                        </div>
+                        <input
+                          type="text"
+                          className="border border-slate-300 px-16 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
+                          placeholder="Your user address"
+                          value={stateUser.address}
+                          onChange={handleOnChange}
+                          name="address"
+                        />
+                      </div>
                       <div className="relative w-full mb-3">
                         <label
                           className="block mb-5  text-slate-600  text-3xl font-semibold"
@@ -273,14 +289,8 @@ const CustomerCreate = () => {
                         >
                           Address
                         </label>
-                        <input
-                          type="text"
-                          className="border border-slate-300 px-3 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
-                          placeholder="Your user address"
-                          value={stateUser.address}
-                          onChange={handleOnChange}
-                          name="address"
-                        />
+                        
+                        
                       </div>
                     </div>
                   </div>
@@ -324,53 +334,54 @@ const CustomerCreate = () => {
           </div>
         </div>
         <div className="bg-white p-10">
-            <img
-              className="h-96 bg-white w-full object-cover object-center"
-              src={
-                stateUser?.avatar ||
-                "https://docs.material-tailwind.com/img/team-3.jpg"}
-              alt="Customer"
-            />
+          <img
+            className="h-96 bg-white w-full object-cover object-center"
+            src={
+              stateUser?.avatar ||
+              "https://docs.material-tailwind.com/img/team-3.jpg"
+            }
+            alt="Customer"
+          />
 
-            <div class="flex items-center justify-center w-full">
-              <label
-                for="dropzone-file"
-                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
-              >
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg
-                    class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 16"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                    />
-                  </svg>
-                  <p class="mb-2 text-2xl text-gray-500 dark:text-gray-400">
-                    <span class="font-semibold">Click to upload</span> or drag
-                    and drop
-                  </p>
-                  <p class="text-2xl text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                  </p>
-                </div>
-                <input
-                  id="dropzone-file"
-                  type="file"
-                  class="hidden"
-                  onChange={handleOnchangeAvatar}
-                  name="avatar"
-                />
-              </label>
-            </div>
+          <div class="flex items-center justify-center w-full">
+            <label
+              for="dropzone-file"
+              class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
+            >
+              <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                <svg
+                  class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 16"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  />
+                </svg>
+                <p class="mb-2 text-2xl text-gray-500 dark:text-gray-400">
+                  <span class="font-semibold">Click to upload</span> or drag and
+                  drop
+                </p>
+                <p class="text-2xl text-gray-500 dark:text-gray-400">
+                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                </p>
+              </div>
+              <input
+                id="dropzone-file"
+                type="file"
+                class="hidden"
+                onChange={handleOnchangeAvatar}
+                name="avatar"
+              />
+            </label>
           </div>
+        </div>
       </div>
     </Loading>
   );

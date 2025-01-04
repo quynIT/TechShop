@@ -353,16 +353,16 @@ const Settings = () => {
                 <h3 className="text-3xl font-semibold leading-normal  text-blueGray-700 mb-2">
                   {displayInfo.name}
                 </h3>
-                <div className="text-3xl leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
+                <div className="text-3xl leading-normal mt-5 mb-2 text-blueGray-400 font-bold uppercase">
+                  <i className="fas fa-map-marker-alt mr-2 text-4xl text-blueGray-400"></i>{" "}
                   {displayInfo.address}
                 </div>
                 <div className="mb-2 text-blueGray-600 mt-10">
-                  <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
+                  <i className="fas fa-briefcase mr-2 text-4xl text-blueGray-400"></i>
                   {displayInfo.email}
                 </div>
-                <div className="mb-2 text-blueGray-600">
-                  <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                <div className="mb-2 text-blueGray-600 mt-5">
+                  <i className="fas fa-university mr-2 text-4xl text-blueGray-400"></i>
                   {displayInfo.phone}
                 </div>
               </div>

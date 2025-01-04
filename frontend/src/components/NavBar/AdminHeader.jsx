@@ -64,14 +64,14 @@ const AdminHeader = () => {
                   <input
                     id="search_content"
                     type="text"
-                    className="w-full pl-16 px-3 py-5 bg-transparent placeholder:text-slate-800 text-slate-600 md:text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-cyan hover:border-slate-300 shadow-sm focus:shadow"
+                    className="w-full pl-16 px-3 py-5 bg-transparent placeholder:text-slate-800 text-slate-600 md:text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-cyan hover:border-slate-300 shadow-md focus:shadow"
                     placeholder="Type here..."
                   />
                 </div>
               </div>
               <button
                 id="search_button"
-                className="rounded-md bg-green py-2 px-4 border border-transparent text-center md:text-3xl text-white transition-all shadow-md hover:shadow-lg focus:bg-green focus:shadow-none active:bg-leave hover:bg-green-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                className="rounded-md bg-white text-black  py-2 px-4 border border-slate-300 text-center md:text-3xl hover:text-white transition-all shadow-md hover:shadow-lg focus:bg-green focus:text-white focus:shadow-none active:bg-leave hover:bg-green active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
               >
                 Search
@@ -82,7 +82,7 @@ const AdminHeader = () => {
                 <img
                   alt="avatar"
                   src={userAvatar || "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"}
-                  class="relative block justify-center h-16 cursor-pointer rounded-full object-cover object-center lg:mx-10"
+                  class="relative block justify-center w-20 h-20 cursor-pointer rounded-full object-cover object-center lg:mx-10"
                   data-popover-target="profile-menu"
                   onClick={accountToggle}
                 />
@@ -95,7 +95,7 @@ const AdminHeader = () => {
                   role="menu"
                   data-popover="profile-menu"
                   data-popover-placement="bottom"
-                  class="absolute right-8 z-10 min-w-[150px] overflow-auto rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg mt-6 focus:outline-none"
+                  class="absolute right-8 z-10 min-w-[180px] overflow-auto rounded-lg border border-slate-200 bg-white p-3 shadow-lg mt-6 focus:outline-none"
                 >
                   <li
                     role="menuitem"

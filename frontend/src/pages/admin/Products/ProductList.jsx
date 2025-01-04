@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import * as ProductService from "../../../services/ProductService";
 import { useQuery } from "@tanstack/react-query";
@@ -225,7 +226,7 @@ const ProductList = () => {
             </div>
             {/* delete many button */}
             <button
-              class={`flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-red-600 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
+              class={`flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-red-600 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-30 disabled:shadow-none
                 ${
                   selectedProducts.length === 0
                     ? "opacity-50 cursor-not-allowed"
@@ -329,14 +330,14 @@ const ProductList = () => {
                 {filteredProducts.map((product) => (
                   <tr
                     key={product.id}
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    class="bg-white border-b dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
                     <td class="w-10 px-4 py-10">
                       <div class="flex items-center">
                         <input
                           id={`checkbox-${product._id}`}
                           type="checkbox"
-                          class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
                           checked={selectedProducts.includes(product._id)}
                           onChange={() => handleSelectProduct(product._id)}
                         />
@@ -368,7 +369,7 @@ const ProductList = () => {
                     <td class="px-6 py-4">
                       <Link to={`/admin/ProductUpdate/${product._id}`}>
                         <button>
-                          <svg
+                          {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
@@ -376,15 +377,17 @@ const ProductList = () => {
                             class="inline w-12 h-12 text-leave active:bg-gray-50 hover:bg-white hover:shadow-md rounded-lg"
                           >
                             <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
-                          </svg>
+                          </svg> */}
+                          <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />
+                          
                         </button>
                       </Link>
                       <button
                         onClick={() => handleDeleteClick(product)}
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline ml-4"
+                        className="font-medium text-red-600 dark:text-red-500 hover:underline "
                       >
                         <svg
-                          class="inline w-12 h-12 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-lg "
+                          class="inline w-16 h-16 p-2 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-xl "
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"

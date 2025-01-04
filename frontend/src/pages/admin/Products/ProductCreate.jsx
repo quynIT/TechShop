@@ -213,7 +213,7 @@ const ProductCreate = () => {
                   Product Name
                 </label>
                 <input
-                  class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.name ? 'border-red-500' : 'border-slate-300'
+                  class={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.name ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
                     } rounded-md px-5 py-5`}
                   placeholder="Your product name"
                   value={stateProduct.name}
@@ -234,7 +234,7 @@ const ProductCreate = () => {
                 Product Description
               </label>
               <textarea
-                class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.description ? 'border-red-500' : 'border-slate-300'
+                class={`w-full bg-transparent placeholder:text-slate-400 text-slate-600 outline-none text-3xl border ${errors.description ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
                   } rounded-md px-5 py-5`}
                 placeholder="Your product description"
                 value={stateProduct.description}
@@ -259,7 +259,7 @@ const ProductCreate = () => {
                     Price
                   </label>
                   <input
-                    class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.price ? 'border-red-500' : 'border-slate-300'
+                    class={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.price ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
                       } rounded-md px-5 py-5`}
                     placeholder="Your product price"
                     value={stateProduct.price}
@@ -275,7 +275,7 @@ const ProductCreate = () => {
                     Stock
                   </label>
                   <input
-                    class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.countInStock ? 'border-red-500' : 'border-slate-300'
+                    class={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.countInStock ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
                       } rounded-md px-5 py-5`}
                     placeholder="Your product stock"
                     value={stateProduct.countInStock}
@@ -293,7 +293,7 @@ const ProductCreate = () => {
                     Rating
                   </label>
                   <input
-                    class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.rating ? 'border-red-500' : 'border-slate-300'
+                    class={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.rating ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
                       } rounded-md px-5 py-5`}
                     placeholder="Your product rating"
                     value={stateProduct.rating}
@@ -391,7 +391,7 @@ const ProductCreate = () => {
               {!showAddTypeInput ? (
                 <div>
                   <select
-                    className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
+                    className={`w-full bg-transparent outline-none placeholder:text-slate-400 hover: bg-gray-50 text-slate-600 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
                       } rounded-md px-5 py-5`}
                     value={stateProduct.type}
                     onChange={handleOnChangeSelect}
@@ -403,7 +403,7 @@ const ProductCreate = () => {
                         {type}
                       </option>
                     ))}
-                    <option value="add_new_type">+ Add New Type</option>
+                    <option value="add_new_type" className="font-bold">+ Add NewType</option>
                   </select>
                   {errors.type && (
                     <p className="text-red-500 text-2xl mt-2">{errors.type}</p>
@@ -413,7 +413,7 @@ const ProductCreate = () => {
                 <div>
                   <div className="mt-5 flex items-center space-x-3">
                     <input
-                      className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
+                      className={`w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-600 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
                         } rounded-md px-5 py-5`}
                       placeholder="Enter new type"
                       value={newType}
@@ -427,7 +427,7 @@ const ProductCreate = () => {
                     />
                     <button
                       onClick={handleCancelAddType}
-                      className="bg-red-500 text-white px-5 py-5 rounded-md"
+                      className="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white shadow-lg shadow-green-500/50 font-medium rounded-lg text-3xl px-5 py-5"
                     >
                       Cancel
                     </button>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
-import * as UserService from '../../../services/UserService'
+import * as UserService from "../../../services/UserService";
 import { useQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import Loading from "../../../components/Loading/Loading";
@@ -22,35 +22,44 @@ const CustomerList = () => {
 
   const user = useSelector((state) => state?.user);
 
-  const { isPending: isPending, data: users = [], error, refetch } = useQuery({
-    queryKey: ['users'],
+  const {
+    isPending: isPending,
+    data: users = [],
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["users"],
     queryFn: async () => {
       const res = await UserService.getAllUser(user.access_token);
-      return res.data.filter(user => user.role === "user") || [];
+      return res.data.filter((user) => user.role === "user") || [];
     },
   });
-  
-  const mutationDelete = useMutationHooks(
-    (data) => {
-      const { id, token } = data;
-      const res = UserService.deleteUser(id, token);
-      return res;
-    }
-  );
 
-  const mutationDeleteMany = useMutationHooks(
-    (data) => {
-      const { token, ...ids } = data;
-      const res = UserService.deleteManyUser(ids, token);
-      return res;
-    }
-  );
+  const mutationDelete = useMutationHooks((data) => {
+    const { id, token } = data;
+    const res = UserService.deleteUser(id, token);
+    return res;
+  });
 
-  const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
-  const { isSuccess: isSuccessDeletedManyUser, isError: isErrorDeletedManyUser, data: dataDeletedManyUser } = mutationDeleteMany;
+  const mutationDeleteMany = useMutationHooks((data) => {
+    const { token, ...ids } = data;
+    const res = UserService.deleteManyUser(ids, token);
+    return res;
+  });
+
+  const {
+    isSuccess: isSuccessDeleted,
+    isError: isErrorDeleted,
+    data: dataDeleted,
+  } = mutationDelete;
+  const {
+    isSuccess: isSuccessDeletedManyUser,
+    isError: isErrorDeletedManyUser,
+    data: dataDeletedManyUser,
+  } = mutationDeleteMany;
 
   useEffect(() => {
-    if (isSuccessDeleted && dataDeleted?.status === 'OK') {
+    if (isSuccessDeleted && dataDeleted?.status === "OK") {
       message.success("Xóa người dùng thành công!");
       refetch(); // Refresh nguời dùng sau khi xóa
     } else if (isErrorDeleted) {
@@ -59,7 +68,7 @@ const CustomerList = () => {
   }, [isSuccessDeleted, refetch]);
 
   useEffect(() => {
-    if (isSuccessDeletedManyUser && dataDeletedManyUser?.status === 'OK') {
+    if (isSuccessDeletedManyUser && dataDeletedManyUser?.status === "OK") {
       message.success("Xóa người dùng thành công!");
       refetch(); // Refresh người dùng sau khi xóa
     } else if (isErrorDeletedManyUser) {
@@ -81,13 +90,18 @@ const CustomerList = () => {
 
   const handleDeleteManyUser = () => {
     if (selectedUsers.length > 0) {
-      mutationDeleteMany.mutate({ ids: selectedUsers, token: user?.access_token });
+      mutationDeleteMany.mutate({
+        ids: selectedUsers,
+        token: user?.access_token,
+      });
     }
   };
 
   const handleSelectUser = (userId) => {
     setSelectedUsers((prev) =>
-      prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
+      prev.includes(userId)
+        ? prev.filter((id) => id !== userId)
+        : [...prev, userId]
     );
   };
 
@@ -95,15 +109,15 @@ const CustomerList = () => {
     if (selectedUsers.length === users.length) {
       setSelectedUsers([]);
     } else {
-      setSelectedUsers(users.map(user => user._id));
+      setSelectedUsers(users.map((user) => user._id));
     }
   };
 
   //Hàm sắp xếp tên người dùng
   const sortedUsers = [...(users || [])].sort((a, b) => {
     // Kiểm tra xem a.name và b.name có tồn tại không
-    const nameA = a?.name || '';
-    const nameB = b?.name || '';
+    const nameA = a?.name || "";
+    const nameB = b?.name || "";
 
     if (sortOrder === "asc") {
       return nameA.localeCompare(nameB); // Sắp xếp tăng dần
@@ -113,8 +127,9 @@ const CustomerList = () => {
   });
 
   // Lọc người dùng theo tên dựa trên từ khóa tìm kiếm
-  const filteredUsers = sortedUsers.filter(user =>
-    user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false
+  const filteredUsers = sortedUsers.filter(
+    (user) =>
+      user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false
   );
 
   // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
@@ -209,34 +224,39 @@ const CustomerList = () => {
               {/* delete many button */}
               <button
                 class={`flex select-none items-center justify-center rounded-lg bg-red-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
-                ${selectedUsers.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                ${
+                  selectedUsers.length === 0
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
                 type="button"
                 onClick={handleDeleteManyUser}
                 disabled={selectedUsers.length === 0}
               >
                 <svg
-                  class="w-10 h-10 me-2"
+                  class=" w-10 h-10 text-white  "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 24 24"
                 >
                   <path
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
+                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
                   />
                 </svg>
-                Delete
+                Delete all
               </button>
-
 
               {/* Add member */}
               <Link to="/admin/CustomerCreate">
                 <button
-                  class="flex select-none items-center justify-end gap-3 rounded-lg bg-yellow-500 py-2 px-4 text-center  font-sans text-xl font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  class="flex select-none items-center justify-end gap-3 rounded-lg bg-yellow-500 py-4 px-4 text-center  font-sans text-xl font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   type="button"
                 >
                   <svg
@@ -285,7 +305,9 @@ const CustomerList = () => {
                       Customer Name
                     </p>
                     <button
-                      onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+                      onClick={() =>
+                        setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                      }
                       className="text-sm text-blue-500 hover:underline px-2 py-1 border border-blue-500 rounded-md transition-colors hover:bg-blue-500 hover:text-white"
                     >
                       ({sortOrder === "asc" ? "Ascending" : "Descending"})
@@ -310,19 +332,20 @@ const CustomerList = () => {
               </thead>
               <tbody>
                 {filteredUsers.map((user) => (
-                  <tr
-                    key={user.id}
-                    className="hover:bg-gray-50">
-                    <td class="w-10 p-10">
+                  <tr key={user.id} className="hover:bg-gray-50">
+                    <td class="w-10 px-4 py-8">
                       <div class="flex items-center">
                         <input
                           id={`checkbox-${user._id}`}
                           type="checkbox"
-                          class="w-4  p-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          class="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           checked={selectedUsers.includes(user._id)}
                           onChange={() => handleSelectUser(user._id)}
                         />
-                        <label htmlFor={`checkbox-${user._id}`} className="sr-only">
+                        <label
+                          htmlFor={`checkbox-${user._id}`}
+                          className="sr-only"
+                        >
                           checkbox
                         </label>
                       </div>
@@ -375,33 +398,39 @@ const CustomerList = () => {
                       </button> */}
                       {/* edit button */}
                       <Link to={`/admin/CustomerUpdate/${user._id}`}>
-                        <button
-                          class="flex select-none items-center justify-end  rounded-lg bg-yellow-500 py-2 px-4 text-center  font-sans text-2xl font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          type="button"
-                        >
+                        <button type="button">
                           <svg
-                            class="w-10 h-10 me-5"
-                            aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 20"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                            class="inline w-12 h-12 text-leave active:bg-gray-50 hover:bg-white hover:shadow-md rounded-lg"
                           >
-                            <path
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
-                            />
+                            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
                           </svg>
-                          Edit
                         </button>
                       </Link>
                       <button
                         onClick={() => handleDeleteClick(user)}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline ml-4"
                       >
-                        Delete
+                        <svg
+                          class="inline w-12 h-12 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-lg "
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                          />
+                        </svg>
                       </button>
                     </td>
                   </tr>

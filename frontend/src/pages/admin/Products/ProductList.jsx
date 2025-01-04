@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import * as ProductService from '../../../services/ProductService'
+import * as ProductService from "../../../services/ProductService";
 import { useQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
@@ -22,35 +22,44 @@ const ProductList = () => {
 
   const user = useSelector((state) => state?.user);
 
-  const { isPending, data: products = [], error, refetch } = useQuery({
-    queryKey: ['products'],
+  const {
+    isPending,
+    data: products = [],
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["products"],
     queryFn: async () => {
       const res = await ProductService.getAllProduct();
       return res?.data || []; // Trả về mảng rỗng nếu không có dữ liệu
     },
   });
 
-  const mutationDelete = useMutationHooks(
-    (data) => {
-      const { id, token } = data;
-      const res = ProductService.deleteProduct(id, token);
-      return res;
-    }
-  );
+  const mutationDelete = useMutationHooks((data) => {
+    const { id, token } = data;
+    const res = ProductService.deleteProduct(id, token);
+    return res;
+  });
 
-  const mutationDeleteMany = useMutationHooks(
-    (data) => {
-      const { token, ...ids } = data;
-      const res = ProductService.deleteManyProduct(ids, token);
-      return res;
-    }
-  );
-  
-  const { isSuccess: isSuccessDeleted, isError: isErrorDeleted, data: dataDeleted } = mutationDelete;
-  const { isSuccess: isSuccessDeletedManyProduct, isError: isErrorDeletedManyProduct, data: dataDeletedManyProduct } = mutationDeleteMany;
+  const mutationDeleteMany = useMutationHooks((data) => {
+    const { token, ...ids } = data;
+    const res = ProductService.deleteManyProduct(ids, token);
+    return res;
+  });
+
+  const {
+    isSuccess: isSuccessDeleted,
+    isError: isErrorDeleted,
+    data: dataDeleted,
+  } = mutationDelete;
+  const {
+    isSuccess: isSuccessDeletedManyProduct,
+    isError: isErrorDeletedManyProduct,
+    data: dataDeletedManyProduct,
+  } = mutationDeleteMany;
 
   useEffect(() => {
-    if (isSuccessDeleted && dataDeleted?.status === 'OK') {
+    if (isSuccessDeleted && dataDeleted?.status === "OK") {
       message.success("Xóa sản phẩm thành công!");
       refetch(); // Refresh sản phẩm sau khi xóa
     } else if (isErrorDeleted) {
@@ -59,7 +68,10 @@ const ProductList = () => {
   }, [isSuccessDeleted, refetch]);
 
   useEffect(() => {
-    if (isSuccessDeletedManyProduct && dataDeletedManyProduct?.status === 'OK') {
+    if (
+      isSuccessDeletedManyProduct &&
+      dataDeletedManyProduct?.status === "OK"
+    ) {
       message.success("Xóa sản phẩm thành công!");
       refetch(); // Refresh sản phẩm sau khi xóa
     } else if (isErrorDeletedManyProduct) {
@@ -69,7 +81,10 @@ const ProductList = () => {
 
   // Hàm xử lý xác nhận xóa
   const handleDeleteConfirm = async () => {
-    mutationDelete.mutate({ id: productToDelete._id, token: user?.access_token });
+    mutationDelete.mutate({
+      id: productToDelete._id,
+      token: user?.access_token,
+    });
     setIsModalOpen(false); // Đóng modal sau khi xác nhận xóa
   };
 
@@ -81,13 +96,18 @@ const ProductList = () => {
 
   const handleDeleteManyProduct = () => {
     if (selectedProducts.length > 0) {
-      mutationDeleteMany.mutate({ ids: selectedProducts, token: user?.access_token });
+      mutationDeleteMany.mutate({
+        ids: selectedProducts,
+        token: user?.access_token,
+      });
     }
   };
 
   const handleSelectProduct = (productId) => {
     setSelectedProducts((prev) =>
-      prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
     );
   };
 
@@ -95,7 +115,7 @@ const ProductList = () => {
     if (selectedProducts.length === products.length) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(products.map(product => product._id));
+      setSelectedProducts(products.map((product) => product._id));
     }
   };
 
@@ -109,8 +129,8 @@ const ProductList = () => {
   });
 
   // Lọc sản phẩm theo tên dựa trên từ khóa tìm kiếm
-  const filteredProducts = sortedProducts.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) // Tìm kiếm không phân biệt hoa thường
+  const filteredProducts = sortedProducts.filter(
+    (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()) // Tìm kiếm không phân biệt hoa thường
   );
 
   // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
@@ -205,34 +225,40 @@ const ProductList = () => {
             </div>
             {/* delete many button */}
             <button
-              class={`flex select-none items-center justify-center rounded-lg bg-red-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
-                ${selectedProducts.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              class={`flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-red-600 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
+                ${
+                  selectedProducts.length === 0
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
               type="button"
               onClick={handleDeleteManyProduct}
               disabled={selectedProducts.length === 0}
             >
               <svg
-                class="w-10 h-10 me-2"
+                class=" w-10 h-10 text-white  "
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
                 fill="none"
-                viewBox="0 0 20 20"
+                viewBox="0 0 24 24"
               >
                 <path
                   stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2"
+                  d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
                 />
               </svg>
-              Delete
+              Delete All
             </button>
 
             {/* Add product */}
             <Link to="/admin/ProductCreate">
               <button
-                class="flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-yellow-500 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-yellow-500 py-4 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
               >
                 <svg
@@ -253,7 +279,7 @@ const ProductList = () => {
         <Loading isPending={isPending}>
           <div class="relative overflow-x-auto shadow-md mt-10 border border-gray-200 sm:rounded-lg">
             <table class="w-full text-3xl text-left rtl:text-right text-slate-600 dark:text-gray-400">
-              <thead class=" text-slate-600 font-sans bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead class=" text-slate-600 font-sans bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" class="p-4">
                     <div class="flex items-center">
@@ -276,7 +302,9 @@ const ProductList = () => {
                     <div class="flex items-center space-x-2">
                       <span class="font-semibold">Product Name</span>
                       <button
-                        onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+                        onClick={() =>
+                          setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                        }
                         className="text-sm text-blue-500 hover:underline px-2 py-1 border border-blue-500 rounded-md transition-colors hover:bg-blue-500 hover:text-white"
                       >
                         ({sortOrder === "asc" ? "Ascending" : "Descending"})
@@ -301,17 +329,21 @@ const ProductList = () => {
                 {filteredProducts.map((product) => (
                   <tr
                     key={product.id}
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="w-10 p-10">
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  >
+                    <td class="w-10 px-4 py-10">
                       <div class="flex items-center">
                         <input
                           id={`checkbox-${product._id}`}
                           type="checkbox"
-                          class="w-4  p-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           checked={selectedProducts.includes(product._id)}
                           onChange={() => handleSelectProduct(product._id)}
                         />
-                        <label htmlFor={`checkbox-${product._id}`} className="sr-only">
+                        <label
+                          htmlFor={`checkbox-${product._id}`}
+                          className="sr-only"
+                        >
                           checkbox
                         </label>
                       </div>
@@ -335,18 +367,39 @@ const ProductList = () => {
                     <td class="px-6 py-4">{product.price} VND</td>
                     <td class="px-6 py-4">
                       <Link to={`/admin/ProductUpdate/${product._id}`}>
-                        <button
-                          class="flex select-none items-center justify-end rounded-lg bg-yellow-500 py-2 px-4 text-center  font-sans text-2xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          type="button"
-                        >
-                          Edit
+                        <button>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                            class="inline w-12 h-12 text-leave active:bg-gray-50 hover:bg-white hover:shadow-md rounded-lg"
+                          >
+                            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
+                          </svg>
                         </button>
                       </Link>
                       <button
                         onClick={() => handleDeleteClick(product)}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline ml-4"
                       >
-                        Delete
+                        <svg
+                          class="inline w-12 h-12 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-lg "
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                          />
+                        </svg>
                       </button>
                     </td>
                   </tr>

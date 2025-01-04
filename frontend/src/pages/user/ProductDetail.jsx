@@ -4,21 +4,26 @@ import iphone1 from '../../assets/image/iphone1.jpg';
 import iphone2 from '../../assets/image/iphone2.jpg';
 import iphone3 from '../../assets/image/iphone3.jpg';
 import iphone15 from '../../assets/image/iphone15.jpg';
-import { Link, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as ProductService from '../../services/ProductService'
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../components/Loading/Loading';
+import { useDispatch, useSelector } from "react-redux";
+import { addOrderProduct } from '../../redux/slides/orderSlide';
 
 const ProductDetail = () => {
   const { id } = useParams()
   // const [selectedColor, setSelectedColor] = useState('Đen');
   // const [selectedStorage, setSelectedStorage] = useState('128GB');
   // const [mainImage, setMainImage] = useState(iphone1);
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state?.user)
   // Tìm nạp chi tiết sản phẩm bằng id
   const fetchGetDetailsProduct = async (context) => {
     const id = context?.queryKey && context?.queryKey[1]
-    if(id){
+    if (id) {
       const res = await ProductService.getDetailsProduct(id)
       return res.data
     }
@@ -27,7 +32,7 @@ const ProductDetail = () => {
   const { isPending, data: productDetails } = useQuery({
     queryKey: ["product-details", id],
     queryFn: fetchGetDetailsProduct,
-    enabled: !! id
+    enabled: !!id
   });
 
   const product = {
@@ -40,6 +45,21 @@ const ProductDetail = () => {
     storage: ['128GB', '256GB', '512GB'],
     images: [iphone1, iphone2, iphone3, iphone15],
   };
+
+  const handleAddOrderProduct = () => {
+    if(!user?.id){
+      navigate('/sign-in', { state: location?.pathname })
+    }else{
+      dispatch(addOrderProduct({
+        orderItems: {
+          name: productDetails?.name,
+          image: productDetails?.image,
+          price: productDetails?.price,
+          product: productDetails?._id
+        }
+      }))
+    }
+  }
 
   return (
     <Loading isPending={isPending}>
@@ -121,22 +141,28 @@ const ProductDetail = () => {
             </div> */}
 
             {/* Nút mua hàng */}
-            <button className="w-full bg-red-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-red-700 transition duration-300 shadow-md"><Link to="/cart">
-              MUA NGAY </Link> </button>
+            <button className="w-full bg-red-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-red-700 transition duration-300 shadow-md"
+              onClick={handleAddOrderProduct}
+            >
+              {/* <Link to="/cart">
+                BUY NOW
+              </Link> */}
+              BUY NOW
+            </button>
 
             {/* Thông tin thêm */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
               <div className="flex items-center">
                 <Truck className="w-6 h-6 mr-3 text-green-500" />
-                <span className="text-lg">Giao hàng miễn phí toàn quốc</span>
+                <span className="text-lg">Free shipping nationwide</span>
               </div>
               <div className="flex items-center">
                 <Shield className="w-6 h-6 mr-3 text-blue-500" />
-                <span className="text-lg">Bảo hành chính hãng 12 tháng</span>
+                <span className="text-lg">12 month genuine warranty</span>
               </div>
               <div className="flex items-center">
                 <ShoppingCart className="w-6 h-6 mr-3 text-orange-500" />
-                <span className="text-lg">Trả góp 0% lãi suất</span>
+                <span className="text-lg">0% interest installment</span>
               </div>
             </div>
           </div>

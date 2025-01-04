@@ -4,7 +4,7 @@ import {
   CaretDownOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { Col, Popover } from "antd";
+import { Badge, Col, Popover } from "antd";
 import {
   WrapperTextHeaderSmall,
   WrapperHeader,
@@ -27,6 +27,7 @@ const Header = () => {
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
   const [search, setSearch] = useState("");
+  const order = useSelector((state) => state.order);
   const [loading, setLoading] = useState(false);
 
   const handleNavigateLogin = () => {
@@ -162,8 +163,9 @@ const Header = () => {
             </WrapperHeaderAccout>
           </Loading>
           <div className="ml-5" onClick={() => navigate('/cart')} style={{cursor: 'pointer'}}>
-            <ShoppingCartOutlined style={{ fontSize: "30px", color: "#fff" }} />
-
+            <Badge count={order.orderItems.reduce((total, item) => total + item.amount, 0)}  size="small">
+              <ShoppingCartOutlined style={{ fontSize: "30px", color: "#fff" }} />
+            </Badge>
             <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
           </div>
         </Col>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as UserService from "../../services/UserService";
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import Loading from "../../components/Loading/Loading";
@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slides/userSlide";
 
 const SignIn = () => {
+  const location = useLocation()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -20,7 +21,11 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("/");
+      if(location?.state){
+        navigate(location?.state)
+      }else{
+        navigate("/");
+      }
       //Lưu access token vào storage
       localStorage.setItem("access_token", JSON.stringify(data?.access_token));
       if (data?.access_token) {

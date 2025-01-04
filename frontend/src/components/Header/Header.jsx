@@ -52,7 +52,7 @@ const Header = () => {
   const content = (
     <div>
       {user.role === "admin" && (
-        <WrapperContentPopup onClick={() => navigate("/admin")}>
+        <WrapperContentPopup onClick={() => navigate("/admin/dashboard")}>
           System management
         </WrapperContentPopup>
       )}

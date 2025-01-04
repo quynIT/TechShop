@@ -6,12 +6,18 @@ import { useMutationHooks } from "../../../hooks/useMutationHook";
 import { useSelector } from "react-redux";
 import Loading from "../../../components/Loading/Loading";
 import { message } from "antd";
+import { useQuery } from "@tanstack/react-query";
 
 const ProductUpdate = () => {
   // Lấy id sản phẩm từ đường dẫn
   const { id } = useParams();
+  // State để hiển thị các type khi nhấn drop down
+  const [types, setTypes] = useState([]);
+  // State để kiểm soát việc hiển thị input thêm type mới
+  const [showAddTypeInput, setShowAddTypeInput] = useState(false);
+  const [newType, setNewType] = useState('');
   const user = useSelector((state) => state?.user)
-  
+
   const [stateProductDetails, setStateProductDetails] = useState({
     name: '',
     price: '',
@@ -34,6 +40,22 @@ const ProductUpdate = () => {
       return res
     }
   )
+
+  // Sử dụng useQuery để fetch types
+  const { data: typeData } = useQuery({
+    queryKey: ["product-types"],
+    queryFn: async () => {
+      const res = await ProductService.getAllTypeProduct();
+      return res?.data || [];
+    },
+  });
+
+  // Cập nhật types khi có dữ liệu từ backend
+  useEffect(() => {
+    if (typeData) {
+      setTypes(typeData);
+    }
+  }, [typeData]);
 
   const { data: dataUpdated, isPending: isPendingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
 
@@ -95,7 +117,7 @@ const ProductUpdate = () => {
 
   const onUpdateProduct = () => {
     const { name, price, description, rating, image, type, countInStock } = stateProductDetails;
-    
+
     // Gửi dữ liệu cập nhật
     mutationUpdate.mutate({
       id: id,
@@ -109,6 +131,34 @@ const ProductUpdate = () => {
       countInStock,
     });
   };
+
+  const handleOnChangeSelect = (e) => {
+    const value = e.target.value;
+
+    if (value === 'add_new_type') {
+      setShowAddTypeInput(true);
+      setStateProductDetails({
+        ...stateProductDetails,
+        type: ''
+      });
+    } else {
+      setShowAddTypeInput(false);
+      setStateProductDetails({
+        ...stateProductDetails,
+        type: value
+      });
+    }
+  }
+
+  // Hàm để hủy thêm type mới
+  const handleCancelAddType = () => {
+    setShowAddTypeInput(false);
+    setNewType('');
+    setStateProductDetails(prev => ({
+      ...prev,
+      type: '' // Reset type về trạng thái ban đầu
+    }));
+  }
 
   return (
     <Loading isPending={isPendingUpdated}>
@@ -269,19 +319,47 @@ const ProductUpdate = () => {
               <label class="block mb-5 font-semibold text-3xl text-slate-600">
                 Category
               </label>
-              <input
-                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                placeholder={stateProductDetails.type}
-                onChange={handleOnChangeDetails} name="type"
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                type="button"
-                class="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white  shadow-lg shadow-green-500/50  font-medium rounded-lg text-3xl px-5 py-5 text-center mt-10 ml-[310px]"
-              >
-                Add Category
-              </button>
+              {!showAddTypeInput ? (
+                <div>
+                  <select
+                    className="w-full bg-transparent outline-none placeholder:text-slate-400 hover:bg-gray-50 text-slate-600 text-3xl border border-slate-300 rounded-md px-5 py-5"
+                    value={stateProductDetails.type}
+                    onChange={handleOnChangeSelect}
+                    name="type"
+                  >
+                    <option value="">Select a category</option>
+                    {types.map((type, index) => (
+                      <option key={index} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                    <option value="add_new_type" className="font-bold">+ Add NewType</option>
+                  </select>
+                </div>
+              ) : (
+                <div>
+                  <div className="mt-5 flex items-center space-x-3">
+                    <input
+                      className="w-full bg-transparent placeholder:text-slate-400 outline-none text-slate-600 text-3xl border border-slate-300 focus:border-cyan rounded-md px-5 py-5"
+                      placeholder="Enter new type"
+                      value={newType}
+                      onChange={(e) => {
+                        setNewType(e.target.value);
+                        setStateProductDetails({
+                          ...stateProductDetails,
+                          type: e.target.value
+                        });
+                      }}
+                    />
+                    <button
+                      onClick={handleCancelAddType}
+                      className="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white shadow-lg shadow-green-500/50 font-medium rounded-lg text-3xl px-5 py-5"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

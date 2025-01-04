@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as UserService from "../../services/UserService";
 import { resetUser } from "../../redux/slides/userSlide";
 import Loading from "../Loading/Loading";
+import { searchProduct } from "../../redux/slides/productSlide";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleNavigateLogin = () => {
@@ -71,6 +73,11 @@ const Header = () => {
     </div>
   );
 
+  const onSearch = (e) => {
+    setSearch(e.target.value)
+    dispatch(searchProduct(e.target.value));
+  }
+  
   return (
     <div
       style={{
@@ -93,6 +100,7 @@ const Header = () => {
             textbutton="Search"
             placeholder="Search for products..."
             backgroundColorButton="#ff8906"
+            onChange={onSearch}
           />
         </Col>
         <Col

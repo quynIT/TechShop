@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  WrapperButtonMore,
   WrapperProducts,
   WrapperTypeProduct,
 } from "../../components/HomePage/style";
@@ -19,54 +20,39 @@ import { useDebounce } from "../../hooks/useDebounce";
 
 const Homepage = () => {
   const searchProduct = useSelector((state) => state?.product?.search)
-  const searchDebounce = useDebounce(searchProduct, 1000)
-  const refSearch = useRef()
+  const searchDebounce = useDebounce(searchProduct, 500)
   const [loading, setLoading] = useState(false)
-  const [stateProduct, setStateProduct] = useState([])
+  const [limit, setLimit] = useState(5)
   const arr = ["TV", "Fridge", "Laptop", "Phone"];
-  const fetchProductAll = async (search) => {
-    const res = await ProductService.getAllProduct(search);
-    if (search?.length > 0 || refSearch.current) {
-      setStateProduct(res?.data)
-    } else {
-      return res;
-    }
+
+  const fetchProductAll = async (context) => {
+    const limit = context?.queryKey && context?.queryKey[1]
+    const search = context?.queryKey && context?.queryKey[2]
+    const res = await ProductService.getAllProduct(search, limit);
+    return res;
   };
 
-  useEffect(() => {
-    if (refSearch.current) {
-      setLoading(true)
-      fetchProductAll(searchDebounce)
-    }
-    refSearch.current = true
-    setLoading(false)
-  }, [searchDebounce])
-
-  const { isPending, data: products } = useQuery({
-    queryKey: "products",
+  const { isPending, data: products, isPreviousData } = useQuery({
+    queryKey: ["products", limit, searchDebounce],
     queryFn: fetchProductAll,
     retry: 3,
     retryDelay: 1000,
+    keepPreviousData: true
   });
 
-  useEffect(() => {
-    if (products?.data?.length > 0) {
-      setStateProduct(products?.data)
-    }
-  }, [products])
-
   return (
-    <Loading isPending={isPending || loading}>
-      <div style={{ width: "1270px", margin: "0 auto" }}>
-        <WrapperTypeProduct>
-          {arr.map((item) => {
-            return <TypeProduct name={item} key={item} />;
-          })}
-          <TypeProduct />
-        </WrapperTypeProduct>
-        <SlideComponent arrImages={[banner_1, banner2, banner3]} />
+
+    <div style={{ width: "1270px", margin: "0 auto" }}>
+      <WrapperTypeProduct>
+        {arr.map((item) => {
+          return <TypeProduct name={item} key={item} />;
+        })}
+        <TypeProduct />
+      </WrapperTypeProduct>
+      <SlideComponent arrImages={[banner_1, banner2, banner3]} />
+      <Loading isPending={isPending || loading}>
         <WrapperProducts>
-          {stateProduct?.map((product) => {
+          {products?.data?.map((product) => {
             return (
               <Link to="/detail">
                 <CardComponent
@@ -85,9 +71,20 @@ const Homepage = () => {
             );
           })}
         </WrapperProducts>
-        <TrendSlide />
+      </Loading>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+        <WrapperButtonMore
+          textbutton={isPreviousData ? 'Load more' : "Load more"} type="outline" styleButton={{
+            border: `1px solid ${products?.total === products?.data?.length ? '#f5f5f5' : '#9255FD'}`, color: `${products?.total === products?.data?.length ? '#f5f5f5' : '#9255FD'}`,
+            width: '240px', height: '38px', borderRadius: '4px'
+          }}
+          disabled={products?.total === products?.data?.length || products?.totalPage === 1}
+          styleTextButton={{ fontWeight: 500, color: products?.total === products?.data?.length && '#fff' }}
+          onClick={() => setLimit((prev) => prev + 6)}
+        />
       </div>
-    </Loading>
+      <TrendSlide />
+    </div >
   );
 };
 

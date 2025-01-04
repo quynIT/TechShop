@@ -11,7 +11,7 @@ const CardComponent = (props) => {
         <Card
             hoverable
             style={{ width: 240 }}
-            cover={<img alt="example" src={iphone15} />}>
+            cover={<img alt="example" src={image} />}>
             <StyleNameProduct>{name}</StyleNameProduct>
 
             <WrapperReportText>
@@ -21,9 +21,9 @@ const CardComponent = (props) => {
                 <WrapperStyleTextSell> | Da ban {selled || 1000}+</WrapperStyleTextSell>
             </WrapperReportText>
             <WrapperPriceText>
-                <span style={{ marginRight: '8px' }}>{price} VND</span>
+                <span style={{ marginRight: '8px' }}>{price.toLocaleString()} VND</span>
                 <WrapperDiscountText>
-                    {discount || 5} %
+                    - {discount || 5} %
                 </WrapperDiscountText>
             </WrapperPriceText>
         </Card>

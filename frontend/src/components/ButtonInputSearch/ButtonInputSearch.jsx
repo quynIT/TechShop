@@ -13,6 +13,7 @@ const ButttonInputSearch = (props) => {
     backgroundColorInput = "#fff",
     backgroundColorButton = "rgb(13, 92, 182)",
     colorButton = "#fff",
+    onChange,
   } = props;
 
   return (
@@ -22,6 +23,7 @@ const ButttonInputSearch = (props) => {
         placeholder={placeholder}
         bordered={bordered}
         style={{ backgroundColor: backgroundColorInput }}
+        onChange={onChange}
         {...props}
       />
       <ButtonComponent

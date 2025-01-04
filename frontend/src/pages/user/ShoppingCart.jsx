@@ -42,7 +42,7 @@ const ShoppingCart = () => {
 
   return (
     <div className="max-w-8xl mx-auto p-12 bg-white shadow-xl rounded-2xl">
-      <h1 className="text-5xl font-bold mb-12">Giỏ hàng của bạn</h1>
+      <h1 className="text-5xl font-bold mb-12">Your cart</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div className="lg:col-span-2">
           {order?.orderItems?.map((item) => {
@@ -80,30 +80,30 @@ const ShoppingCart = () => {
         </div>
         <div className="lg:col-span-1">
           <div className="bg-gray-50 p-10 rounded-xl shadow-lg">
-            <h2 className="text-3xl font-semibold mb-8">Tổng giỏ hàng</h2>
+            <h2 className="text-3xl font-semibold mb-8">Total cart</h2>
             <div className="flex justify-between mb-6 text-xl">
-              <span>Tạm tính:</span>
-              <span>{subtotal?.toLocaleString()}₫</span>
+              <span>Provisional:</span>
+              <span>{subtotal?.toLocaleString()} VND</span>
             </div>
             <div className="flex justify-between mb-6 text-xl">
-              <span>Phí vận chuyển:</span>
-              <span className="text-green-600 font-semibold">Miễn phí</span>
+              <span>Shipping fee:</span>
+              <span className="text-green-600 font-semibold">Free of charge</span>
             </div>
             <div className="flex justify-between font-semibold text-2xl border-t pt-6 mt-6">
-              <span>Tổng cộng:</span>
-              <span className="text-red-600">{total?.toLocaleString()}VND</span>
+              <span>Total:</span>
+              <span className="text-red-600">{total?.toLocaleString()} VND</span>
             </div>
             <button className="w-full bg-red-600 text-white py-5 rounded-xl font-semibold text-2xl mt-8 hover:bg-red-700 transition duration-300">
-              <Link to="/order-success">Tiến hành đặt hàng</Link>
+              <Link to="/order-success">Place order</Link>
             </button>
             <div className="mt-8 text-lg text-gray-600">
               <div className="flex items-center mb-4">
                 <Truck className="w-8 h-8 mr-4" />
-                <span>Giao hàng miễn phí toàn quốc</span>
+                <span>Free shipping nationwide</span>
               </div>
               <div className="flex items-center">
                 <CreditCard className="w-8 h-8 mr-4" />
-                <span>Thanh toán an toàn</span>
+                <span>Secure Payment</span>
               </div>
             </div>
           </div>

@@ -204,7 +204,7 @@ const CustomerList = () => {
                         id="search_content"
                         type="text"
                         className="w-full pl-16 px-3 py-4 bg-transparent shadow-md shadow-green/30 placeholder:text-slate-700 text-slate-600 md:text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green focus:shadow"
-                        placeholder="Type here..."
+                        placeholder="Search for customers..."
                         value={tempSearchTerm}
                         onChange={handleSearchInputChange}
                       />

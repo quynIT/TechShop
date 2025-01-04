@@ -11,7 +11,6 @@ import banner2 from "../../assets/image/Banner2.jpg";
 import banner3 from "../../assets/image/Banner3.jpg";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import TrendSlide from "../../components/TrendSlide/TrendSlide";
-import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import * as ProductService from "../../services/ProductService";
 import { useSelector } from "react-redux";
@@ -21,26 +20,29 @@ import { useDebounce } from "../../hooks/useDebounce";
 const Homepage = () => {
   const searchProduct = useSelector((state) => state?.product?.search)
   const searchDebounce = useDebounce(searchProduct, 500)
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const [limit, setLimit] = useState(5)
   const [typeProduct, setTypeProduct] = useState([])
+  // State dùng cho chọn loại sản phẩm và load các sản phẩm theo loại đó
+  const [selectedType, setSelectedType] = useState(null)
 
   const fetchProductAll = async (context) => {
     const limit = context?.queryKey && context?.queryKey[1]
     const search = context?.queryKey && context?.queryKey[2]
-    const res = await ProductService.getAllProduct(search, limit);
+    const type = context?.queryKey && context?.queryKey[3]
+    const res = await ProductService.getAllProduct(search, limit, type);
     return res;
   };
 
   const fetchAllTypeProduct = async () => {
     const res = await ProductService.getAllTypeProduct()
-    if(res?.status === 'OK'){
+    if (res?.status === 'OK') {
       setTypeProduct(res?.data)
     }
   }
-  
+
   const { isPending, data: products, isPreviousData } = useQuery({
-    queryKey: ["products", limit, searchDebounce],
+    queryKey: ["products", limit, searchDebounce, selectedType],
     queryFn: fetchProductAll,
     retry: 3,
     retryDelay: 1000,
@@ -51,13 +53,37 @@ const Homepage = () => {
     fetchAllTypeProduct()
   }, [])
 
+  const handleTypeClick = (type) => {
+    setSelectedType(type)
+    setLimit(5)  // Reset lại limit khi chọn type mới
+  }
+
   return (
     <div style={{ width: "1270px", margin: "0 auto" }}>
       <WrapperTypeProduct>
         {typeProduct.map((item) => {
-          return <TypeProduct name={item} key={item} />;
+          return (
+            <TypeProduct
+              name={item}
+              key={item}
+              onClick={() => handleTypeClick(item)}
+              isSelected={selectedType === item}
+            />
+          );
         })}
-        <TypeProduct />
+        {selectedType && (
+          <div
+            onClick={() => setSelectedType(null)}
+            style={{
+              marginLeft: '25px',
+              color: 'red',
+              cursor: 'pointer',
+              fontWeight: 'bold'
+            }}
+          >
+            Clear filter
+          </div>
+        )}
       </WrapperTypeProduct>
       <SlideComponent arrImages={[banner_1, banner2, banner3]} />
       <Loading isPending={isPending || loading}>

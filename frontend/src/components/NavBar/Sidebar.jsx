@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -9,8 +10,9 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${isOpen ? "block" : "hidden"
-          }`}
+        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${
+          isOpen ? "block" : "hidden"
+        }`}
       >
         <div className="flex justify-center p-11 border-b-4 border-leave">
           <Link to="/">
@@ -68,8 +70,19 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              E-Commerce
+              Product Management
             </button>
+          </Link>
+          <Link to="/admin/OrderList">
+            <div
+              role="button"
+              className="flex items-center w-full px-20 py-8 text-3xl leading-tight transition-all rounded-lg outline-none text-white text-start hover:bg-teal-950 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-leave focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
+            >
+              <div className="grid mr-4 place-items-center">
+                <FaShoppingCart className="w-10 h-10" />
+              </div>
+              Order Management
+            </div>
           </Link>
           <Link to="/admin/OrderList">
             <div
@@ -91,7 +104,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Invoices
+              Chưa có
             </div>
           </Link>
           <Link to="/admin/CustomerList">
@@ -114,7 +127,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Customers
+              Customers Management
             </div>
           </Link>
           <Link to="/admin/settings">
@@ -165,7 +178,6 @@ const Sidebar = () => {
           </Link>
         </nav>
       </div>
-
     </>
   );
 };

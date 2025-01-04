@@ -95,7 +95,7 @@ const AdminHeader = () => {
                   role="menu"
                   data-popover="profile-menu"
                   data-popover-placement="bottom"
-                  class="absolute z-10 min-w-[190px] overflow-auto rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg shadow-sm mt-[6rem] focus:outline-none"
+                  class="absolute right-8 z-10 min-w-[150px] overflow-auto rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg mt-6 focus:outline-none"
                 >
                   <li
                     role="menuitem"

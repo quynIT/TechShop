@@ -99,6 +99,41 @@ const InfoCustomer = () => {
                 {stateUserDetailsStatic.role &&
                   `Working as ${stateUserDetailsStatic.role}`}
               </p>
+              <div className="text-lg">
+                <p>
+                  💰 <strong className="text-xl">Ví & Điểm thưởng</strong>
+                  <br />- Số dư ví điện tử:{" "}
+                  <strong className="font-semibold">1,500,000 VND</strong>
+                  <br />- Điểm thưởng hiện tại: ⭐{" "}
+                  <strong className="font-semibold">1,200 điểm</strong> (Quy
+                  đổi: <strong className="font-semibold">120,000 VND</strong>)
+                  <br />
+                  <a href="#" className="text-blue-600 hover:underline">
+                    💳 Nạp tiền vào ví
+                  </a>{" "}
+                  | ⭐{" "}
+                  <a href="#" className="text-blue-600 hover:underline">
+                    Quy đổi điểm
+                  </a>
+                </p>
+                <hr className="my-4 border-gray-300" />
+                <p>
+                  ❤️ <strong className="text-xl">Sản phẩm yêu thích</strong>
+                  <ol className="list-decimal list-inside space-y-1 mt-2">
+                    <li className="text-xl">Áo Hoodie Unisex - Màu Đen</li>
+                    <li className="text-xl">
+                      Tai nghe Bluetooth Sony WH-1000XM5
+                    </li>
+                    <li className="text-xl">
+                      Đồng hồ thông minh Apple Watch Series 9
+                    </li>
+                  </ol>
+                  🔍{" "}
+                  <a href="#" className="text-blue-600 hover:underline text-xl">
+                    Xem tất cả sản phẩm yêu thích
+                  </a>
+                </p>
+              </div>
             </div>
 
             {/* Experience Section */}

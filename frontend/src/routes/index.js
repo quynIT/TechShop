@@ -18,15 +18,14 @@ import ProfilePage from "../components/Profile/ProfilePage.jsx";
 import Staffpage from "../pages/staff/Staffpage.jsx";
 import DetailOrder from "../pages/staff/DetailOrder.jsx";
 import CustomerCreate from "../pages/admin/Customers/CustomerCreate.jsx";
-import OrderList from "../pages/admin/Orders/OrderList.jsx";
-import CreateOrder from "../pages/admin/Orders/CreateOrder.jsx";
-import OrderUpdate from "../pages/admin/Orders/OrderUpdate.jsx";
 import OrderHistory from "../pages/admin/Orders/OrderHistory.jsx";
 import UpdateOrder from "../pages/staff/UpdateOrder.jsx";
 import InvoiceList from "../pages/user/InvoiceList .jsx";
 import Customer from "../pages/staff/Customer.jsx";
-import { Info } from "lucide-react";
 import InfoCustomer from "../pages/staff/InfoCustomer.jsx";
+import DetailOrderAdmin from "../pages/admin/ManageOrder/DetailOrder.jsx";
+import UpdateOrderAdmin from "../pages/admin/ManageOrder/UpdateOrder.jsx";
+import Order from "../pages/admin/Order.jsx";
 
 export const routes = [
   {
@@ -131,15 +130,15 @@ export const adminRoutes = [
   },
   {
     path: "OrderList",
-    page: OrderList,
+    page: Order,
   },
   {
-    path: "CreateOrder",
-    page: CreateOrder,
+    path: "viewOrder/:id",
+    page: DetailOrderAdmin,
   },
   {
-    path: "OrderUpdate",
-    page: OrderUpdate,
+    path: "edit/:id",
+    page: UpdateOrderAdmin,
   },
   {
     path: "OrderHistory",

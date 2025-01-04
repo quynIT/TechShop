@@ -161,7 +161,7 @@ const Header = () => {
               )}
             </WrapperHeaderAccout>
           </Loading>
-          <div className="ml-5">
+          <div className="ml-5" onClick={() => navigate('/cart')} style={{cursor: 'pointer'}}>
             <ShoppingCartOutlined style={{ fontSize: "30px", color: "#fff" }} />
 
             <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>

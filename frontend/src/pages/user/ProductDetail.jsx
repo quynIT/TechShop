@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Star, ShoppingCart, Truck, Shield } from 'lucide-react';
 import iphone1 from '../../assets/image/iphone1.jpg';
 import iphone2 from '../../assets/image/iphone2.jpg';

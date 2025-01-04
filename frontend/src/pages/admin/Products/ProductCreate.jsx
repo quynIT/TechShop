@@ -389,47 +389,52 @@ const ProductCreate = () => {
                 Category
               </label>
               {!showAddTypeInput ? (
-                <select
-                  className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
-                    } rounded-md px-5 py-5`}
-                  value={stateProduct.type}
-                  onChange={handleOnChangeSelect}
-                  name="type"
-                >
+                <div>
+                  <select
+                    className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
+                      } rounded-md px-5 py-5`}
+                    value={stateProduct.type}
+                    onChange={handleOnChangeSelect}
+                    name="type"
+                  >
+                    <option value="">Select a category</option>
+                    {types.map((type, index) => (
+                      <option key={index} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                    <option value="add_new_type">+ Add New Type</option>
+                  </select>
                   {errors.type && (
                     <p className="text-red-500 text-2xl mt-2">{errors.type}</p>
                   )}
-                  <option value="">Select a category</option>
-                  {types.map((type, index) => (
-                    <option
-                      key={index}
-                      value={type}
-                    >
-                      {type}
-                    </option>
-                  ))}
-                  <option value="add_new_type">+ Add New Type</option>
-                </select>
+                </div>
               ) : (
-                <div className="mt-5 flex items-center space-x-3">
-                  <input
-                    className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5"
-                    placeholder="Enter new type"
-                    value={newType}
-                    onChange={(e) => {
-                      setNewType(e.target.value);
-                      setStateProduct({
-                        ...stateProduct,
-                        type: e.target.value
-                      });
-                    }}
-                  />
-                  <button
-                    onClick={handleCancelAddType}
-                    className="bg-red-500 text-white px-5 py-5 rounded-md"
-                  >
-                    Cancel
-                  </button>
+                <div>
+                  <div className="mt-5 flex items-center space-x-3">
+                    <input
+                      className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border ${errors.type ? 'border-red-500' : 'border-slate-300'
+                        } rounded-md px-5 py-5`}
+                      placeholder="Enter new type"
+                      value={newType}
+                      onChange={(e) => {
+                        setNewType(e.target.value);
+                        setStateProduct({
+                          ...stateProduct,
+                          type: e.target.value
+                        });
+                      }}
+                    />
+                    <button
+                      onClick={handleCancelAddType}
+                      className="bg-red-500 text-white px-5 py-5 rounded-md"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  {errors.type && (
+                    <p className="text-red-500 text-2xl mt-2">{errors.type}</p>
+                  )}
                 </div>
               )}
             </div>

@@ -5,6 +5,7 @@ import * as ProductService from "../../../services/ProductService";
 import { useMutationHooks } from "../../../hooks/useMutationHook";
 import * as message from "../../../components/Message/Message";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const ProductCreate = () => {
   const [stateProduct, setStateProduct] = useState({
@@ -14,8 +15,11 @@ const ProductCreate = () => {
     rating: "",
     image: "",
     type: "",
-    countInStock: "",
+    countInStock: ""
   });
+
+  // State type
+  const [types, setTypes] = useState([]);
 
   const mutation = useMutationHooks((data) => {
     const {
@@ -27,6 +31,7 @@ const ProductCreate = () => {
       type,
       countInStock: countInStock,
     } = data;
+
     const res = ProductService.createProduct({
       name,
       price,
@@ -38,6 +43,24 @@ const ProductCreate = () => {
     });
     return res;
   });
+
+  // Sử dụng useQuery để fetch types
+  const { data: typeData } = useQuery({
+    queryKey: ["product-types"],
+    queryFn: async () => {
+      const res = await ProductService.getAllTypeProduct();
+      return res?.data || [];
+    },
+  });
+
+  // Cập nhật types khi có dữ liệu từ backend
+  useEffect(() => {
+    if (typeData) {
+      // Kiểm tra cấu trúc dữ liệu và log để debug
+      console.log("Received type data:", typeData);
+      setTypes(typeData);
+    }
+  }, [typeData]);
 
   const { data, isPending, isSuccess, isError } = mutation;
 
@@ -293,21 +316,22 @@ const ProductCreate = () => {
               <label class="block mb-5 font-semibold text-3xl text-slate-600">
                 Category
               </label>
-              <input
-                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                placeholder="Your product category"
+              <select
+                className="w-full bg-transparent text-slate-700 text-3xl border border-slate-300 rounded-md px-5 py-5 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-slate-300 shadow-sm"
                 value={stateProduct.type}
                 onChange={handleOnChange}
                 name="type"
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                type="button"
-                class="text-slate-800 border border-cyan focus:bg-gradient-to-r from-cyan to-lime-500 hover:bg-gradient-to-br hover:text-white focus:text-white  shadow-lg shadow-green-500/50  font-medium rounded-lg text-3xl px-5 py-5 text-center mt-10 ml-[310px]"
               >
-                Add Category
-              </button>
+                <option value="">Select a category</option>
+                {types.map((type, index) => (
+                  <option
+                    key={index}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>

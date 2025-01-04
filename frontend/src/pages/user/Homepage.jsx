@@ -41,7 +41,6 @@ const Homepage = () => {
   });
 
   return (
-
     <div style={{ width: "1270px", margin: "0 auto" }}>
       <WrapperTypeProduct>
         {arr.map((item) => {
@@ -54,20 +53,21 @@ const Homepage = () => {
         <WrapperProducts>
           {products?.data?.map((product) => {
             return (
-              <Link to="/detail">
-                <CardComponent
-                  key={product._id}
-                  countInStock={product.countInStock}
-                  description={product.description}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  rating={product.rating}
-                  type={product.type}
-                  selled={product.selled}
-                  discount={product.discount}
-                />
-              </Link>
+
+              <CardComponent
+                key={product._id}
+                countInStock={product.countInStock}
+                description={product.description}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                rating={product.rating}
+                type={product.type}
+                selled={product.selled}
+                discount={product.discount}
+                id={product._id}
+              />
+
             );
           })}
         </WrapperProducts>

@@ -1,9 +1,5 @@
 import React from 'react';
 import { Star, ShoppingCart, Truck, Shield } from 'lucide-react';
-import iphone1 from '../../assets/image/iphone1.jpg';
-import iphone2 from '../../assets/image/iphone2.jpg';
-import iphone3 from '../../assets/image/iphone3.jpg';
-import iphone15 from '../../assets/image/iphone15.jpg';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as ProductService from '../../services/ProductService'
 import { useQuery } from '@tanstack/react-query';
@@ -13,9 +9,6 @@ import { addOrderProduct } from '../../redux/slides/orderSlide';
 
 const ProductDetail = () => {
   const { id } = useParams()
-  // const [selectedColor, setSelectedColor] = useState('Đen');
-  // const [selectedStorage, setSelectedStorage] = useState('128GB');
-  // const [mainImage, setMainImage] = useState(iphone1);
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
@@ -34,17 +27,6 @@ const ProductDetail = () => {
     queryFn: fetchGetDetailsProduct,
     enabled: !!id
   });
-
-  const product = {
-    name: 'iPhone 13 Pro Max',
-    price: 28990000,
-    oldPrice: 33990000,
-    rating: 2,
-    reviews: 1234,
-    colors: ['Đen', 'Trắng', 'Xanh'],
-    storage: ['128GB', '256GB', '512GB'],
-    images: [iphone1, iphone2, iphone3, iphone15],
-  };
 
   const handleAddOrderProduct = () => {
     if(!user?.id){
@@ -71,17 +53,6 @@ const ProductDetail = () => {
             <div className="aspect-w-4 aspect-h-3 bg-white rounded-xl overflow-hidden shadow-lg">
               <img src={productDetails?.image} alt={productDetails?.name} className="w-full h-full object-cover object-center" />
             </div>
-            {/* <div className="grid grid-cols-4 gap-4">
-              {product.images.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt={`${product.name} ${index + 1}`}
-                  className="w-full h-24 object-cover rounded-lg cursor-pointer hover:ring-2 hover:ring-blue-500 transition duration-300"
-                  onClick={() => setMainImage(img)}
-                />
-              ))}
-            </div> */}
           </div>
 
           {/* Phần thông tin sản phẩm */}
@@ -94,59 +65,21 @@ const ProductDetail = () => {
                 ))}
                 <span className="ml-2 text-lg font-medium text-gray-600">{productDetails?.rating}</span>
               </div>
-              <span className="text-lg text-blue-600 hover:underline cursor-pointer">{product.reviews} selled</span>
+              <span className="text-lg text-blue-600 hover:underline cursor-pointer">{productDetails?.countInStock} in stock</span>
+            </div>
+
+            <div className="flex items-center">
+                <span className="text-lg">{productDetails?.description}</span>
             </div>
 
             <div className="flex items-baseline space-x-4">
               <span className="text-4xl font-bold text-red-600">{productDetails?.price.toLocaleString()}₫</span>
-              {/* <span className="text-2xl text-gray-500 line-through">{product.oldPrice.toLocaleString()}₫</span> */}
             </div>
-
-            {/* Chọn màu sắc */}
-            {/* <div>
-              <h3 className="text-xl font-semibold mb-3">Màu sắc:</h3>
-              <div className="flex space-x-4">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    className={`px-6 py-3 border-2 rounded-lg text-lg font-medium transition duration-300 
-                    ${selectedColor === color
-                        ? 'border-blue-500 text-blue-500 bg-blue-50'
-                        : 'border-gray-300 text-gray-600 hover:border-blue-300'}`}
-                    onClick={() => setSelectedColor(color)}
-                  >
-                    {color}
-                  </button>
-                ))}
-              </div>
-            </div> */}
-
-            {/* Chọn bộ nhớ */}
-            {/* <div>
-              <h3 className="text-xl font-semibold mb-3">Bộ nhớ:</h3>
-              <div className="flex space-x-4">
-                {product.storage.map((storage) => (
-                  <button
-                    key={storage}
-                    className={`px-6 py-3 border-2 rounded-lg text-lg font-medium transition duration-300 
-                    ${selectedStorage === storage
-                        ? 'border-blue-500 text-blue-500 bg-blue-50'
-                        : 'border-gray-300 text-gray-600 hover:border-blue-300'}`}
-                    onClick={() => setSelectedStorage(storage)}
-                  >
-                    {storage}
-                  </button>
-                ))}
-              </div>
-            </div> */}
 
             {/* Nút mua hàng */}
             <button className="w-full bg-red-600 text-white py-4 rounded-lg text-xl font-bold hover:bg-red-700 transition duration-300 shadow-md"
               onClick={handleAddOrderProduct}
             >
-              {/* <Link to="/cart">
-                BUY NOW
-              </Link> */}
               BUY NOW
             </button>
 

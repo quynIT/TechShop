@@ -81,6 +81,7 @@ const createOrder = (newOrder) => {
           user: user,
           isPaid,
           paidAt,
+          email,
         });
 
         // Nếu đơn hàng được tạo thành công, gửi email và trả về ID đơn hàng
@@ -236,6 +237,16 @@ const updatePaymentStatus = async (orderId, isPaid) => {
       return { status: "ERR", message: "Order not found" };
     }
 
+    // Gửi email nếu trạng thái thanh toán được cập nhật thành 'paid'
+    if (isPaid === "paid") {
+      const userEmail = updatedOrder.email; // Lấy email từ trường email trong đơn hàng
+      const orderItems = updatedOrder.orderItems; // Lấy danh sách sản phẩm trong đơn hàng
+
+      if (userEmail) {
+        await EmailService.sendEmailUpdateOrder(userEmail, orderItems);
+      }
+    }
+
     return {
       status: "OK",
       message: `Order payment status updated to ${isPaid}`,
@@ -246,6 +257,7 @@ const updatePaymentStatus = async (orderId, isPaid) => {
     return { status: "ERR", message: "Something went wrong." };
   }
 };
+
 const updateOrderDetails = async (orderId, updatedData) => {
   try {
     const existingOrder = await Order.findById(orderId);

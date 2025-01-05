@@ -39,4 +39,35 @@
     transform: rotate(360deg);
   }
 }
+.falling-leaves {
+  position: fixed; /* Đổi từ absolute sang fixed để hiệu ứng luôn phủ toàn màn hình */
+  top: 0;
+  left: 0;
+  width: 100%; /* Đảm bảo hiệu ứng chiếm toàn bộ chiều rộng */
+  height: 100%; /* Đảm bảo hiệu ứng chiếm toàn bộ chiều cao */
+  pointer-events: none; /* Ngăn hiệu ứng làm ảnh hưởng đến thao tác với các thành phần bên dưới */
+  z-index: 9999; /* Đảm bảo hiệu ứng hiển thị trên tất cả các thành phần */
+  overflow: hidden;
+}
 
+.leaf-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.leaf-scene div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: url(https://userimages-akm.imvu.com/userdata/41/95/30/76/userpics/Snap_Il2Q8igYOW367433857.png)
+    no-repeat;
+  background-size: 100%;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}

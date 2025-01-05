@@ -84,10 +84,10 @@ const OrderSuccess = () => {
         <div className="text-center mb-12">
           <CheckCircle className="mx-auto h-28 w-28 text-green-500 mb-8" />
           <h2 className="text-5xl font-bold text-gray-800 mb-6">
-            Đặt hàng thành công!
+            Order successful!
           </h2>
           <p className="text-2xl text-gray-600">
-            Cảm ơn bạn đã đặt hàng tại Thế Giới Di Động
+            Thank you for ordering at TechShop
           </p>
         </div>
 
@@ -95,7 +95,7 @@ const OrderSuccess = () => {
           <div className="grid grid-cols-2 gap-8">
             <div>
               <span className="text-xl font-medium text-gray-600">
-                Mã đơn hàng:
+                Order code:
               </span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
                 #{orderId}
@@ -103,7 +103,7 @@ const OrderSuccess = () => {
             </div>
             <div>
               <span className="text-xl font-medium text-gray-600">
-                Tổng cộng:
+                Total:
               </span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
                 {orderDetails.totalPrice} ₫

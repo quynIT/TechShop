@@ -23,15 +23,15 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
       );
       const data = await response.json();
       if (data.status === "OK") {
-        alert("Hủy đơn hàng thành công");
+        alert("Order cancellation successful");
         // Cập nhật trạng thái sau khi hủy mà không reload trang
         onStatusUpdate(invoice._id, "cancel");
       } else {
-        alert("Không thể hủy đơn hàng.");
+        alert("Order cannot be cancelled");
       }
     } catch (error) {
       console.error("Error updating status:", error);
-      alert("Đã xảy ra lỗi khi hủy đơn hàng.");
+      alert("An error occurred while canceling the order");
     }
   };
 
@@ -39,29 +39,29 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
     <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 w-full max-w-2xl h-full">
       <h2 className="text-lg font-bold text-orange-500 flex items-center gap-2">
         <FaReceipt />
-        HÓA ĐƠN MUA HÀNG
+        PURCHASE INVOICE
       </h2>
       <p className="text-sm text-gray-600 mt-2">
-        Cảm ơn quý khách đã mua hàng tại Tech Shop
+        Thank you for shopping at Tech Shop
       </p>
 
       <div className="mt-4">
-        <h3 className="font-bold text-4xl mb-2">Thông tin giao hàng:</h3>
-        <p className="text-2xl">Họ tên: {invoice.shippingAddress.fullName}</p>
-        <p className="text-2xl">Địa chỉ: {invoice.shippingAddress.address}</p>
-        <p className="text-2xl">Thành phố: {invoice.shippingAddress.city}</p>
+        <h3 className="font-bold text-4xl mb-2">Delivery information:</h3>
+        <p className="text-2xl">Full name: {invoice.shippingAddress.fullName}</p>
+        <p className="text-2xl">Address: {invoice.shippingAddress.address}</p>
+        <p className="text-2xl">City: {invoice.shippingAddress.city}</p>
         <p className="text-2xl">
-          Số điện thoại: {invoice.shippingAddress.phone}
+          Phone number: {invoice.shippingAddress.phone}
         </p>
       </div>
 
       <table className="w-full text-left text-sm mt-4">
         <thead>
           <tr className="border-b">
-            <th className="pb-2 text-xl">Tên sản phẩm</th>
-            <th className="pb-2 text-xl">Số lượng</th>
-            <th className="pb-2 text-xl">Giá (VND)</th>
-            <th className="pb-2 text-xl">Tổng giá (VND)</th>
+            <th className="pb-2 text-xl">Product Name</th>
+            <th className="pb-2 text-xl">Quantity</th>
+            <th className="pb-2 text-xl">Price (VND)</th>
+            <th className="pb-2 text-xl">Total price (VND)</th>
           </tr>
         </thead>
         <tbody>
@@ -79,11 +79,11 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
       </table>
 
       <p className="mt-4 text-lg font-bold text-right text-orange-500">
-        Tổng tiền phải thanh toán: {invoice.totalPrice} VND
+        Total amount payable: {invoice.totalPrice} VND
       </p>
 
       <p className="mt-2 text-xs text-gray-500 text-center">
-        Phương thức thanh toán: {invoice.paymentMethod}
+        Payment method: {invoice.paymentMethod}
       </p>
 
       {/* Nút hành động */}
@@ -114,7 +114,7 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
             onClick={handleCancelOrder}
             className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700"
           >
-            Hủy đơn
+            Cancel order
           </button>
         )}
       </div>
@@ -180,7 +180,7 @@ const InvoiceList = () => {
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">
-          Danh sách hóa đơn
+          List of invoices
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">

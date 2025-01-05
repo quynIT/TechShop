@@ -27,6 +27,7 @@ const orderSchema = new mongoose.Schema(
     shippingPrice: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    email: { type: String },
     isPaid: {
       type: String,
       enum: ["pending", "paid", "cancel"],

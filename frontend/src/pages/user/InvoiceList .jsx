@@ -36,7 +36,7 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 w-full max-w-2xl h-full">
+    <div className="bg-white shadow-lg rounded-lg p-6 border border-orange-300 w-full max-w-2xl h-full">
       <h2 className="text-lg font-bold text-orange-500 flex items-center gap-2">
         <FaReceipt />
         PURCHASE INVOICE
@@ -47,9 +47,11 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
 
       <div className="mt-4">
         <h3 className="font-bold text-4xl mb-2">Delivery information:</h3>
-        <p className="text-2xl">Full name: {invoice.shippingAddress.fullName}</p>
+        <p className="text-2xl">
+          Full name: {invoice.shippingAddress.fullName}
+        </p>
         <p className="text-2xl">Address: {invoice.shippingAddress.address}</p>
-        <p className="text-2xl">City: {invoice.shippingAddress.city}</p>
+        <p className="text-2xl">Email: {invoice.email}</p>
         <p className="text-2xl">
           Phone number: {invoice.shippingAddress.phone}
         </p>

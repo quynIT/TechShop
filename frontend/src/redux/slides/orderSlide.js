@@ -94,11 +94,26 @@ export const orderSlide = createSlice({
         };
       });
       state.orderItemsSlected = orderSelected
-    }
+    },
+    clearCart: (state) => {
+      state.orderItems = [];
+      state.orderItemsSlected = [];
+      state.shippingAddress = {};
+      state.paymentMethod = '';
+      state.itemsPrice = 0;
+      state.shippingPrice = 0;
+      state.taxPrice = 0;
+      state.totalPrice = 0;
+      state.isPaid = false;
+      state.paidAt = '';
+      state.isDelivered = false;
+      state.deliveredAt = '';
+      state.isSucessOrder = false;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addOrderProduct,increaseAmount,decreaseAmount,removeOrderProduct,removeAllOrderProduct, selectedOrder,resetOrder } = orderSlide.actions
+export const { addOrderProduct,increaseAmount,decreaseAmount,removeOrderProduct,removeAllOrderProduct, selectedOrder,resetOrder, clearCart } = orderSlide.actions
 
 export default orderSlide.reducer

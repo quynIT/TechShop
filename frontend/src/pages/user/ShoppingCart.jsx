@@ -80,7 +80,7 @@ const ShoppingCart = () => {
   );
 
   // Phí vận chuyển (miễn phí)
-  const shipping = 50;
+  const shipping = 0;
   // Tổng cộng
   const total = subtotal + shipping;
 

@@ -35,7 +35,7 @@ const EmployeeList = () => {
     queryKey: ["users"],
     queryFn: async () => {
       const res = await UserService.getAllUser(user.access_token);
-      return res?.data.filter((user) => user.role === "staff" || "admin") || [];
+      return res?.data.filter((user) => user.role === "staff" || user.role === "admin") || [];
     },
     staleTime: 10 * 60 * 1000, // 10 phút
     cacheTime: 15 * 60 * 1000, // 15 phút
@@ -124,7 +124,7 @@ const EmployeeList = () => {
   const processedUsers = useMemo(() => {
     // Kiểm tra và lọc dữ liệu an toàn
     let filteredUsers = (users || [])
-      .filter(user => user && user.role === 'staff' || 'admin')
+      .filter(user => user && user.role === 'staff' || user.role === 'admin')
       .filter(user =>
         (user.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
         (user.email?.toLowerCase().includes(searchTerm.toLowerCase()) || false)

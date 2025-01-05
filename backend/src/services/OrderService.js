@@ -19,7 +19,9 @@ const createOrder = (newOrder) => {
       paidAt,
       email,
     } = newOrder;
+
     try {
+      // Kiểm tra số lượng hàng tồn kho
       const promises = orderItems.map(async (order) => {
         const productData = await Product.findOneAndUpdate(
           {
@@ -47,9 +49,13 @@ const createOrder = (newOrder) => {
           };
         }
       });
+
+      // Chờ tất cả các promises xử lý xong
       const results = await Promise.all(promises);
       const newData = results && results.filter((item) => item.id);
+
       if (newData.length) {
+        // Nếu có sản phẩm thiếu hàng, trả về thông báo lỗi
         const arrId = [];
         newData.forEach((item) => {
           arrId.push(item.id);
@@ -59,6 +65,7 @@ const createOrder = (newOrder) => {
           message: `San pham voi id: ${arrId.join(",")} khong du hang`,
         });
       } else {
+        // Tạo đơn hàng mới
         const createdOrder = await Order.create({
           orderItems,
           shippingAddress: {
@@ -75,17 +82,19 @@ const createOrder = (newOrder) => {
           isPaid,
           paidAt,
         });
+
+        // Nếu đơn hàng được tạo thành công, gửi email và trả về ID đơn hàng
         if (createdOrder) {
           console.log("email", email);
           await EmailService.sendEmailCreateOrder(email, orderItems);
           resolve({
             status: "OK",
             message: "success",
+            orderId: createdOrder._id, // Trả về ID của đơn hàng vừa tạo
           });
         }
       }
     } catch (e) {
-      //   console.log('e', e)
       reject(e);
     }
   });

@@ -102,8 +102,8 @@ const SignUp = () => {
     if (!password.trim()) {
       return 'Password cannot be blank'
     }
-    if (password.length < 8) {
-      return 'Password must be at least 8 characters'
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters'
     }
     // Kiểm tra mật khẩu có chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
@@ -348,7 +348,7 @@ const SignUp = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              At least 8 characters with uppercase, lowercase, and number
+              At least 6 characters with uppercase, lowercase, and number
             </p>
           </div>
 

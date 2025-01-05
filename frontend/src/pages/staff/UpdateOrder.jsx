@@ -66,7 +66,7 @@ export default function UpdateOrder() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="ml-5 flex flex-wrap mt-6">
+    <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="w-full lg:w-8/12 px-4">
         <div className="h-full w-full shadow-lg rounded-lg bg-blueGray-100">
           <div className="rounded-t bg-white px-6 py-6">
@@ -252,7 +252,7 @@ export default function UpdateOrder() {
               <div className="flex justify-between mt-4">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="bg-blue-500 text-white px-4 py-2 rounded ml-[47%]"
                 >
                   Update Order
                 </button>

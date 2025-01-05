@@ -53,20 +53,13 @@ export default function Staffpage() {
   return (
     <div className="p-10 min-h-screen top-0 left-0 w-full">
       <div className="p-10 bg-white">
-        <div className="relative overflow-hidden text-gray-700 pb-6 bg-clip-border">
-          <div className="flex items-center justify-between gap-8 mb-8">
-            <div>
-              <h5 className="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                Invoice List
-              </h5>
-              <p className="block mt-1 font-sans antialiased font-normal leading-relaxed text-3xl text-gray-700">
-                See information about all invoices
-              </p>
-            </div>
-          </div>
+        <div className="flex justify-center items-center border border-blue-400 p-6 h-24 mb-5">
+          <h1 className="text-blue-700 font-bold uppercase text-2xl">
+            Manage employee invoices
+          </h1>
         </div>
 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg border-blue-400 border">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-2xl text-slate-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>

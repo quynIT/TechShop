@@ -104,11 +104,11 @@ const ShoppingCart = () => {
       shippingAddress: {
         fullName: userDetails?.name,
         address: userDetails?.address,
-        city: "Chưa có thành phố",
+        city: "Chưa có",
         phone: userDetails?.phone,
       },
       paymentMethod: "Credit Card",
-      city: "Chưa có thành phố",
+      city: "Chưa có",
       itemsPrice: subtotal,
       shippingPrice: shipping,
       totalPrice: total,

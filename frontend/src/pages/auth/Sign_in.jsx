@@ -13,44 +13,103 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
+  // State quản lý lỗi
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+    accountError: ''
+  });
+
   const navigate = useNavigate();
 
   const mutation = useMutationHooks((data) => UserService.loginUser(data));
 
-  const { data, isPending, isSuccess } = mutation;
+  const { data, isPending, isSuccess, isError } = mutation;
 
+  // Theo dõi trạng thái đăng nhập
   useEffect(() => {
-    if (isSuccess) {
-      if(location?.state){
+    // Reset lỗi tài khoản khi bắt đầu đăng nhập
+    setErrors(prev => ({
+      ...prev,
+      accountError: ''
+    }));
+
+    // Xử lý khi đăng nhập thành công
+    if (isSuccess && data?.access_token) {
+      if (location?.state) {
         navigate(location?.state)
-      }else{
+      } else {
         navigate("/");
       }
-      //Lưu access token vào storage
+
       localStorage.setItem("access_token", JSON.stringify(data?.access_token));
-      if (data?.access_token) {
-        const decoded = jwtDecode(data?.access_token);
-        if (decoded?.id) {
-          localStorage.setItem("user_id", decoded.id);
-          handleGetDetailsUser(decoded?.id, data?.access_token);
-        }
+
+      const decoded = jwtDecode(data?.access_token);
+      if (decoded?.id) {
+        localStorage.setItem("user_id", decoded.id);
+        handleGetDetailsUser(decoded?.id, data?.access_token);
       }
     }
-  }, [isSuccess]);
+
+    // Xử lý khi đăng nhập thất bại
+    if (isError || data?.status === 'ERR') {
+      // Kiểm tra và hiển thị lỗi cụ thể
+      const errorMessage = data?.message || 'Login failed. Please try again.';
+      setErrors(prev => ({
+        ...prev,
+        accountError: errorMessage
+      }));
+    }
+  }, [isSuccess, isError, data, location]);
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
 
-  console.log("mutation", mutation);
+  // Validate email
+  const validateEmail = (email) => {
+    if (!email.trim()) {
+      return 'Email cannot be blank'
+    }
+    const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+    if (!emailRegex.test(email)) {
+      return 'Invalid email format'
+    }
+    return ''
+  }
+
+  // Validate password
+  const validatePassword = (password) => {
+    if (!password.trim()) {
+      return 'Password cannot be blank'
+    }
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters'
+    }
+    return ''
+  }
 
   const handleOnchangeEmail = (e) => {
-    setEmail(e.target.value);
+    const value = e.target.value;
+    setEmail(value);
+    // Validate ngay khi thay đổi
+    setErrors(prev => ({
+      ...prev,
+      email: validateEmail(value),
+      accountError: '' // Xóa lỗi tài khoản khi thay đổi email
+    }));
   };
 
   const handleOnchangePassword = (e) => {
-    setPassword(e.target.value);
+    const value = e.target.value;
+    setPassword(value);
+    // Validate ngay khi thay đổi
+    setErrors(prev => ({
+      ...prev,
+      password: validatePassword(value),
+      accountError: '' // Xóa lỗi tài khoản khi thay đổi mật khẩu
+    }));
   };
 
   const handleNavigateSignUp = () => {
@@ -58,34 +117,31 @@ const SignIn = () => {
   };
 
   const handleSignIn = () => {
-    mutation.mutate({
-      email,
-      password,
+    // Validate toàn bộ trước khi submit
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+
+    // Cập nhật lỗi
+    setErrors({
+      email: emailError,
+      password: passwordError,
+      accountError: ''
     });
 
-    console.log("sign-in", email, password);
+    // Chỉ submit nếu không có lỗi
+    if (!emailError && !passwordError) {
+      mutation.mutate({
+        email,
+        password,
+      });
+    }
   };
+
   return (
     <div className="h-screen  flex justify-center items-center">
       <div class="w-fit h-fit shadow-all rounded-sm border-5 border-gray-700">
         <div>
           <h6 className="text-center text-5xl font-bold py-4">Sign in</h6>
-          <div className="btn-wrapper text-center px-6">
-            <button
-              className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-2xl ease-linear transition-all duration-150"
-              type="button"
-            >
-              <img alt="..." className="w-5 mr-1" src="/img/github.svg" />
-              Github
-            </button>
-            <button
-              className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-2xl ease-linear transition-all duration-150"
-              type="button"
-            >
-              <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
-              Google
-            </button>
-          </div>
           <hr className="mt-6 border-b-1 mx-6 border-blueGray-300" />
         </div>
 
@@ -96,11 +152,17 @@ const SignIn = () => {
             </label>
             <input
               id="signin_email"
-              class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border border-slate-200 rounded-md px-4 py-5 transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+              class={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-3xl border rounded-md px-4 py-5 transition duration-300 ease 
+                ${errors.email
+                  ? 'border-red-500 focus:border-red-500'
+                  : 'border-slate-200 focus:border-teal-700'}`}
               placeholder="Type here..."
               value={email}
               onChange={handleOnchangeEmail}
             />
+            {errors.email && (
+              <p className="text-red-500 text-2xl mt-2">{errors.email}</p>
+            )}
           </div>
 
           <div class="w-full w-full min-w-[200px] py-6">
@@ -110,14 +172,26 @@ const SignIn = () => {
             <input
               id="signin_password"
               type="password"
-              class="w-full px-4 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-3xl border border-slate-200 rounded-md transition duration-300 ease focus:outline-none focus:border-teal-700 hover:border-teal-500 shadow-sm focus:shadow"
+              class={`w-full px-4 py-5 bg-transparent placeholder:text-slate-400 text-slate-600 text-3xl border rounded-md transition duration-300 ease 
+                ${errors.password
+                  ? 'border-red-500 focus:border-red-500'
+                  : 'border-slate-200 focus:border-teal-700'}`}
               placeholder="Type here..."
               value={password}
               onChange={handleOnchangePassword}
             />
+            {errors.password && (
+              <p className="text-red-500 text-2xl mt-2">{errors.password}</p>
+            )}
           </div>
 
-          <div class="inline-flex items-center py-4">
+          {/* Hiển thị lỗi tài khoản */}
+          {errors.accountError && (
+            <div className="text-center py-4">
+              <p className="text-red-500 text-2xl">{errors.accountError}</p>
+            </div>
+          )}
+          {/* <div class="inline-flex items-center py-4">
             <label
               class="flex items-center cursor-pointer relative"
               for="checkbox"
@@ -150,11 +224,7 @@ const SignIn = () => {
             >
               Remember Me
             </label>
-          </div>
-          {/* Thông báo lỗi */}
-          {data?.status === "ERR" && (
-            <span style={{ color: "red" }}>{data?.message}</span>
-          )}
+          </div> */}
           <Loading isPending={isPending}>
             <div className="flex justify-center items-center py-4">
               <button

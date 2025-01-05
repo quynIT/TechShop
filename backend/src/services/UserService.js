@@ -14,7 +14,7 @@ const createUser = (newUser) => {
       if (checkUser !== null) {
         resolve({
           status: "ERR",
-          message: "The email is already",
+          message: "Email already exists",
         });
       }
       // Dùng số 10 kết hợp mật khẩu để mã hóa

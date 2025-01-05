@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FaReceipt } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 const InvoiceCard = ({ invoice, onStatusUpdate }) => {
+  const navigate = useNavigate();
+
+  // Hàm xử lý khi nhấp vào "Waiting for delivery"
+  const handleNavigateToOrderSuccess = () => {
+    navigate(`/order-success/${invoice._id}`);
+  };
   // Hàm xử lý khi bấm nút hủy
   const handleCancelOrder = async () => {
     try {
@@ -84,7 +90,10 @@ const InvoiceCard = ({ invoice, onStatusUpdate }) => {
       <div className="mt-4 flex justify-center items-center">
         {/* Hiển thị trạng thái dựa trên giá trị isPaid */}
         {invoice.isPaid === "pending" && (
-          <button className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-lg mr-20">
+          <button
+            className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded-lg mr-20"
+            onClick={handleNavigateToOrderSuccess} // Điều hướng khi nhấp vào nút
+          >
             Wait for Payment
           </button>
         )}

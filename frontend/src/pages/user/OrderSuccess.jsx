@@ -9,9 +9,7 @@ const OrderSuccess = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [orderDetails, setOrderDetails] = useState({
-    totalPrice: "0.01", // Thay giá trị này bằng tổng giá trị thực tế của đơn hàng
-  });
+  const [orderDetails, setOrderDetails] = useState({});
   const [paypalClientId, setPaypalClientId] = useState(""); // Lưu trữ client-id PayPal
 
   // Lấy client-id PayPal từ API
@@ -35,9 +33,24 @@ const OrderSuccess = () => {
 
   // Cập nhật thông tin đơn hàng nếu cần (giả sử orderId và các thông tin khác)
   useEffect(() => {
+    const fetchOrderDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/order/get-details-order/${orderId}`
+        );
+        const data = await response.json();
+        if (data.status === "OK") {
+          setOrderDetails(data.data); // Cập nhật thông tin đơn hàng vào state
+        } else {
+          console.error("Failed to fetch order details:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching order details:", error);
+      }
+    };
+
     if (orderId) {
-      // Gọi API để lấy thông tin đơn hàng từ server (nếu cần)
-      // Ví dụ: fetchOrderDetails(orderId);
+      fetchOrderDetails();
     }
   }, [orderId]);
 
@@ -94,32 +107,36 @@ const OrderSuccess = () => {
         <div className="border-t border-b border-gray-200 py-10 mb-10">
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <span className="text-xl font-medium text-gray-600">
-                Order code:
-              </span>
+              <span className="text-xl font-medium text-gray-600">Code:</span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
                 #{orderId}
               </span>
             </div>
             <div>
-              <span className="text-xl font-medium text-gray-600">
-                Total:
-              </span>
+              <span className="text-xl font-medium text-gray-600">Total:</span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
                 {orderDetails.totalPrice} ₫
               </span>
             </div>
             <div>
-              <span className="text-xl font-medium text-gray-600">
-                Ngày đặt hàng:
-              </span>
+              <span className="text-xl font-medium text-gray-600">Status:</span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
-                29/09/2024
+                {orderDetails.isPaid}
               </span>
             </div>
             <div>
               <span className="text-xl font-medium text-gray-600">
-                Phương thức thanh toán:
+                CreatedAt:
+              </span>
+              <span className="text-xl font-semibold text-gray-800 ml-2">
+                {orderDetails.createdAt
+                  ? new Date(orderDetails.createdAt).toLocaleDateString("vi-VN")
+                  : "Loading..."}
+              </span>
+            </div>
+            <div>
+              <span className="text-xl font-medium text-gray-600">
+                Payment method:
               </span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
                 Thẻ tín dụng

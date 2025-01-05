@@ -147,13 +147,13 @@ const ShoppingCart = () => {
       ]);
 
       const result = await response.json();
-
+      console.log("Result:", result.orderId);
       if (!response.ok) {
         throw new Error(result?.message || "Lỗi tạo đơn hàng");
       }
 
       // Chuyển trang ngay khi có response thành công
-      navigate("/order-success", { state: { orderId: result._id } });
+      navigate(`/order-success/${result.orderId}`);
     } catch (error) {
       console.error("Lỗi:", error);
       toast.error(error.message || "Không thể tạo đơn hàng");

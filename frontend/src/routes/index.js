@@ -45,7 +45,7 @@ export const routes = [
     page: PurchaseHistory,
   },
   {
-    path: "/order-success",
+    path: "/order-success/:orderId",
     page: OrderSuccess,
   },
   {

@@ -115,7 +115,7 @@ const OrderSuccess = () => {
             <div>
               <span className="text-xl font-medium text-gray-600">Total:</span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
-                {orderDetails.totalPrice} ₫
+                {orderDetails.totalPrice} VND
               </span>
             </div>
             <div>
@@ -139,7 +139,7 @@ const OrderSuccess = () => {
                 Payment method:
               </span>
               <span className="text-xl font-semibold text-gray-800 ml-2">
-                Thẻ tín dụng
+                Credit card
               </span>
             </div>
           </div>
@@ -148,38 +148,38 @@ const OrderSuccess = () => {
         <div className="grid grid-cols-2 gap-10 mb-12">
           <div className="bg-blue-50 p-8 rounded-lg">
             <h3 className="text-2xl font-semibold text-blue-700 mb-6">
-              Trạng thái đơn hàng
+              Order Status
             </h3>
             <div className="space-y-6">
               <div className="flex items-center">
                 <Package className="h-10 w-10 text-blue-500 mr-5" />
                 <span className="text-xl text-gray-700">
-                  Đơn hàng đang được xử lý
+                  Order is being processed
                 </span>
               </div>
               <div className="flex items-center">
                 <Truck className="h-10 w-10 text-blue-500 mr-5" />
                 <span className="text-xl text-gray-700">
-                  Dự kiến giao hàng trong 2-3 ngày
+                  Estimated delivery in 2-3 days
                 </span>
               </div>
             </div>
           </div>
           <div className="bg-green-50 p-8 rounded-lg">
             <h3 className="text-2xl font-semibold text-green-700 mb-6">
-              Thông tin thanh toán
+              Payment information
             </h3>
             <div className="space-y-6">
               <div className="flex items-center">
                 <CreditCard className="h-10 w-10 text-green-500 mr-5" />
                 <span className="text-xl text-gray-700">
-                  Đã thanh toán đầy đủ
+                  Paid in full
                 </span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-10 w-10 text-green-500 mr-5" />
                 <span className="text-xl text-gray-700">
-                  Giao dịch thành công
+                  Transaction successful
                 </span>
               </div>
             </div>
@@ -205,7 +205,7 @@ const OrderSuccess = () => {
         )}
 
         <button className="w-full bg-blue-600 text-white py-5 px-6 rounded-lg text-2xl font-semibold hover:bg-blue-700 transition duration-300">
-          Theo dõi đơn hàng
+          Order Tracking
         </button>
       </div>
     </div>

@@ -62,7 +62,7 @@ const Header = () => {
           Management Order
         </WrapperContentPopup>
       )}
-      {user.role === "user" && (
+      {(user.role === "user" || user.role === "admin" || user.role === "staff") && (
         <WrapperContentPopup onClick={() => navigate("/order-history")}>
           Order history
         </WrapperContentPopup>

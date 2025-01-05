@@ -70,7 +70,7 @@ export default function UpdateOrderAdmin() {
       <div className="h-full w-full shadow-lg rounded-lg bg-blueGray-100">
         <div className="rounded-t bg-white px-6 py-6">
           <div className="text-center flex">
-            <Button className="bg-emerald-500" href="/staff/list">
+            <Button className="bg-emerald-500" href="/admin/OrderList">
               Back
             </Button>
             <h6 className="text-blueGray-700 text-5xl font-bold ml-[36%]">

@@ -1,9 +1,7 @@
 import { Card } from 'antd';
-import Meta from 'antd/es/card/Meta';
 import React from 'react';
 import { StarFilled } from '@ant-design/icons'
-import iphone15 from '../../assets/image/iphone15.jpg'
-import { StyleNameProduct, WrapperDiscountText, WrapperPriceText, WrapperReportText, WrapperStyleTextSell } from './style';
+import { StyleNameProduct, WrapperPriceText, WrapperReportText, WrapperStyleTextSell } from './style';
 import { useNavigate } from 'react-router-dom';
 
 const CardComponent = (props) => {
@@ -24,13 +22,10 @@ const CardComponent = (props) => {
                 <span style={{ marginRight: '4px' }}>
                     <span>{rating} </span> <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }} />
                 </span>
-                <WrapperStyleTextSell> | {selled || 1000}+ sold</WrapperStyleTextSell>
+                <WrapperStyleTextSell> | {countInStock} in stock</WrapperStyleTextSell>
             </WrapperReportText>
             <WrapperPriceText>
                 <span style={{ marginRight: '8px' }}>{price?.toLocaleString()} VND</span>
-                <WrapperDiscountText>
-                    - {discount || 5} %
-                </WrapperDiscountText>
             </WrapperPriceText>
         </Card>
     );

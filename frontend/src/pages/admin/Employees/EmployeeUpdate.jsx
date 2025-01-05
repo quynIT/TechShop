@@ -7,7 +7,7 @@ import { message } from "antd";
 import { getBase64 } from "../../../utils";
 import Loading from "../../../components/Loading/Loading";
 
-const Settings = () => {
+const EmployeeUpdate = () => {
   // Lấy id người dùng từ đường dẫn
   const { id } = useParams();
   const user = useSelector((state) => state?.user);
@@ -129,9 +129,9 @@ const Settings = () => {
             <div className=" rounded-lg-t bg-white px-6 py-6">
               <div className="text-center flex justify-between">
                 <h4 className="text-blueGray-700 text-5xl font-bold">
-                  Customer Update
+                  Employee Update
                 </h4>
-                <Link to="/admin/CustomerList">
+                <Link to="/admin/EmployeeList">
                   <button
                     className="bg-yellow-500 text-white active:bg-yellow-300 font-semibold text-3xl p-5  rounded-lg-lg shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear   "
                     type="button"
@@ -415,4 +415,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default EmployeeUpdate;

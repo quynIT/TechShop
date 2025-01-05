@@ -49,7 +49,7 @@ const CustomerCreate = () => {
 
   useEffect(() => {
     if (isSuccess && data?.status === "OK") {
-      message.success();
+      message.success("Account created successfully");
       setStateUser({
         name: "",
         email: "",
@@ -358,28 +358,30 @@ const CustomerCreate = () => {
                     </div> */}
                     </div>
                     <div className="w-full px-4">
-
-                       <label
-                          className="block mb-5  text-slate-600  text-3xl font-semibold"
-                          htmlFor="grid-password"
-                        >
-                          Address
-                        </label>
+                      <label
+                        className="block mb-5  text-slate-600  text-3xl font-semibold"
+                        htmlFor="grid-password"
+                      >
+                        Address
+                      </label>
                       <div class="relative">
                         <div class="absolute inset-y-0 p-4 start-0 top-0 flex items-center pointer-events-none ">
                           <i className="fas fa-map-marker-alt mr-2 text-4xl text-slate-600"></i>
                         </div>
                         <input
                           type="text"
-                          className="border border-slate-300 px-16 py-5 placeholder-blueGray-300 text-slate-600 bg-white  rounded-lg  text-3xl shadow focus:outline-none focus:border-cyan w-full ease-linear   "
+                          className={`w-full bg-transparent pl-16 placeholder:text-slate-400 outline-none text-slate-700 text-3xl border ${errors.phone ? 'border-red-500' : 'border-slate-300 focus:border-cyan'
+                            } rounded-md px-5 py-5`}
                           placeholder="Your user address"
                           value={stateUser.address}
                           onChange={handleOnChange}
                           name="address"
                         />
                       </div>
+                      {errors.address && (
+                        <p className="text-red-500 text-2xl mt-2">{errors.address}</p>
+                      )}
                       <div className="relative w-full mb-3">
-                        
                       </div>
                     </div>
                   </div>

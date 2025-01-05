@@ -26,6 +26,9 @@ import InfoCustomer from "../pages/staff/InfoCustomer.jsx";
 import DetailOrderAdmin from "../pages/admin/ManageOrder/DetailOrder.jsx";
 import UpdateOrderAdmin from "../pages/admin/ManageOrder/UpdateOrder.jsx";
 import Order from "../pages/admin/Order.jsx";
+import EmployeeList from "../pages/admin/Employees/EmployeeList.jsx";
+import EmployeeCreate from "../pages/admin/Employees/EmployeeCreate.jsx";
+import EmployeeUpdate from "../pages/admin/Employees/EmployeeUpdate.jsx";
 
 export const routes = [
   {
@@ -118,6 +121,18 @@ export const adminRoutes = [
   {
     path: "CustomerList",
     page: CustomerList,
+  },
+  {
+    path: "EmployeeList",
+    page: EmployeeList,
+  },
+  {
+    path: "EmployeeCreate",
+    page: EmployeeCreate,
+  },
+  {
+    path: "EmployeeUpdate/:id",
+    page: EmployeeUpdate,
   },
   {
     path: "ProductList",

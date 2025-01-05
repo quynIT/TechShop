@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -32,8 +32,12 @@ const CustomerList = () => {
     queryKey: ["users"],
     queryFn: async () => {
       const res = await UserService.getAllUser(user.access_token);
-      return res.data.filter((user) => user.role === "user") || [];
+      return res?.data.filter((user) => user.role === "user") || [];
     },
+    staleTime: 10 * 60 * 1000, // 10 phút
+    cacheTime: 15 * 60 * 1000, // 15 phút
+    retry: 2,
+    retryDelay: 1000,
   });
 
   const mutationDelete = useMutationHooks((data) => {
@@ -61,19 +65,19 @@ const CustomerList = () => {
 
   useEffect(() => {
     if (isSuccessDeleted && dataDeleted?.status === "OK") {
-      message.success("Xóa người dùng thành công!");
+      message.success("User deleted successfully!");
       refetch(); // Refresh nguời dùng sau khi xóa
     } else if (isErrorDeleted) {
-      message.error("Có lỗi xảy ra khi xóa người dùng!");
+      message.error("An error occurred while deleting the user!");
     }
   }, [isSuccessDeleted, refetch]);
 
   useEffect(() => {
     if (isSuccessDeletedManyUser && dataDeletedManyUser?.status === "OK") {
-      message.success("Xóa người dùng thành công!");
+      message.success("User deleted successfully!");
       refetch(); // Refresh người dùng sau khi xóa
     } else if (isErrorDeletedManyUser) {
-      message.error("Có lỗi xảy ra khi xóa người dùng!");
+      message.error("An error occurred while deleting the user!");
     }
   }, [isSuccessDeletedManyUser, refetch]);
 
@@ -114,24 +118,25 @@ const CustomerList = () => {
     }
   };
 
-  //Hàm sắp xếp tên người dùng
-  const sortedUsers = [...(users || [])].sort((a, b) => {
-    // Kiểm tra xem a.name và b.name có tồn tại không
-    const nameA = a?.name || "";
-    const nameB = b?.name || "";
+  const processedUsers = useMemo(() => {
+    // Kiểm tra và lọc dữ liệu an toàn
+    let filteredUsers = (users || [])
+      .filter(user => user && user.role === 'user')
+      .filter(user =>
+        (user.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+        (user.email?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
+      );
 
-    if (sortOrder === "asc") {
-      return nameA.localeCompare(nameB); // Sắp xếp tăng dần
-    } else {
-      return nameB.localeCompare(nameA); // Sắp xếp giảm dần
-    }
-  });
+    // Sắp xếp an toàn
+    return filteredUsers.sort((a, b) => {
+      const nameA = a?.name?.trim() || "";
+      const nameB = b?.name?.trim() || "";
 
-  // Lọc người dùng theo tên dựa trên từ khóa tìm kiếm
-  const filteredUsers = sortedUsers.filter(
-    (user) =>
-      user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false
-  );
+      return sortOrder === "asc"
+        ? nameA.localeCompare(nameB)  // Sắp xếp tăng dần
+        : nameB.localeCompare(nameA); // Sắp xếp giảm dần
+    });
+  }, [users, searchTerm, sortOrder]);
 
   // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
   const handleSearchInputChange = (e) => {
@@ -141,6 +146,83 @@ const CustomerList = () => {
   // Cập nhật searchTerm khi nhấn nút tìm kiếm
   const handleSearchClick = () => {
     setSearchTerm(tempSearchTerm); // Chỉ cập nhật searchTerm khi nhấn nút Search
+  };
+
+  // Render an toàn từng dòng
+  const renderUserRow = (user) => {
+    if (!user) return null;
+    return (
+      <tr key={user._id} className="hover:bg-gray-50">
+        <td className="w-10 px-4 py-8">
+          <input
+            type="checkbox"
+            className="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded"
+            checked={selectedUsers.includes(user._id)}
+            onChange={() => handleSelectUser(user._id)}
+          />
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
+          <img
+            src={user.avatar || "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"}
+            alt={user.name || "User"}
+            className="w-16 h-16 rounded-full object-cover"
+            onError={(e) => {
+              if (e.target.src !== '/default-avatar.png') {
+                e.target.src = '/default-avatar.png';
+              }
+            }}
+          />
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
+          <p className="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">
+            {user.name || 'Unknown'}
+          </p>
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
+          <p className="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">
+            {user.email}
+          </p>
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
+          <p className="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">
+            {user.phone || 'No phone number yet'}
+          </p>
+        </td>
+        <td className="p-4 border-b border-blue-gray-50">
+          <div className="flex space-x-2">
+            {/* edit button */}
+            <Link to={`/admin/CustomerUpdate/${user._id}`}>
+              <button type="button">
+                <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />
+
+              </button>
+            </Link>
+            <button
+              onClick={() => handleDeleteClick(user)}
+              className="font-medium text-red-600 dark:text-red-500 hover:underline ml-4"
+            >
+              <svg
+                class="inline w-16 h-16 p-2 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-xl "
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
   };
 
   return (
@@ -225,11 +307,10 @@ const CustomerList = () => {
               {/* delete many button */}
               <button
                 class={`flex select-none items-center justify-center rounded-lg bg-red-600 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-red-600 active:shadow-none disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none
-                ${
-                  selectedUsers.length === 0
+                ${selectedUsers.length === 0
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                }`}
+                  }`}
                 type="button"
                 onClick={handleDeleteManyUser}
                 disabled={selectedUsers.length === 0}
@@ -332,112 +413,21 @@ const CustomerList = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50">
-                    <td class="w-10 px-4 py-8">
-                      <div class="flex items-center">
-                        <input
-                          id={`checkbox-${user._id}`}
-                          type="checkbox"
-                          class="w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          checked={selectedUsers.includes(user._id)}
-                          onChange={() => handleSelectUser(user._id)}
-                        />
-                        <label
-                          htmlFor={`checkbox-${user._id}`}
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
-
-                    <td class="p-4  border-b border-blue-gray-50 ">
-                      <div class="flex items-center gap-10">
-                        <img
-                          src={user.avatar}
-                          alt={user.name || "User"}
-                          class="relative inline-block w-full h-full !rounded-full object-cover object-center"
-                        />
-                      </div>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                      <div class="flex flex-col">
-                        <p class="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.name || "N/A"}
-                        </p>
-                      </div>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                      <div class="flex flex-col">
-                        <p class="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">
-                          {user.email}
-                        </p>
-                      </div>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                      <p class="block font-sans text-3xl antialiased font-normal leading-normal text-blue-gray-900">
-                        {user.phone || "N/A"}
-                      </p>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                      {/* <button
-                        class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        type="button"
-                      >
-                        <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            aria-hidden="true"
-                            class="w-4 h-4"
-                          >
-                            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
-                          </svg>
-                        </span>
-                      </button> */}
-                      {/* edit button */}
-                      <Link to={`/admin/CustomerUpdate/${user._id}`}>
-                        <button type="button">
-                          <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />
-                                                    
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteClick(user)}
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline ml-4"
-                      >
-                        <svg
-                          class="inline w-16 h-16 p-2 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-xl "
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
-                          />
-                        </svg>
-                      </button>
+                {processedUsers.length > 0 ? (
+                  processedUsers.map(renderUserRow)
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-center text-4xl p-10 text-gray-500">
+                      No customers
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
         </Loading>
         {/* page split */}
-        <div class="flex items-center justify-between p-4 border-t border-blue-gray-50">
-          <div class="text-3xl text-slate-500">
-            Showing <b>1-5</b> of 45
-          </div>
+        <div class="flex items-center justify-end p-4 border-t border-blue-gray-50">
           <div class="flex space-x-1">
             <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
               Prev
@@ -457,7 +447,7 @@ const CustomerList = () => {
           </div>
         </div>
       </div>
-      {/* Modal for Delete Confirmation */}
+      {/* Modal xác nhận xóa */}
       <CustomerModalComponent
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

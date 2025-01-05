@@ -20,6 +20,9 @@ const CustomerList = () => {
   const [tempSearchTerm, setTempSearchTerm] = useState("");
   // State để cập nhật các lựa chọn theo ô vuông
   const [selectedUsers, setSelectedUsers] = useState([]);
+  // State dùng cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Số lượng khách hàng mỗi trang
 
   const user = useSelector((state) => state?.user);
 
@@ -225,6 +228,81 @@ const CustomerList = () => {
     );
   };
 
+  // Tính toán số trang
+  const totalPages = useMemo(() => {
+    return Math.ceil(processedUsers.length / itemsPerPage);
+  }, [processedUsers]);
+
+  // Phân trang dữ liệu
+  const paginatedUsers = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return processedUsers.slice(startIndex, endIndex);
+  }, [processedUsers, currentPage]);
+
+  // Hàm xử lý chuyển trang
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Render phân trang
+  const renderPaginationButtons = () => {
+    const buttons = [];
+
+    // Nút Previous
+    buttons.push(
+      <button
+        key="prev"
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === 1
+          ? 'text-slate-300 cursor-not-allowed'
+          : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
+          } bg-white border border-slate-200 rounded transition duration-200 ease`}
+      >
+        Prev
+      </button>
+    );
+
+    // Các nút số trang
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === i
+            ? 'text-white bg-slate-800 border-slate-800'
+            : 'text-slate-500 bg-white border-slate-200 hover:bg-slate-50'
+            } border rounded hover:border-slate-400 transition duration-200 ease`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // Nút Next
+    buttons.push(
+      <button
+        key="next"
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === totalPages
+          ? 'text-slate-300 cursor-not-allowed'
+          : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
+          } bg-white border border-slate-200 rounded transition duration-200 ease`}
+      >
+        Next
+      </button>
+    );
+
+    return buttons;
+  };
+
+  // UseEffect để reset trang khi thay đổi bộ lọc
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortOrder]);
+
   return (
     <div class="relative w-full text-gray-700 shadow-md  rounded-xl bg-white">
       <div className="p-10">
@@ -413,12 +491,14 @@ const CustomerList = () => {
                 </tr>
               </thead>
               <tbody>
-                {processedUsers.length > 0 ? (
-                  processedUsers.map(renderUserRow)
+                {paginatedUsers.length > 0 ? (
+                  paginatedUsers.map(renderUserRow)
                 ) : (
                   <tr>
                     <td colSpan="6" className="text-center text-4xl p-10 text-gray-500">
-                      No customers
+                      {searchTerm 
+                        ? `No customers found matching "${searchTerm}"` 
+                        : "No customers"}
                     </td>
                   </tr>
                 )}
@@ -426,24 +506,10 @@ const CustomerList = () => {
             </table>
           </div>
         </Loading>
-        {/* page split */}
+        {/* Phân trang */}
         <div class="flex items-center justify-end p-4 border-t border-blue-gray-50">
           <div class="flex space-x-1">
-            <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-              Prev
-            </button>
-            <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-white bg-slate-800 border border-slate-800 rounded hover:bg-slate-600 hover:border-slate-600 transition duration-200 ease">
-              1
-            </button>
-            <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-              2
-            </button>
-            <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-              3
-            </button>
-            <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-              Next
-            </button>
+            {renderPaginationButtons()}
           </div>
         </div>
       </div>

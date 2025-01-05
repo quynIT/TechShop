@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import * as ProductService from "../../../services/ProductService";
@@ -20,6 +20,9 @@ const ProductList = () => {
   const [tempSearchTerm, setTempSearchTerm] = useState("");
   // State để cập nhật các lựa chọn theo ô vuông
   const [selectedProducts, setSelectedProducts] = useState([]);
+  // State dùng cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Số lượng sản phẩm mỗi trang
 
   const user = useSelector((state) => state?.user);
 
@@ -144,6 +147,81 @@ const ProductList = () => {
     setSearchTerm(tempSearchTerm); // Chỉ cập nhật searchTerm khi nhấn nút Search
   };
 
+  // Tính toán số trang
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredProducts.length / itemsPerPage);
+  }, [filteredProducts]);
+
+  // Phân trang dữ liệu
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, currentPage]);
+
+  // Hàm xử lý chuyển trang
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Render phân trang
+  const renderPaginationButtons = () => {
+    const buttons = [];
+
+    // Nút Previous
+    buttons.push(
+      <button
+        key="prev"
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === 1
+            ? 'text-slate-300 cursor-not-allowed'
+            : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
+          } bg-white border border-slate-200 rounded transition duration-200 ease`}
+      >
+        Prev
+      </button>
+    );
+
+    // Các nút số trang
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === i
+              ? 'text-white bg-slate-800 border-slate-800'
+              : 'text-slate-500 bg-white border-slate-200 hover:bg-slate-50'
+            } border rounded hover:border-slate-400 transition duration-200 ease`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    // Nút Next
+    buttons.push(
+      <button
+        key="next"
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === totalPages
+            ? 'text-slate-300 cursor-not-allowed'
+            : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
+          } bg-white border border-slate-200 rounded transition duration-200 ease`}
+      >
+        Next
+      </button>
+    );
+
+    return buttons;
+  };
+
+  // UseEffect để reset trang khi thay đổi bộ lọc
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortOrder]);
+
   return (
     <div className="p-10 absolute top-0 left-0 w-full">
       <div className="p-10 bg-white shadow-md">
@@ -227,10 +305,9 @@ const ProductList = () => {
             {/* delete many button */}
             <button
               class={`flex select-none items-center justify-center gap-3 rounded-lg duration-300 bg-red-600 py-2 px-4 text-center font-sans text-xl font-semibold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:bg-yellow-300 active:shadow-none disabled:pointer-events-none disabled:opacity-30 disabled:shadow-none
-                ${
-                  selectedProducts.length === 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                ${selectedProducts.length === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
                 }`}
               type="button"
               onClick={handleDeleteManyProduct}
@@ -327,113 +404,97 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts.map((product) => (
-                  <tr
-                    key={product.id}
-                    class="bg-white border-b dark:bg-gray-800  hover:bg-gray-50 dark:hover:bg-gray-600"
-                  >
-                    <td class="w-10 px-4 py-10">
-                      <div class="flex items-center">
-                        <input
-                          id={`checkbox-${product._id}`}
-                          type="checkbox"
-                          class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded ng-cyan "
-                          checked={selectedProducts.includes(product._id)}
-                          onChange={() => handleSelectProduct(product._id)}
-                        />
-                        <label
-                          htmlFor={`checkbox-${product._id}`}
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
-                      </div>
-                    </td>
-
-                    <td class="p-4 border-b border-slate-200 py-5">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        class="w-16 h-16 object-cover rounded"
-                      />
-                    </td>
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                {paginatedProducts.length > 0 ? (
+                  paginatedProducts.map((product) => (
+                    <tr
+                      key={product.id}
+                      class="bg-white border-b dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      {product.name}
-                    </th>
-                    <td class="px-6 py-4">{product.description}</td>
-                    <td class="px-6 py-4">{product.type}</td>
-                    <td class="px-6 py-4">{product.price} VND</td>
-                    <td class="px-6 py-4">
-                      <Link to={`/admin/ProductUpdate/${product._id}`}>
-                        <button>
-                          {/* <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            aria-hidden="true"
-                            class="inline w-12 h-12 text-leave active:bg-gray-50 hover:bg-white hover:shadow-md rounded-lg"
-                          >
-                            <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"></path>
-                          </svg> */}
-                          <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />
-                          
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteClick(product)}
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline "
-                      >
-                        <svg
-                          class="inline w-16 h-16 p-2 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-xl "
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                      <td class="w-10 px-4 py-10">
+                        <div class="flex items-center">
+                          <input
+                            id={`checkbox-${product._id}`}
+                            type="checkbox"
+                            class="w-10 h-10 py-10 text-blue-600 bg-gray-100 border-gray-300 rounded ng-cyan "
+                            checked={selectedProducts.includes(product._id)}
+                            onChange={() => handleSelectProduct(product._id)}
                           />
-                        </svg>
-                      </button>
+                          <label
+                            htmlFor={`checkbox-${product._id}`}
+                            className="sr-only"
+                          >
+                            checkbox
+                          </label>
+                        </div>
+                      </td>
+
+                      <td class="p-4 border-b border-slate-200 py-5">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          class="w-16 h-16 object-cover rounded"
+                        />
+                      </td>
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {product.name}
+                      </th>
+                      <td class="px-6 py-4">{product.description}</td>
+                      <td class="px-6 py-4">{product.type}</td>
+                      <td class="px-6 py-4">{product.price} VND</td>
+                      <td class="px-6 py-4">
+                        <Link to={`/admin/ProductUpdate/${product._id}`}>
+                          <button>
+                            <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />
+                          </button>
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteClick(product)}
+                          className="font-medium text-red-600 dark:text-red-500 hover:underline "
+                        >
+                          <svg
+                            class="inline w-16 h-16 p-2 text-red-400 active:bg-gray-50 hover:bg-white hover:shadow-xl rounded-xl "
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center text-4xl p-10 text-gray-500">
+                      No products found
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
 
-            {/* Page split */}
+            {/* Phân trang */}
             <div class="flex items-center justify-end p-4 border-t border-blue-gray-50">
               <div class="flex space-x-1">
-                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                  Prev
-                </button>
-                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-white bg-slate-800 border border-slate-800 rounded hover:bg-slate-600 hover:border-slate-600 transition duration-200 ease">
-                  1
-                </button>
-                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                  2
-                </button>
-                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                  3
-                </button>
-                <button class="px-3 py-1 min-w-9 min-h-9 text-3xl font-normal text-slate-500 bg-white border border-slate-200 rounded hover:bg-slate-50 hover:border-slate-400 transition duration-200 ease">
-                  Next
-                </button>
+                {renderPaginationButtons()}
               </div>
             </div>
           </div>
         </Loading>
       </div>
-      {/* Modal for Delete Confirmation */}
+      {/* Modal xác nhận xóa */}
       <ProductModalComponent
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -177,6 +177,33 @@ const getAllOrder = async (req, res) => {
     });
   }
 };
+const searchOrdersByName = async (req, res) => {
+  try {
+    const { name } = req.query; // Lấy tên cần tìm kiếm từ query params
+
+    if (!name) {
+      return res.status(400).json({
+        status: "ERR",
+        message: "The name query parameter is required.",
+      });
+    }
+
+    // Gọi service để tìm kiếm đơn hàng
+    const response = await OrderService.searchOrdersByName(name);
+
+    if (response.status === "ERR") {
+      return res.status(404).json(response);
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      status: "ERR",
+      message: "An error occurred while searching orders.",
+    });
+  }
+};
 
 module.exports = {
   createOrder,
@@ -186,4 +213,5 @@ module.exports = {
   getAllOrder,
   updatePaymentStatus,
   updateOrderDetails,
+  searchOrdersByName,
 };

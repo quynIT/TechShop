@@ -25,7 +25,9 @@ const Dashboard = () => {
         const result = await response.json();
         if (result.status === "OK") {
           // Filter only paid invoices
-          const paidInvoices = result.data.filter(invoice => invoice.isPaid === "paid");
+          const paidInvoices = result.data.filter(
+            (invoice) => invoice.isPaid === "paid"
+          );
           setInvoices(paidInvoices);
           setError(null);
         } else {
@@ -70,13 +72,14 @@ const Dashboard = () => {
       .filter((invoice) => {
         // Search filter
         const matchesSearch =
-          invoice.shippingAddress.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          invoice.shippingAddress.fullName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           invoice.shippingAddress.phone.includes(searchTerm);
 
         // Status filter
         const matchesStatus =
-          statusFilter === "all" ||
-          invoice.isPaid === statusFilter;
+          statusFilter === "all" || invoice.isPaid === statusFilter;
 
         return matchesSearch && matchesStatus;
       })
@@ -107,10 +110,11 @@ const Dashboard = () => {
         key="prev"
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === 1
-          ? 'text-slate-300 cursor-not-allowed'
-          : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
-          } bg-white border border-slate-200 rounded transition duration-200 ease`}
+        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${
+          currentPage === 1
+            ? "text-slate-300 cursor-not-allowed"
+            : "text-slate-500 hover:bg-slate-50 hover:border-slate-400"
+        } bg-white border border-slate-200 rounded transition duration-200 ease`}
       >
         Prev
       </button>
@@ -122,10 +126,11 @@ const Dashboard = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === i
-            ? 'text-white bg-slate-800 border-slate-800'
-            : 'text-slate-500 bg-white border-slate-200 hover:bg-slate-50'
-            } border rounded hover:border-slate-400 transition duration-200 ease`}
+          className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${
+            currentPage === i
+              ? "text-white bg-slate-800 border-slate-800"
+              : "text-slate-500 bg-white border-slate-200 hover:bg-slate-50"
+          } border rounded hover:border-slate-400 transition duration-200 ease`}
         >
           {i}
         </button>
@@ -138,10 +143,11 @@ const Dashboard = () => {
         key="next"
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === totalPages
-          ? 'text-slate-300 cursor-not-allowed'
-          : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
-          } bg-white border border-slate-200 rounded transition duration-200 ease`}
+        className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${
+          currentPage === totalPages
+            ? "text-slate-300 cursor-not-allowed"
+            : "text-slate-500 hover:bg-slate-50 hover:border-slate-400"
+        } bg-white border border-slate-200 rounded transition duration-200 ease`}
       >
         Next
       </button>
@@ -154,6 +160,28 @@ const Dashboard = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, statusFilter]);
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalUsers: 0,
+    totalOrders: 0,
+    totalStaffUsers: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/api/revenue");
+        const data = await response.json();
+        if (data.status === "OK") {
+          setStats(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
     <>
@@ -166,7 +194,7 @@ const Dashboard = () => {
                 <h5 class="text-4xl font-semibold tracking-tight text-green dark:text-white">
                   Total Customers
                 </h5>
-                <p class="mt-5 text-3xl text-slate-700 ">10000000000$</p>
+                <p class="mt-5 text-3xl text-slate-700 ">{stats.totalUsers}</p>
               </div>
 
               <svg
@@ -210,9 +238,11 @@ const Dashboard = () => {
             <div className="flex justify-between">
               <div>
                 <h5 class="text-4xl font-semibold tracking-tight text-green dark:text-white">
-                  Total Revenue
+                  General staff
                 </h5>
-                <p class="mt-5 text-3xl text-slate-700 ">10000000000$</p>
+                <p class="mt-5 text-3xl text-slate-700 ">
+                  {stats.totalStaffUsers}
+                </p>
               </div>
 
               <svg
@@ -241,7 +271,7 @@ const Dashboard = () => {
                 <h5 class="text-4xl font-semibold tracking-tight text-green dark:text-white">
                   Total Orders
                 </h5>
-                <p class="mt-5 text-3xl text-slate-700 ">10000000000$</p>
+                <p class="mt-5 text-3xl text-slate-700 ">{stats.totalOrders}</p>
               </div>
 
               <svg
@@ -270,7 +300,9 @@ const Dashboard = () => {
                 <h5 class="text-4xl font-semibold tracking-tight text-green dark:text-white">
                   Total Products
                 </h5>
-                <p class="mt-5 text-3xl text-slate-700 ">10000000000$</p>
+                <p class="mt-5 text-3xl text-slate-700 ">
+                  {stats.totalProducts}
+                </p>
               </div>
 
               <svg
@@ -345,7 +377,9 @@ const Dashboard = () => {
 
           {/* Loading and Error States */}
           {loading ? (
-            <div className="text-center text-4xl py-10 text-gray-500">Loading...</div>
+            <div className="text-center text-4xl py-10 text-gray-500">
+              Loading...
+            </div>
           ) : error ? (
             <div className="text-center text-red-500 py-10">{error}</div>
           ) : (
@@ -353,31 +387,69 @@ const Dashboard = () => {
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-2xl text-slate-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">Customer Name</th>
-                    <th scope="col" className="px-6 py-3">Phone</th>
-                    <th scope="col" className="px-6 py-3">Invoice Date</th>
-                    <th scope="col" className="px-6 py-3">Total Price</th>
-                    <th scope="col" className="px-6 py-3">Status</th>
+                    <th scope="col" className="px-6 py-3">
+                      Customer Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Phone
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Invoice Date
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Total Price
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedInvoices.length > 0 ? (
                     paginatedInvoices.map((invoice) => (
-                      <tr key={invoice._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td className="px-6 py-4 text-2xl font-bold">{invoice.shippingAddress.fullName}</td>
-                        <td className="px-6 py-4 text-2xl font-bold">{invoice.shippingAddress.phone}</td>
-                        <td className="px-6 py-4 text-2xl font-bold">{new Date(invoice.createdAt).toLocaleDateString()}</td>
-                        <td className="px-6 py-4 text-2xl font-bold">${invoice.totalPrice}</td>
+                      <tr
+                        key={invoice._id}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
                         <td className="px-6 py-4 text-2xl font-bold">
-                          <span className={`px-4 py-2 text-2xl font-bold text-white rounded-full ${invoice.isPaid === "paid" ? "bg-emerald-500" : invoice.isPaid === "pending" ? "bg-yellow-500" : "bg-red-500"}`}>
-                            {invoice.isPaid === "paid" ? "Paid" : invoice.isPaid === "pending" ? "Pending" : "Canceled"}
+                          {invoice.shippingAddress.fullName}
+                        </td>
+                        <td className="px-6 py-4 text-2xl font-bold">
+                          {invoice.shippingAddress.phone}
+                        </td>
+                        <td className="px-6 py-4 text-2xl font-bold">
+                          {new Date(invoice.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 text-2xl font-bold">
+                          {invoice.totalPrice}VND
+                        </td>
+                        <td className="px-6 py-4 text-2xl font-bold">
+                          <span
+                            className={`px-4 py-2 text-2xl font-bold text-white rounded-full ${
+                              invoice.isPaid === "paid"
+                                ? "bg-emerald-500"
+                                : invoice.isPaid === "pending"
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
+                            }`}
+                          >
+                            {invoice.isPaid === "paid"
+                              ? "Paid"
+                              : invoice.isPaid === "pending"
+                              ? "Pending"
+                              : "Canceled"}
                           </span>
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="text-center text-4xl p-10 text-gray-500">No invoices found</td>
+                      <td
+                        colSpan="6"
+                        className="text-center text-4xl p-10 text-gray-500"
+                      >
+                        No invoices found
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -387,14 +459,11 @@ const Dashboard = () => {
 
           {/* Pagination */}
           <div className="flex items-center justify-end p-4 border-t border-blue-gray-50">
-            <div className="flex space-x-1">
-              {renderPaginationButtons()}
-            </div>
+            <div className="flex space-x-1">{renderPaginationButtons()}</div>
           </div>
         </div>
       </div>
     </>
   );
 };
-
 export default Dashboard;

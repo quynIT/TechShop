@@ -450,11 +450,11 @@ const ProductList = () => {
                         </div>
                       </td>
 
-                      <td class="p-4 border-b border-slate-200 py-5">
+                      <td class="p-4 border-b w-24 h-24 border-slate-200 py-5">
                         <img
                           src={product.image}
                           alt={product.name}
-                          class="w-16 h-16 object-cover rounded"
+                          class="  rounded"
                         />
                       </td>
                       <th
@@ -466,7 +466,7 @@ const ProductList = () => {
                       <td class="px-6 py-4">{product.description}</td>
                       <td class="px-6 py-4">{product.type}</td>
                       <td class="px-6 py-4">{product.price} VND</td>
-                      <td class="px-6 py-4">
+                      <td class="px-6 py-4 flex">
                         <Link to={`/admin/ProductUpdate/${product._id}`}>
                           <button>
                             <FaEdit className="inline hover:bg-white w-16 h-16 p-2 active:bg-gray-50 rounded-xl hover:shadow-xl text-yellow-400" />

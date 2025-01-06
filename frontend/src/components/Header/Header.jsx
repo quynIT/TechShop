@@ -51,7 +51,7 @@ const Header = () => {
   }, [user?.name, user?.avatar]);
 
   const content = (
-    <div>
+    <div className="bg-blackgreen">
       {user.role === "admin" && (
         <WrapperContentPopup onClick={() => navigate("/admin/dashboard")}>
           System management
@@ -62,7 +62,9 @@ const Header = () => {
           Management Order
         </WrapperContentPopup>
       )}
-      {(user.role === "user" || user.role === "admin" || user.role === "staff") && (
+      {(user.role === "user" ||
+        user.role === "admin" ||
+        user.role === "staff") && (
         <WrapperContentPopup onClick={() => navigate("/order-history")}>
           Order history
         </WrapperContentPopup>
@@ -75,18 +77,19 @@ const Header = () => {
   );
 
   const onSearch = (e) => {
-    setSearch(e.target.value)
+    setSearch(e.target.value);
     dispatch(searchProduct(e.target.value));
-  }
-  
+  };
+
   return (
     <div
       style={{
         height: "100%",
         width: "100%",
         display: "flex",
-        background: "rgb(51 51 51)",
+        background: "#27403E",
         justifyContent: "center",
+        
       }}
     >
       <WrapperHeader>
@@ -162,9 +165,21 @@ const Header = () => {
               )}
             </WrapperHeaderAccout>
           </Loading>
-          <div className="ml-5" onClick={() => navigate('/cart')} style={{cursor: 'pointer'}}>
-            <Badge count={order.orderItems.reduce((total, item) => total + item.amount, 0)}  size="small">
-              <ShoppingCartOutlined style={{ fontSize: "30px", color: "#fff" }} />
+          <div
+            className="ml-5"
+            onClick={() => navigate("/cart")}
+            style={{ cursor: "pointer" }}
+          >
+            <Badge
+              count={order.orderItems.reduce(
+                (total, item) => total + item.amount,
+                0
+              )}
+              size="small"
+            >
+              <ShoppingCartOutlined
+                style={{ fontSize: "30px", color: "#fff" }}
+              />
             </Badge>
             <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
           </div>

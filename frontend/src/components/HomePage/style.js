@@ -10,6 +10,7 @@ export const WrapperTypeProduct = styled.div`
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     margin: 10px 0 10px 0;
     border-radius: 5px;
+    
 `
 
 export const WrapperButtonMore = styled(ButtonComponent)`
@@ -20,6 +21,7 @@ export const WrapperButtonMore = styled(ButtonComponent)`
             color: #fff;
         }
     }
+        
     width: 100%;
     color: #9255FD;
     text-align: center;

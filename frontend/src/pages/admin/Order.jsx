@@ -154,12 +154,12 @@ const Order = () => {
   }, [searchTerm, statusFilter]);
 
   return (
-    <div className="p-10 min-h-screen top-0 left-0 w-full">
+    <div className=" min-h-screen top-0 left-0 w-full">
       <div className="p-10 bg-white">
         <div className="relative overflow-hidden text-gray-700 pb-6 bg-clip-border">
           <div className="flex items-center justify-between gap-8 mb-8">
             <div>
-              <h5 className="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+              <h5 className="block font-sans text-5xl antialiased font-bold text-green leading-snug tracking-normal text-blue-gray-900">
                 Invoice List
               </h5>
               <p className="block mt-1 font-sans antialiased font-normal leading-relaxed text-3xl text-gray-700">
@@ -233,6 +233,7 @@ const Order = () => {
                   <th scope="col" className="px-6 py-3">Total Price</th>
                   <th scope="col" className="px-6 py-3">Status</th>
                   <th scope="col" className="px-6 py-3">Action</th>
+
                 </tr>
               </thead>
               <tbody>

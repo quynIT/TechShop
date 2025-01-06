@@ -18,6 +18,8 @@ const EmployeeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   // State tạm thời cho từ khóa tìm kiếm
   const [tempSearchTerm, setTempSearchTerm] = useState("");
+  // State để lưu trữ bộ lọc role
+  const [roleFilter, setRoleFilter] = useState('all');
   // State để cập nhật các lựa chọn theo ô vuông
   const [selectedUsers, setSelectedUsers] = useState([]);
   // State dùng cho phân trang
@@ -128,6 +130,11 @@ const EmployeeList = () => {
       .filter(user =>
         (user.name?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
         (user.email?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
+      )
+      // Điều kiện lọc role
+      .filter(user =>
+        roleFilter === 'all' ||
+        user.role === roleFilter
       );
 
     // Sắp xếp an toàn
@@ -139,7 +146,7 @@ const EmployeeList = () => {
         ? nameA.localeCompare(nameB)  // Sắp xếp tăng dần
         : nameB.localeCompare(nameA); // Sắp xếp giảm dần
     });
-  }, [users, searchTerm, sortOrder]);
+  }, [users, searchTerm, sortOrder, roleFilter]);
 
   // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
   const handleSearchInputChange = (e) => {
@@ -318,24 +325,27 @@ const EmployeeList = () => {
             </div>
             <div className=" flex justify-start gap-10 pt-10">
               <div class="w-full gg-red max-w-lg min-w-[200px] justify-start">
-                <div class="relative">
-                  <select class="w-full bg-transparent placeholder:text-slate-400 shadow-md text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-4 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer">
-                    <option value="brazil">Brazil</option>
-                    <option value="bucharest">Bucharest</option>
-                    <option value="london">London</option>
-                    <option value="washington">Washington</option>
+                <div className="relative">
+                  <select
+                    value={roleFilter}
+                    onChange={(e) => setRoleFilter(e.target.value)}
+                    className="w-full bg-transparent placeholder:text-slate-400 shadow-md text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-4 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer"
+                  >
+                    <option value="all">All Roles</option>
+                    <option value="admin">Admin</option>
+                    <option value="staff">Staff</option>
                   </select>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.2"
+                    strokeWidth="1.2"
                     stroke="currentColor"
-                    class="w-12 ml-1 absolute top-3.5 right-2.5 text-slate-700"
+                    className="w-12 ml-1 absolute top-3.5 right-2.5 text-slate-700"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
                     />
                   </svg>
@@ -462,7 +472,7 @@ const EmployeeList = () => {
                   </th>
                   <th class="px-6 py-3 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                     <p class="flex items-center justify-between gap-2 font-sans text-3xl antialiased font-bold leading-none text-blue-gray-900 opacity-70">
-                    Employee Name
+                      Employee Name
                     </p>
                     <button
                       onClick={() =>
@@ -496,8 +506,8 @@ const EmployeeList = () => {
                 ) : (
                   <tr>
                     <td colSpan="6" className="text-center text-4xl p-10 text-gray-500">
-                      {searchTerm 
-                        ? `No employees found matching "${searchTerm}"` 
+                      {searchTerm
+                        ? `No employees found matching "${searchTerm}"`
                         : "No employees"}
                     </td>
                   </tr>

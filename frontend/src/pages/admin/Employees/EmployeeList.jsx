@@ -34,7 +34,7 @@ const EmployeeList = () => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["employees"],
     queryFn: async () => {
       const res = await UserService.getAllUser(user.access_token);
       return res?.data.filter((user) => user.role === "staff" || user.role === "admin") || [];

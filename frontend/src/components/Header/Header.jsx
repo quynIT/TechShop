@@ -51,7 +51,7 @@ const Header = () => {
   }, [user?.name, user?.avatar]);
 
   const content = (
-    <div className="bg-blackgreen">
+    <div>
       {user.role === "admin" && (
         <WrapperContentPopup onClick={() => navigate("/admin/dashboard")}>
           System management
@@ -87,9 +87,8 @@ const Header = () => {
         height: "100%",
         width: "100%",
         display: "flex",
-        background: "#27403E",
+        background: "rgb(51 51 51)",
         justifyContent: "center",
-        
       }}
     >
       <WrapperHeader>
@@ -178,10 +177,9 @@ const Header = () => {
               size="small"
             >
               <ShoppingCartOutlined
-                style={{ fontSize: "30px", color: "#fff" }}
+                style={{ fontSize: "40px", color: "#fff" }}
               />
             </Badge>
-            <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
           </div>
         </Col>
       </WrapperHeader>

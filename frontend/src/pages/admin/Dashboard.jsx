@@ -238,7 +238,7 @@ const Dashboard = () => {
             <div className="flex justify-between">
               <div>
                 <h5 class="text-4xl font-semibold tracking-tight text-green dark:text-white">
-                  General staff
+                  Numbers of employees
                 </h5>
                 <p class="mt-5 text-3xl text-slate-700 ">
                   {stats.totalStaffUsers}
@@ -269,7 +269,7 @@ const Dashboard = () => {
             <div className="flex justify-between">
               <div>
                 <h5 class="text-4xl font-semibold tracking-tight text-green dark:text-white">
-                  Total Orders
+                  Numbers of orders
                 </h5>
                 <p class="mt-5 text-3xl text-slate-700 ">{stats.totalOrders}</p>
               </div>

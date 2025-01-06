@@ -21,7 +21,7 @@ const Homepage = () => {
   const searchProduct = useSelector((state) => state?.product?.search);
   const searchDebounce = useDebounce(searchProduct, 50);
   const [loading] = useState(false);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(10);
   const [typeProduct, setTypeProduct] = useState([]);
   // State dùng cho chọn loại sản phẩm và load các sản phẩm theo loại đó
   const [selectedType, setSelectedType] = useState(null);

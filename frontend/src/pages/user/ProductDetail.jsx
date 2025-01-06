@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Star, ShoppingCart, Truck, Shield } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import * as ProductService from "../../services/ProductService";
@@ -13,6 +13,8 @@ const ProductDetail = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   // Tìm nạp chi tiết sản phẩm bằng id
   const fetchGetDetailsProduct = async (context) => {
     const id = context?.queryKey && context?.queryKey[1];
@@ -42,12 +44,24 @@ const ProductDetail = () => {
           },
         })
       );
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
     }
   };
 
   return (
     <Loading isPending={isPending}>
       <div className="max-w-7xl mx-auto p-6 bg-gray-50 m-36">
+        {showSuccess && (
+          <div className="fixed top-20 right-8 bg-lime-500 border border-green-700 text-white px-8 py-6 rounded-lg shadow-2xl z-50 max-w-sm">
+            <strong className="font-bold text-lg justify-center">
+              Success!
+            </strong>
+            <span className="block mt-2 text-base">
+              The item has been added to your cart.
+            </span>
+          </div>
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Phần hình ảnh sản phẩm */}
           <div className="space-y-6 ">

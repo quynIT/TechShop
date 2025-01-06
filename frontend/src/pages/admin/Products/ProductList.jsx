@@ -78,10 +78,10 @@ const ProductList = () => {
       isSuccessDeletedManyProduct &&
       dataDeletedManyProduct?.status === "OK"
     ) {
-      message.success("Xóa sản phẩm thành công!");
+      message.success("Product deleted successfully!");
       refetch(); // Refresh sản phẩm sau khi xóa
     } else if (isErrorDeletedManyProduct) {
-      message.error("Có lỗi xảy ra khi xóa sản phẩm!");
+      message.error("An error occurred while deleting the product!");
     }
   }, [isSuccessDeletedManyProduct, refetch]);
 

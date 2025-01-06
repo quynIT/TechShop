@@ -61,7 +61,7 @@ const ProductUpdate = () => {
 
   useEffect(() => {
     if (isSuccessUpdated && dataUpdated?.status === 'OK') {
-      message.success("Cập nhật sản phẩm thành công!")
+      message.success("Product update successful!")
       fetchGetDetailsProduct(id)
     } else if (isErrorUpdated) {
       message.error()

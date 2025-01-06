@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.shadow-all {
+  box-shadow: 0 16px 28px 0 rgba(138, 137, 137, 0.22),
+    0 5px 14px 0 rgba(159, 159, 159, 0.18);
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.falling-leaves {
+  position: fixed; /* Đổi từ absolute sang fixed để hiệu ứng luôn phủ toàn màn hình */
+  top: 0;
+  left: 0;
+  width: 100%; /* Đảm bảo hiệu ứng chiếm toàn bộ chiều rộng */
+  height: 100%; /* Đảm bảo hiệu ứng chiếm toàn bộ chiều cao */
+  pointer-events: none; /* Ngăn hiệu ứng làm ảnh hưởng đến thao tác với các thành phần bên dưới */
+  z-index: 9999; /* Đảm bảo hiệu ứng hiển thị trên tất cả các thành phần */
+  overflow: hidden;
+}
+
+.leaf-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.leaf-scene div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: url(https://userimages-akm.imvu.com/userdata/41/95/30/76/userpics/Snap_Il2Q8igYOW367433857.png)
+    no-repeat;
+  background-size: 100%;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}

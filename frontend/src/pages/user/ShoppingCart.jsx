@@ -3,6 +3,7 @@ import { Trash2, Plus, Minus, CreditCard, Truck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearCart,
   decreaseAmount,
   increaseAmount,
   removeOrderProduct,
@@ -151,7 +152,7 @@ const ShoppingCart = () => {
       if (!response.ok) {
         throw new Error(result?.message || "Lỗi tạo đơn hàng");
       }
-
+      dispatch(clearCart());
       // Chuyển trang ngay khi có response thành công
       navigate(`/order-success/${result.orderId}`);
     } catch (error) {
@@ -238,9 +239,10 @@ const ShoppingCart = () => {
             </div>
             <button
               onClick={placeOrder}
+              disabled={isLoading}
               className="w-full bg-red-600 text-white py-5 rounded-xl font-semibold text-2xl mt-8 hover:bg-red-700 transition duration-300"
             >
-              Place order
+              {isLoading ? "Processing..." : "Place order"}
             </button>
             <div className="mt-8 text-lg text-gray-600">
               <div className="flex items-center mb-4">

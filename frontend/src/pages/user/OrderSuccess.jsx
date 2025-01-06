@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { CheckCircle, Package, Truck, CreditCard } from "lucide-react";
 import { PayPalButton } from "react-paypal-button-v2";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { clearCart } from "../../redux/slides/orderSlide";
 
 const OrderSuccess = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [orderDetails, setOrderDetails] = useState({});
   const [paypalClientId, setPaypalClientId] = useState(""); // Lưu trữ client-id PayPal
 
@@ -76,9 +74,6 @@ const OrderSuccess = () => {
       const result = await response.json();
       if (response.ok) {
         alert("Order status updated successfully");
-
-        // Xóa giỏ hàng sau khi thanh toán thành công
-        dispatch(clearCart());
 
         // Điều hướng tới trang lịch sử đơn hàng
         navigate("/order-history");

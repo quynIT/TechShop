@@ -32,11 +32,13 @@ const CardComponent = (props) => {
       style={{ width: 240 }}
       cover={
         <div
+        
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             height: 240,
+            
           }}
         >
           <img

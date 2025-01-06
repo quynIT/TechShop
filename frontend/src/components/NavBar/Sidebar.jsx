@@ -10,7 +10,7 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${
+        className={` sm:w-[25rem] lg:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${
           isOpen ? "block" : "hidden"
         }`}
       >
@@ -25,7 +25,7 @@ const Sidebar = () => {
             onClick={toggle}
           >Nhan</button> */}
         </div>
-        <nav className="flex  min-w-[300px] flex-col px-4 py-4 gap-1 mx-4 font-sans text-base font-normal text-blue-gray-600">
+        <nav className="flex  md:min-w-[300px] flex-col px-4 py-4 gap-1 mx-4 font-sans text-base font-normal text-blue-gray-600">
           <Link to="/admin/Dashboard">
             <button
               role="button"
@@ -70,7 +70,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Product Management
+              Product
             </button>
           </Link>
           <Link to="/admin/OrderList">
@@ -81,7 +81,7 @@ const Sidebar = () => {
               <div className="grid mr-4 place-items-center">
                 <FaShoppingCart className="w-10 h-10" />
               </div>
-              Order Management
+              Order 
             </button>
           </Link>
           <Link to="/admin/EmployeeList">
@@ -104,7 +104,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Employees management
+              Employees 
             </button>
           </Link>
           <Link to="/admin/CustomerList">
@@ -127,7 +127,7 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </div>
-              Customers Management
+              Customers 
             </button>
           </Link>
           <Link to="/admin/settings">

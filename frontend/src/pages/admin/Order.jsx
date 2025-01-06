@@ -49,12 +49,12 @@ const Order = () => {
     }
   };
   return (
-    <div className="p-10 min-h-screen top-0 left-0 w-full">
+    <div className=" min-h-screen top-0 left-0 w-full">
       <div className="p-10 bg-white">
         <div className="relative overflow-hidden text-gray-700 pb-6 bg-clip-border">
           <div className="flex items-center justify-between gap-8 mb-8">
             <div>
-              <h5 className="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+              <h5 className="block font-sans text-5xl antialiased font-bold text-green leading-snug tracking-normal text-blue-gray-900">
                 Invoice List
               </h5>
               <p className="block mt-1 font-sans antialiased font-normal leading-relaxed text-3xl text-gray-700">
@@ -65,8 +65,8 @@ const Order = () => {
         </div>
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-2xl text-slate-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-3xl text-left border border-slate-200 rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-3xl text-slate-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Customer Name
@@ -94,23 +94,23 @@ const Order = () => {
                   key={invoice._id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  <td className="px-6 py-4 text-2xl font-bold">
+                  <td className="px-6 py-8 text-3xl font-semibold">
                     {invoice.shippingAddress.fullName}
                   </td>
-                  <td className="px-6 py-4 text-2xl font-bold">
+                  <td className="px-6 py-4 text-3xl ">
                     {invoice.shippingAddress.phone}
                   </td>
-                  <td className="px-6 py-4 text-2xl font-bold">
+                  <td className="px-6 py-4 text-3xl ">
                     {new Date(invoice.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4 text-2xl font-bold">
+                  <td className="px-6 py-4 text-3xl ">
                     ${invoice.totalPrice}
                   </td>
-                  <td className="px-6 py-4 text-2xl font-bold">
+                  <td className="px-6 py-4 text-3xl ">
                     <span
-                      className={`px-4 py-2 text-2xl font-bold text-white rounded-full ${
+                      className={`px-4 py-2 text-3xl font-bold text-white rounded-full ${
                         invoice.isPaid === "paid"
-                          ? "bg-emerald-500"
+                          ? "bg-leave"
                           : invoice.isPaid === "pending"
                           ? "bg-yellow-500"
                           : "bg-red-500"
@@ -123,26 +123,26 @@ const Order = () => {
                         : "Cancel"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 flex space-x-3">
+                  <td className="px-6 py-8 flex space-x-3">
                     <button
                       onClick={() =>
                         navigate(`/admin/viewOrder/${invoice._id}`)
                       }
                       className="text-blue-500 hover:text-blue-700"
                     >
-                      <FaEye className="w-6 h-6" />
+                      <FaEye className="w-10 h-10" />
                     </button>
                     <button
                       onClick={() => navigate(`/admin/edit/${invoice._id}`)}
                       className="text-yellow-500 hover:text-yellow-700"
                     >
-                      <FaEdit className="w-6 h-6" />
+                      <FaEdit className="w-10 h-10" />
                     </button>
                     <button
                       onClick={() => handleDelete(invoice._id)} // Gọi hàm handleDelete khi nhấn thùng rác
                       className="text-red-500 hover:text-red-700"
                     >
-                      <FaTrashAlt className="w-6 h-6" />
+                      <FaTrashAlt className="w-10 h-10" />
                     </button>
                   </td>
                 </tr>

@@ -19,6 +19,8 @@ const ProductList = () => {
   // State tạm thời cho từ khóa tìm kiếm
   const [tempSearchTerm, setTempSearchTerm] = useState("");
   // State để cập nhật các lựa chọn theo ô vuông
+  // State để lưu trữ bộ lọc category
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [selectedProducts, setSelectedProducts] = useState([]);
   // State dùng cho phân trang
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,10 +78,10 @@ const ProductList = () => {
       isSuccessDeletedManyProduct &&
       dataDeletedManyProduct?.status === "OK"
     ) {
-      message.success("Xóa sản phẩm thành công!");
+      message.success("Product deleted successfully!");
       refetch(); // Refresh sản phẩm sau khi xóa
     } else if (isErrorDeletedManyProduct) {
-      message.error("Có lỗi xảy ra khi xóa sản phẩm!");
+      message.error("An error occurred while deleting the product!");
     }
   }, [isSuccessDeletedManyProduct, refetch]);
 
@@ -133,9 +135,19 @@ const ProductList = () => {
   });
 
   // Lọc sản phẩm theo tên dựa trên từ khóa tìm kiếm
-  const filteredProducts = sortedProducts.filter(
-    (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()) // Tìm kiếm không phân biệt hoa thường
-  );
+  // Cập nhật processedProducts để lọc theo category
+  const filteredProducts = useMemo(() => {
+    let result = sortedProducts.filter(
+      (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Lọc theo category nếu không phải 'all'
+    if (categoryFilter !== 'all') {
+      result = result.filter(product => product.type === categoryFilter);
+    }
+
+    return result;
+  }, [sortedProducts, searchTerm, categoryFilter]);
 
   // Cập nhật giá trị khi người dùng nhập vào ô tìm kiếm
   const handleSearchInputChange = (e) => {
@@ -147,17 +159,22 @@ const ProductList = () => {
     setSearchTerm(tempSearchTerm); // Chỉ cập nhật searchTerm khi nhấn nút Search
   };
 
-  // Tính toán số trang
-  const totalPages = useMemo(() => {
-    return Math.ceil(filteredProducts.length / itemsPerPage);
-  }, [filteredProducts]);
+  // Trích xuất các loại category duy nhất từ danh sách sản phẩm
+  const uniqueCategories = useMemo(() => {
+    return ['all', ...new Set(products.map(product => product.type))];
+  }, [products]);
 
-  // Phân trang dữ liệu
+  // Tính toán số trang
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return filteredProducts.slice(startIndex, endIndex);
   }, [filteredProducts, currentPage]);
+
+  // Cập nhật tính toán tổng số trang
+  const totalPages = useMemo(() => {
+    return Math.ceil(filteredProducts.length / itemsPerPage);
+  }, [filteredProducts]);
 
   // Hàm xử lý chuyển trang
   const handlePageChange = (pageNumber) => {
@@ -175,8 +192,8 @@ const ProductList = () => {
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === 1
-            ? 'text-slate-300 cursor-not-allowed'
-            : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
+          ? 'text-slate-300 cursor-not-allowed'
+          : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
           } bg-white border border-slate-200 rounded transition duration-200 ease`}
       >
         Prev
@@ -190,8 +207,8 @@ const ProductList = () => {
           key={i}
           onClick={() => handlePageChange(i)}
           className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === i
-              ? 'text-white bg-slate-800 border-slate-800'
-              : 'text-slate-500 bg-white border-slate-200 hover:bg-slate-50'
+            ? 'text-white bg-slate-800 border-slate-800'
+            : 'text-slate-500 bg-white border-slate-200 hover:bg-slate-50'
             } border rounded hover:border-slate-400 transition duration-200 ease`}
         >
           {i}
@@ -206,8 +223,8 @@ const ProductList = () => {
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className={`px-3 py-1 min-w-9 min-h-9 text-3xl font-normal ${currentPage === totalPages
-            ? 'text-slate-300 cursor-not-allowed'
-            : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
+          ? 'text-slate-300 cursor-not-allowed'
+          : 'text-slate-500 hover:bg-slate-50 hover:border-slate-400'
           } bg-white border border-slate-200 rounded transition duration-200 ease`}
       >
         Next
@@ -238,24 +255,29 @@ const ProductList = () => {
           </div>
           <div className=" flex justify-start gap-10">
             <div class="w-full gg-red max-w-lg min-w-[200px] justify-start">
-              <div class="relative">
-                <select class="w-full bg-transparent placeholder:text-slate-400 shadow-md text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-4 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer">
-                  <option value="brazil">Brazil</option>
-                  <option value="bucharest">Bucharest</option>
-                  <option value="london">London</option>
-                  <option value="washington">Washington</option>
+              <div className="relative">
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="w-full bg-transparent placeholder:text-slate-400 shadow-md text-slate-700 text-3xl border border-slate-300 rounded px-5 pr-8 py-4 transition duration-300 ease focus:outline-none focus:border-cyan hover:border-green shadow-green/30 focus:shadow-md appearance-none cursor-pointer"
+                >
+                  {uniqueCategories.map((category) => (
+                    <option key={category} value={category}>
+                      {category === 'all' ? 'All Categories' : category}
+                    </option>
+                  ))}
                 </select>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.2"
+                  strokeWidth="1.2"
                   stroke="currentColor"
-                  class="h-10 w-10 ml-1 absolute top-3.5 right-2.5 text-slate-700"
+                  className="h-10 w-10 ml-1 absolute top-3.5 right-2.5 text-slate-700"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
                   />
                 </svg>

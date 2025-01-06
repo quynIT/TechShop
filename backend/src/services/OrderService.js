@@ -328,6 +328,35 @@ const getAllOrder = () => {
     }
   });
 };
+const searchOrdersByName = (searchQuery) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Sử dụng regex để tìm kiếm tên chứa ký tự nhập vào (không phân biệt hoa thường)
+      const orders = await Order.find({
+        "shippingAddress.fullName": { $regex: searchQuery, $options: "i" },
+      }).sort({ createdAt: -1 });
+
+      if (!orders || orders.length === 0) {
+        resolve({
+          status: "ERR",
+          message: "No orders found with the given name.",
+        });
+      } else {
+        resolve({
+          status: "OK",
+          message: "Search success.",
+          data: orders,
+        });
+      }
+    } catch (error) {
+      reject({
+        status: "ERR",
+        message: "An error occurred while searching orders.",
+        error: error.message,
+      });
+    }
+  });
+};
 
 module.exports = {
   createOrder,
@@ -337,4 +366,5 @@ module.exports = {
   getAllOrder,
   updatePaymentStatus,
   updateOrderDetails,
+  searchOrdersByName,
 };

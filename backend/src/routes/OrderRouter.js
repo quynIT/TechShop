@@ -13,5 +13,5 @@ router.delete("/cancel-order/:id", OrderController.cancelOrderDetails);
 router.put("/update/:id", OrderController.updateOrderDetails);
 router.get("/get-all-order", OrderController.getAllOrder);
 router.put("/update-status/:id", OrderController.updatePaymentStatus);
-
+router.get("/search", OrderController.searchOrdersByName);
 module.exports = router;

@@ -17,7 +17,7 @@ const ShoppingCart = () => {
   const [userDetails, setUserDetails] = useState({
     name: "",
     address: "",
-    city: "",
+    city: "Chưa có",
     phone: "",
     email: "",
     _id: "",
@@ -36,7 +36,7 @@ const ShoppingCart = () => {
             setUserDetails({
               name: userData.name || "",
               address: userData.address || "",
-              city: userData.city || "",
+              city: userData.city || "Chưa có",
               phone: userData.phone || "",
               email: userData.email || "",
               _id: userData._id || "",
@@ -80,7 +80,7 @@ const ShoppingCart = () => {
   );
 
   // Phí vận chuyển (miễn phí)
-  const shipping = 0;
+  const shipping = 50;
   // Tổng cộng
   const total = subtotal + shipping;
 
@@ -119,7 +119,7 @@ const ShoppingCart = () => {
       phone: userDetails?.phone,
       email: userDetails?.email,
     };
-
+    console.log("Order data:", orderData);
     if (!userId) {
       setIsLoading(false);
       toast.error("Vui lòng đăng nhập lại");

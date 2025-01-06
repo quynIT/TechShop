@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CheckCircle, Package, Truck, CreditCard } from "lucide-react";
 import { PayPalButton } from "react-paypal-button-v2";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../../redux/slides/orderSlide";
 
@@ -172,9 +172,7 @@ const OrderSuccess = () => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <CreditCard className="h-10 w-10 text-green-500 mr-5" />
-                <span className="text-xl text-gray-700">
-                  Paid in full
-                </span>
+                <span className="text-xl text-gray-700">Paid in full</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="h-10 w-10 text-green-500 mr-5" />
@@ -204,9 +202,12 @@ const OrderSuccess = () => {
           />
         )}
 
-        <button className="w-full bg-blue-600 text-white py-5 px-6 rounded-lg text-2xl font-semibold hover:bg-blue-700 transition duration-300">
+        <Link
+          to="/order-history"
+          className="w-full bg-blue-600 text-white py-5 px-6 rounded-lg text-2xl font-semibold hover:bg-blue-700 transition duration-300 text-center inline-block"
+        >
           Order Tracking
-        </button>
+        </Link>
       </div>
     </div>
   );

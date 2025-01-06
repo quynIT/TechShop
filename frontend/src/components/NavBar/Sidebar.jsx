@@ -1,18 +1,46 @@
 import { React, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import * as UserService from "../../services/UserService";
+import { useDispatch } from "react-redux";
+import { resetUser } from "../../redux/slides/userSlide";
+
 const Sidebar = () => {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch(); // Correctly placed inside the component
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await UserService.logoutUser();
+      
+      // Dispatch the reset user action
+      dispatch(resetUser());
+      
+      // Remove tokens from local storage
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user_id");
+      
+      // Navigate to sign-in page
+      navigate('/sign-in');
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <>
       <div
-        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${
-          isOpen ? "block" : "hidden"
-        }`}
+        className={` sm:w-[25rem] md:w-[350px] bg-green  h-full bg-clip-border  text-gray-700 shadow-xl shadow-blue-gray-900/5 ${isOpen ? "block" : "hidden"
+          }`}
       >
         <div className="flex justify-center p-11 mx-8 border-b-4 border-leave">
           <Link to="/">
